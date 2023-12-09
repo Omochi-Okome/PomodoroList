@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ToDoリスト</title>
+</head>
+<body>
+    <h1>Notepad</h1>
+    <div>
+        <form action="/item" method="POST">
+        <input type="text" name="ToDoItem"><button type="submit">追加</button>
+        </form>
+    </div>
+    <% if(ToDoItem.length > 0) {%>
+        <h1><%= ToDoItem %>をやりなさい。</h1>
+    <% }else{ %>
+        <h1>ToDoリストがありません。</h1>
+    <% } %>
+</body>
+</html>
