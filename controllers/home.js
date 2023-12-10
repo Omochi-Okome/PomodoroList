@@ -15,3 +15,13 @@ exports.postItem = (req,res) => {
     res.redirect('/');
     return data;
 }
+exports.deleteItem = (req, res) => {
+  const itemToDelete = req.body.itemToDelete;
+
+  // data から特定の要素を削除
+  const index = data.indexOf(itemToDelete);
+  if (index !== -1) {
+      data.splice(index, 1);
+  }
+  res.redirect('/');
+};

@@ -8,4 +8,6 @@ router.get('/',homeController.getHome);
 
 router.post('/item',homeController.postItem);
 
+router.post('/delete',homeController.deleteItem);
+
 module.exports = router;

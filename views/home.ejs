@@ -9,14 +9,19 @@
     <h1>Notepad</h1>
     <div>
         <form action="/item" method="POST">
-        <input type="text" name="ToDoItem"><button type="submit">追加</button>
+            <input type="text" name="ToDoItem"><button type="submit">追加</button>
         </form>
     </div>
     <% if(data.length > 0) {%>
-        <% for (var i = 0; i< data.length; i++) {%>
-            <h1><%= data[i] %>をやりなさい。</h1>
+        <% for (var i = 0; i < data.length; i++) {%>
+            <h1>やること<%= i %>: <%= data[i] %>
+                <form action="/delete" method="POST">
+                    <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
+                    <button type="submit">削除</button>
+                </form>
+            </h1>
         <% } %>
-    <% }else{ %>
+    <% } else { %>
         <h1>ToDoリストがありません。</h1>
     <% } %>
 </body>
