@@ -1,13 +1,17 @@
 const fs = require("fs");
 
+var data = [];
+
 exports.getHome = (req,res) => {
     res.render('../views/home.ejs',{
-        ToDoItem:fs.readFileSync('./data.json', 'utf8'),
+        data:data,
     })
 }
 exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const ToDoItem = req.body.ToDoItem;
-    fs.writeFileSync("data.json",JSON.stringify(ToDoItem));
+    data.push(ToDoItem);
+    console.log(data);
     res.redirect('/');
+    return data;
 }
