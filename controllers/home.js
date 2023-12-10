@@ -10,7 +10,10 @@ exports.getHome = (req,res) => {
 exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const ToDoItem = req.body.ToDoItem;
-    data.push(ToDoItem);
+    //空欄での入力を防ぐ
+    if (ToDoItem !==""){
+      data.push(ToDoItem);
+    }
     console.log(data);
     res.redirect('/');
     return data;
