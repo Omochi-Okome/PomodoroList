@@ -12,8 +12,12 @@
         <input type="text" name="ToDoItem"><button type="submit">追加</button>
         </form>
     </div>
-    <% for (var i = 0; i< data.length; i++) {%>
-        <h1><%= data[i] %>をやりなさい。</h1>
+    <% if(data.length > 0) {%>
+        <% for (var i = 0; i< data.length; i++) {%>
+            <h1><%= data[i] %>をやりなさい。</h1>
+        <% } %>
+    <% }else{ %>
+        <h1>ToDoリストがありません。</h1>
     <% } %>
 </body>
 </html>
