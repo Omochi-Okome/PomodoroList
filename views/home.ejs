@@ -7,21 +7,25 @@
     <link rel="stylesheet" href="/css/home.css">
 </head>
 <body>
-    <h1>Notepad</h1>
-    <div>
+    <div class="main">
+        <h1>Notepad</h1>
         <form action="/item" method="POST">
-            <input type="text" name="ToDoItem"><button type="submit">追加</button>
+            <input type="text" name="ToDoItem" placeholder="ToDoを入力"><button class="additionalButton" type="submit">追加</button>
         </form>
     </div>
     <% if(data.length > 0) {%>
-        <% for (var i = 0; i < data.length; i++) {%>
-            <h1>やること<%= i %>: <%= data[i] %>
-                <form action="/delete" method="POST">
-                    <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
-                    <button type="submit">削除</button>
-                </form>
-            </h1>
-        <% } %>
+        <div class="container_list">
+            <% for (var i = 0; i < data.length; i++) {%>
+                <div class="item">
+                    <h1>やること<%= i %>: <%= data[i] %>
+                        <form action="/delete" method="POST">
+                            <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
+                            <button type="submit" class="additionalButton">削除</button>
+                        </form>
+                    </h1>
+                </div>
+            <% } %>
+        </div>
     <% } else { %>
         <h1>ToDoリストがありません。</h1>
     <% } %>

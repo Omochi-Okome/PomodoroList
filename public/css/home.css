@@ -1,0 +1,18 @@
+.main {
+    display: grid;
+    place-items: center;
+}
+
+.additionalButton {
+    border-radius: 100vh;
+}
+  
+.container_list {
+    display: grid;
+    grid-template-columns:1fr 1fr 1fr ;
+    gap: 10px;
+}
+
+.item {
+    background-color: azure;
+}
