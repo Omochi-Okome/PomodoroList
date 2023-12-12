@@ -13,15 +13,27 @@
             <input type="text" name="ToDoItem" placeholder="ToDoを入力"><button class="additionalButton" type="submit">追加</button>
         </form>
     </div>
-    <% if(data.length > 0) {%>
+    <% if(data.length > 0 || active) {%>
         <div class="container_list">
             <% for (var i = 0; i < data.length; i++) {%>
                 <div class="item">
                     <h1>やること<%= i %>: <%= data[i] %>
-                        <form action="/delete" method="POST">
-                            <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
-                            <button type="submit" class="additionalButton">削除</button>
-                        </form>
+                        <div>
+                            <form action="/delete" method="POST">
+                                <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
+                                <button type="submit" class="additionalButton">削除</button>
+                            </form>
+                            <form action="/edit" method="POST">
+                                <button type="submit" class="additionalButton">編集</button>
+                            </form>
+                            <form action="/change" method="POST">
+                                <% if(active) {%>
+                                    <input type="text" name="Text" placeholder="<%= data[i] %>">
+                                    <button type="submit">変更する</button>
+                                <% } %>
+                            </form>
+                            
+                        </div>
                     </h1>
                 </div>
             <% } %>

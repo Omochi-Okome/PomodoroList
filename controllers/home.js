@@ -1,10 +1,12 @@
 const fs = require("fs");
+let active = false;
 
 var data = [];
 
 exports.getHome = (req,res) => {
     res.render('../views/home.ejs',{
         data:data,
+        active:active,
     })
 }
 exports.postItem = (req,res) => {
@@ -28,3 +30,23 @@ exports.deleteItem = (req, res) => {
   }
   res.redirect('/');
 };
+
+exports.editButton = (req,res) => {
+  active =true;
+  console.log(active);
+  res.redirect('/');
+}
+
+exports.editItem = (req,res) => {
+  const editText = req.body.Text;
+  console.log(editText);
+  const index = data.indexOf(editText);
+  if (index === -1 ) {
+      data.push(editText);
+  } else {
+    console.error('指定された要素が見つかりませんでした。');
+  }
+
+  console.log(data);
+  res.redirect('/');
+}
