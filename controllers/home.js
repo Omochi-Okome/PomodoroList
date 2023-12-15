@@ -1,8 +1,6 @@
 const fs = require("fs");
 let active = false;
 
-var data = [];
-
 exports.getHome = (req,res) => {
     res.render('../views/home.ejs',{
         data:data,
@@ -12,13 +10,20 @@ exports.getHome = (req,res) => {
 exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const ToDoItem = req.body.ToDoItem;
-    //空欄での入力を防ぐ
-    if (ToDoItem !==""){
-      data.push(ToDoItem);
+    //ファイルの読み込み
+    try {
+      const data = fs.readFileSync("data.json","utf8");
+      //JSONパース
+      let existingData = JSON.parse(data);
+      //データ追加
+      existingData.push(ToDoItem);
+      //ファイル書き込み
+      const newData = JSON.stringify(existingData);
+      fs.writeFileSync("data.json",newData);
+      res.redirect("/");
+    } catch(err) {
+      console.log(err);
     }
-    console.log(data);
-    res.redirect('/');
-    return data;
 }
 exports.deleteItem = (req, res) => {
   const itemToDelete = req.body.itemToDelete;

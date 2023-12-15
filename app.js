@@ -13,6 +13,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const homeRoutes = require('./routes/home');
 
-app.use('/',homeRoutes)
+app.use('/',homeRoutes);
 
 app.listen(3000);
