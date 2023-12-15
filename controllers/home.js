@@ -3,7 +3,7 @@ let active = false;
 
 exports.getHome = (req,res) => {
     res.render('../views/home.ejs',{
-        data:data,
+        data:JSON.parse(fs.readFileSync("data.json","utf8")),
         active:active,
     })
 }
