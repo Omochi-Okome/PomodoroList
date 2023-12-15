@@ -23,16 +23,18 @@
                                 <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
                                 <button type="submit" class="additionalButton">削除</button>
                             </form>
+                            <% if(editActive) {%>
+                            <form action="/editbutton" method="POST">
+                                <button type="submit">編集する</button>
+                            </form>
+                            <% } %>
+                            <% if(active) {%>
                             <form action="/edit" method="POST">
-                                <button type="submit" class="additionalButton">編集</button>
+                                <input type="hidden" name="originalText" value="<%= data[i] %>">
+                                <input type="text" name="editedText" value="<%= data[i] %>" placeholder="<%= data[i] %>">
+                                <button type="submit" >編集</button>
                             </form>
-                            <form action="/change" method="POST">
-                                <% if(active) {%>
-                                    <input type="text" name="Text" placeholder="<%= data[i] %>">
-                                    <button type="submit">変更する</button>
-                                <% } %>
-                            </form>
-                            
+                            <% } %>
                         </div>
                     </h1>
                 </div>

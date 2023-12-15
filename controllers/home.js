@@ -1,10 +1,13 @@
 const fs = require("fs");
+const { json } = require("stream/consumers");
 let active = false;
+let editActive = true;
 
 exports.getHome = (req,res) => {
     res.render('../views/home.ejs',{
         data:JSON.parse(fs.readFileSync("data.json","utf8")),
         active:active,
+        editActive:editActive,
     })
 }
 exports.postItem = (req,res) => {
@@ -40,20 +43,28 @@ exports.deleteItem = (req, res) => {
 
 exports.editButton = (req,res) => {
   active =true;
+  editActive = false;
   console.log(active);
   res.redirect('/');
 }
 
-exports.editItem = (req,res) => {
-  const editText = req.body.Text;
-  console.log(editText);
-  const index = data.indexOf(editText);
-  if (index === -1 ) {
-      data.push(editText);
-  } else {
-    console.error('指定された要素が見つかりませんでした。');
-  }
+exports.editItem = (req, res) => {
+  const editedText = req.body.editedText;
+  const originalText = req.body.originalText;
+  const readingJSON = JSON.parse(fs.readFileSync("data.json", "utf8"));
 
-  console.log(data);
-  res.redirect('/');
-}
+  console.log(editedText);
+  console.log(readingJSON);
+  console.log(originalText);
+
+  const index = readingJSON.indexOf(originalText);
+  if (index !== -1) {
+    readingJSON.splice(index, 1, editedText);
+    fs.writeFileSync("data.json", JSON.stringify(readingJSON));
+    } else {
+    console.error('指定された要素が見つかりませんでした。');
+    }
+    editActive = true;
+    active = false;
+    res.redirect('/');
+  }
