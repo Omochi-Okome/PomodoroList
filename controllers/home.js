@@ -27,11 +27,13 @@ exports.postItem = (req,res) => {
 }
 exports.deleteItem = (req, res) => {
   const itemToDelete = req.body.itemToDelete;
+  const readingJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
 
   // data から特定の要素を削除
-  const index = data.indexOf(itemToDelete);
+  const index = readingJSON.indexOf(itemToDelete);
   if (index !== -1) {
-      data.splice(index, 1);
+    readingJSON.splice(index, 1);
+    fs.writeFileSync("data.json",JSON.stringify(readingJSON));
   }
   res.redirect('/');
 };
