@@ -79,7 +79,7 @@ exports.editItem = (req, res) => {
   })
 }
 
-  exports.deleteArchive = (req,res) => {
+exports.deleteArchive = (req,res) => {
     const archiveToDelete = req.body.archiveToDelete;
     const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
 
@@ -89,4 +89,20 @@ exports.editItem = (req, res) => {
       fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
     }
     res.redirect('/archive');
+}
+
+exports.returnMain = (req,res) => {
+  const returnObject = req.body.returnArchive;
+  const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json",'utf8'));
+  const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
+  const index = readingArchiveJSON.indexOf(returnObject);
+  const addData = readingArchiveJSON[index];
+
+  if(index !== -1){
+    readingArchiveJSON.splice(index,1);
+    readingDataJSON.push(addData);
+    fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
+    fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
   }
+  res.redirect('/archive');
+}

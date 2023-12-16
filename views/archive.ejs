@@ -23,11 +23,10 @@
                                 <input type="hidden" name="archiveToDelete" value="<%= data[i] %>">
                                 <button type="submit" class="additionalButton">完全に削除</button>
                             </form>
-                            <% if(editActive) {%>
-                            <form action="/editbutton" method="POST">
-                                <button type="submit">編集する</button>
+                            <form action="/returnMain" method="POST">
+                                <input type="hidden" name="returnArchive" value="<%=data[i]%>">
+                                <button type="submit">ToDoリストに戻す</button>
                             </form>
-                            <% } %>
                         </div>
                     </h1>
                 </div>
