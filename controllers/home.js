@@ -16,11 +16,8 @@ exports.postItem = (req,res) => {
     //ファイルの読み込み
     try {
       const data = fs.readFileSync("data.json","utf8");
-      //JSONパース
       let existingData = JSON.parse(data);
-      //データ追加
       existingData.push(ToDoItem);
-      //ファイル書き込み
       const newData = JSON.stringify(existingData);
       fs.writeFileSync("data.json",newData);
       res.redirect("/");
@@ -73,10 +70,23 @@ exports.editItem = (req, res) => {
     res.redirect('/');
   }
 
+  //以下アーカイブ関連
   exports.viewArchive = (req,res) => {
     res.render("../views/archive.ejs",{
-      data:JSON.parse(fs.readFileSync("data.json","utf8")),
+      data:JSON.parse(fs.readFileSync("archive.json","utf8")),
       active:active,
       editActive:editActive,
   })
+}
+
+  exports.deleteArchive = (req,res) => {
+    const archiveToDelete = req.body.archiveToDelete;
+    const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
+
+    const index = readingArchiveJSON.indexOf(archiveToDelete);
+    if(index !== -1) {
+      readingArchiveJSON.splice(index,1);
+      fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
+    }
+    res.redirect('/archive');
   }

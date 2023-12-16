@@ -16,4 +16,6 @@ router.post('/edit',homeController.editItem);
 
 router.get('/archive',homeController.viewArchive);
 
+router.post('/deleteArchive',homeController.deleteArchive);
+
 module.exports = router;

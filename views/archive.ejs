@@ -13,14 +13,14 @@
             <button class="additionalButton" type="submit">メインに戻る</button>
         </form>
     </div>
-    <% if(data.length > 0 || active) {%>
+    <% if(data.length > 0) {%>
         <div class="container_list">
             <% for (var i = 0; i < data.length; i++) {%>
                 <div class="item">
                     <h1>やること<%= i %>: <%= data[i] %>
                         <div>
-                            <form action="/delete" method="POST">
-                                <input type="hidden" name="itemToDelete" value="<%= data[i] %>">
+                            <form action="/deleteArchive" method="POST">
+                                <input type="hidden" name="archiveToDelete" value="<%= data[i] %>">
                                 <button type="submit" class="additionalButton">完全に削除</button>
                             </form>
                             <% if(editActive) {%>
@@ -31,10 +31,10 @@
                         </div>
                     </h1>
                 </div>
-        </div>]
+        </div>
             <% } %>
     <% } else { %>
-        <h1>ToDoリストがありません。</h1>
+        <h1>アーカイブがありません。</h1>
     <% } %>
 </body>
 </html>
