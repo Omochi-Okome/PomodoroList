@@ -14,4 +14,6 @@ router.post('/editbutton',homeController.editButton);
 
 router.post('/edit',homeController.editItem);
 
+router.get('/archive',homeController.viewArchive);
+
 module.exports = router;

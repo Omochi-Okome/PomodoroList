@@ -68,3 +68,11 @@ exports.editItem = (req, res) => {
     active = false;
     res.redirect('/');
   }
+
+  exports.viewArchive = (req,res) => {
+    res.render("../views/archive.ejs",{
+      data:JSON.parse(fs.readFileSync("data.json","utf8")),
+      active:active,
+      editActive:editActive,
+  })
+  }
