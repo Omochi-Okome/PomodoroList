@@ -1,6 +1,12 @@
 .main {
     display: grid;
     place-items: center;
+    margin-bottom:30px;
+}
+
+.inputText {
+    display: grid;
+    place-content: center;
 }
 
 .additionalButton {
