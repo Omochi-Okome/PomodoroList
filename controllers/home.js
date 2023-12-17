@@ -1,4 +1,5 @@
 const fs = require("fs");
+const Product = require("../models/item");
 let active = false;
 let editActive = true;
 
@@ -9,20 +10,15 @@ exports.getHome = (req,res) => {
         editActive:editActive,
     })
 }
+
+//modelsに移植済み
 exports.postItem = (req,res) => {
     //ToDoItemは入力された値
-    const ToDoItem = req.body.ToDoItem;
-    //ファイルの読み込み
-    try {
-      const data = fs.readFileSync("data.json","utf8");
-      let existingData = JSON.parse(data);
-      existingData.push(ToDoItem);
-      const newData = JSON.stringify(existingData);
-      fs.writeFileSync("data.json",newData);
-      res.redirect("/");
-    } catch(err) {
-      console.log(err);
-    }
+    const postItem = req.body.ToDoItem;
+
+    const product = new Product(postItem);
+    product.home_save();
+    res.redirect('/');
 }
 exports.deleteItem = (req, res) => {
   const itemToDelete = req.body.itemToDelete;

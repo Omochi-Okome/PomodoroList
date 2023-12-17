@@ -18,6 +18,4 @@ const homeRoutes = require('./routes/home');
 
 app.use('/',homeRoutes);
 
-mongoConnect(() => {
-    app.listen(3000);
-});
+app.listen(3000);
