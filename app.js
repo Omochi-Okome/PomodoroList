@@ -2,6 +2,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
+const mongoConnect = require('./util/database');
+
+require("dotenv").config();
 
 //view ejngineの設定
 app.set('view engine', 'ejs');
@@ -15,4 +18,6 @@ const homeRoutes = require('./routes/home');
 
 app.use('/',homeRoutes);
 
-app.listen(3000);
+mongoConnect(() => {
+    app.listen(3000);
+});
