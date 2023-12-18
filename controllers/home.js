@@ -21,18 +21,21 @@ exports.postItem = (req,res) => {
     res.redirect('/');
 }
 exports.deleteItem = (req, res) => {
-  const itemToDelete = req.body.itemToDelete;
-  const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
-  const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
-  // data から特定の要素を削除
-  const index = readingDataJSON.indexOf(itemToDelete);
-  const addArchive = readingDataJSON[index];
-  if (index !== -1) {
-    readingDataJSON.splice(index, 1);
-    readingArchiveJSON.push(addArchive);
-    fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
-    fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
-  }
+  const itemDelete = req.body.itemToDelete;
+  console.log(itemDelete);
+  const product = new Product(itemDelete);
+  product.home_delete();
+  // const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
+  // const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
+  // // data から特定の要素を削除
+  // const index = readingDataJSON.indexOf(itemToDelete);
+  // const addArchive = readingDataJSON[index];
+  // if (index !== -1) {
+  //   readingDataJSON.splice(index, 1);
+  //   readingArchiveJSON.push(addArchive);
+  //   fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
+  //   fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
+  // }
   res.redirect('/');
 };
 

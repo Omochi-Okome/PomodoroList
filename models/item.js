@@ -14,9 +14,9 @@ const AP = path.join(
 )
 
 module.exports = class Product {
-  constructor(postItem, itemDlete) {
+  constructor(postItem, itemDelete) {
     this.postItem = postItem;
-    this.itemDlete = itemDlete;
+    this.itemDelete = itemDelete;
   }
 
   //homeでのタスク保存
@@ -34,11 +34,23 @@ module.exports = class Product {
   }
   //homeからarchiveへ移動
   home_delete(){
-    const itemDlete = this.itemDlete;
+    const itemDelete = this.itemDelete;
+    console.log(itemDelete);
     try {
-      
+      const readingDataJSON = JSON.parse(fs.readFileSync(DP,"utf8"));
+      const readingArchiveJSON = JSON.parse(fs.readFileSync(AP,"utf8"));
+      const index = readingDataJSON.findIndex(itemDelete => JSON.stringify(itemDelete) === JSON.stringify(itemDelete));
+      const addArchive = readingDataJSON[index];
+      console.log(itemDelete);
+      //-1は見つからなかった,その他の数字は見つかった
+      if (index !== -1) {
+        readingDataJSON.splice(index, 1);
+        readingArchiveJSON.push(addArchive);
+        fs.writeFileSync(DP,JSON.stringify(readingDataJSON));
+        fs.writeFileSync(AP,JSON.stringify(readingArchiveJSON));
+      }
     } catch(err) {
-
+      console.log(err);
     }
   }
 
