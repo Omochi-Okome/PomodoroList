@@ -13,15 +13,15 @@ const AP = path.join(
   'archive.json'
 )
 
-module.exports = class Product {
-  constructor(postItem, itemDelete) {
+class Product {
+  constructor(postItem) {
     this.postItem = postItem;
-    this.itemDelete = itemDelete;
   }
 
   //homeでのタスク保存
   home_save(){
     const postItem = this.postItem;
+    console.log(postItem);
     try {
         const data = fs.readFileSync(DP,"utf8");
         let existingData = JSON.parse(data);
@@ -32,16 +32,23 @@ module.exports = class Product {
         console.log(err);
     }
   }
-  //homeからarchiveへ移動
+
+};
+
+class ss {
+  constructor(itemDelete) {
+    this.itemDelete = itemDelete;
+  }
+
   home_delete(){
     const itemDelete = this.itemDelete;
     console.log(itemDelete);
     try {
       const readingDataJSON = JSON.parse(fs.readFileSync(DP,"utf8"));
       const readingArchiveJSON = JSON.parse(fs.readFileSync(AP,"utf8"));
-      const index = readingDataJSON.findIndex(itemDelete => JSON.stringify(itemDelete) === JSON.stringify(itemDelete));
+      const index = readingDataJSON.indexOf(itemDelete);
       const addArchive = readingDataJSON[index];
-      console.log(itemDelete);
+      // console.log(index);
       //-1は見つからなかった,その他の数字は見つかった
       if (index !== -1) {
         readingDataJSON.splice(index, 1);
@@ -53,5 +60,6 @@ module.exports = class Product {
       console.log(err);
     }
   }
+}
 
-};
+module.exports = { Product, ss };

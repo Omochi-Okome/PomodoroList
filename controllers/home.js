@@ -1,5 +1,5 @@
 const fs = require("fs");
-const Product = require("../models/item");
+const {Product,ss} = require("../models/home");
 let active = false;
 let editActive = true;
 
@@ -15,7 +15,7 @@ exports.getHome = (req,res) => {
 exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const postItem = req.body.ToDoItem;
-
+    console.log(postItem);
     const product = new Product(postItem);
     product.home_save();
     res.redirect('/');
@@ -23,19 +23,8 @@ exports.postItem = (req,res) => {
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
   console.log(itemDelete);
-  const product = new Product(itemDelete);
+  const product = new ss(itemDelete);
   product.home_delete();
-  // const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
-  // const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
-  // // data から特定の要素を削除
-  // const index = readingDataJSON.indexOf(itemToDelete);
-  // const addArchive = readingDataJSON[index];
-  // if (index !== -1) {
-  //   readingDataJSON.splice(index, 1);
-  //   readingArchiveJSON.push(addArchive);
-  //   fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
-  //   fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
-  // }
   res.redirect('/');
 };
 
