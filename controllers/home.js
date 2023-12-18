@@ -29,11 +29,15 @@ exports.postItem = (req,res) => {
 
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
-  ss.deleteById(itemDelete)
-    .then(() => {
-      console.log('Destroyed item');
-    })
-    .catch(err => console.log(err));
+  const product = new ss({itemDelete});
+  product.home_delete();
+
+  // ss.deleteById(itemDelete)
+  //   .then(() => {
+  //     console.log('Destroyed item');
+  //   })
+  //   .catch(err => console.log(err));
+  
 
   // console.log(itemDelete);
   // const product = new ss(itemDelete);
@@ -69,11 +73,18 @@ exports.editItem = (req, res) => {
 
   //以下アーカイブ関連
   exports.viewArchive = (req,res) => {
-    res.render("../views/archive.ejs",{
-      data:JSON.parse(fs.readFileSync("archive.json","utf8")),
+    ss.fetchAll()
+    .then(archive => {
+      console.log(archive)
+      res.render("../views/archive.ejs",{
+      data:archive,
       active:active,
       editActive:editActive,
+    })  
   })
+  .catch(err => {
+      console.log(err);
+    });
 }
 
 exports.deleteArchive = (req,res) => {

@@ -15,6 +15,7 @@ const AP = path.join(
   'archive.json'
 )
 
+/////////////////////////////////////
 class Product {
   constructor({postItem,_id}) {
     this.postItem = postItem;
@@ -27,7 +28,7 @@ class Product {
     if (this._id) {
       // 更新
       return db.collection('products')
-        .updateOne({ _id: new mongodb.ObjectId(this.id) }, { $set: this })
+        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: { postItem: this.postItem } })
         .then(result => {
           console.log(result);
         })
@@ -37,7 +38,7 @@ class Product {
     } else {
       // 挿入
       return db.collection('products')
-        .insertOne(this)
+        .insertOne({ postItem: this.postItem })
         .then(result => {
           console.log(result);
         })
@@ -46,6 +47,7 @@ class Product {
         });
     }
   }
+  
   
   static fetchAll() {
     const db = getDb();
@@ -62,43 +64,48 @@ class Product {
   }
 
 };
-
+//////////////////////////////////////////////////////////////
 class ss {
   constructor(itemDelete,_id) {
     this.itemDelete = itemDelete;
+    this._id =_id;
   }
 
   home_delete(){
-
-    const itemDelete = this.itemDelete;
-    console.log(itemDelete);
-    try {
-      const readingDataJSON = JSON.parse(fs.readFileSync(DP,"utf8"));
-      const readingArchiveJSON = JSON.parse(fs.readFileSync(AP,"utf8"));
-      const index = readingDataJSON.indexOf(itemDelete);
-      const addArchive = readingDataJSON[index];
-      // console.log(index);
-      //-1は見つからなかった,その他の数字は見つかった
-      if (index !== -1) {
-        readingDataJSON.splice(index, 1);
-        readingArchiveJSON.push(addArchive);
-        fs.writeFileSync(DP,JSON.stringify(readingDataJSON));
-        fs.writeFileSync(AP,JSON.stringify(readingArchiveJSON));
-      }
-    } catch(err) {
-      console.log(err);
+    const db = getDb();
+    if (this._id) {
+      // 更新
+      return db.collection('archive')
+        .updateOne({ _id: new mongodb.ObjectId(this._id) }, {itemDelete: itemDelete })
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      // 挿入
+      return db.collection('archive')
+        .insertOne( this.itemDelete)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
-  static deleteById(itemDelete) {
+  static fetchAll() {
     const db = getDb();
-    return db
-      .collection('products')
-      .deleteOne({ postItem: itemDelete })
-      .then(result => {
-        console.log('Deleted');
+    return db.collection('archive')
+      .find()
+      .toArray()
+      .then(archive => {
+        console.log('Fetched archive data:', archive);
+        return archive.map(item => new ss(item.itemDelete, item._id)); // ネストから解放
       })
       .catch(err => {
-        console.log(err);
+        console.log('Error fetching archive data:', err);
       });
   }
   

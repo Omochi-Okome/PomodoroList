@@ -17,14 +17,15 @@
         <div class="container_list">
             <% for (var i = 0; i < data.length; i++) {%>
                 <div class="item">
-                    <h1>やること<%= i %>: <%= data[i] %>
+                    <% console.log(data[i]) %>
+                    <h1>やること<%= i %>: <%= data[i].itemDelete  %></h1>
                         <div>
                             <form action="/deleteArchive" method="POST">
-                                <input type="hidden" name="archiveToDelete" value="<%= data[i] %>">
+                                <input type="hidden" name="archiveToDelete" value="<%= data[i]._id %>">
                                 <button type="submit" class="additionalButton">完全に削除</button>
                             </form>
                             <form action="/returnMain" method="POST">
-                                <input type="hidden" name="returnArchive" value="<%=data[i]%>">
+                                <input type="hidden" name="returnArchive" value="<%=data[i]._id%>">
                                 <button type="submit">ToDoリストに戻す</button>
                             </form>
                         </div>
