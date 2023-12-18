@@ -16,35 +16,37 @@ const AP = path.join(
 )
 
 class Product {
-  constructor({postItem}) {
+  constructor({postItem,_id}) {
     this.postItem = postItem;
+    this._id = _id;
   }
 
   //homeでのタスク保存
-  home_save(){
-    const postItem = this.postItem;
-    console.log(postItem);
-    //MongoDBの実験
+  home_save() {
     const db = getDb();
-    db.collection('products')
-      .insertOne(this)
-      .then(result => {
-        console.log(result);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-    //ここまで実験中
-    try {
-        const data = fs.readFileSync(DP,"utf8");
-        let existingData = JSON.parse(data);
-        existingData.push(postItem);
-        const newData = JSON.stringify(existingData);
-        fs.writeFileSync(DP,newData);
-    } catch(err) {
-        console.log(err);
+    if (this._id) {
+      // 更新
+      return db.collection('products')
+        .updateOne({ _id: new mongodb.ObjectId(this.id) }, { $set: this })
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      // 挿入
+      return db.collection('products')
+        .insertOne(this)
+        .then(result => {
+          console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
+  
   static fetchAll() {
     const db = getDb();
     return db.collection('products')
@@ -52,36 +54,22 @@ class Product {
       .toArray()
       .then(products => {
         console.log(products);
-        return products.map(product => new Product(product)); // 各要素を Product クラスのインスタンスに変換
+        return products.map(product => new Product(product));
       })
       .catch(err => {
         console.log(err);
       });
   }
-  
-
-  static findById(id) {
-    const db = getDb();
-    return db.collection('products')
-      .find({_id: new mongodb.ObjectId(id)})
-      .next()
-      .then(product => {
-        console.log(product);
-        return product;
-      })
-      .catch(err =>{
-      console.log(err);
-    })
-  }
 
 };
 
 class ss {
-  constructor(itemDelete) {
+  constructor(itemDelete,_id) {
     this.itemDelete = itemDelete;
   }
 
   home_delete(){
+
     const itemDelete = this.itemDelete;
     console.log(itemDelete);
     try {
@@ -101,6 +89,19 @@ class ss {
       console.log(err);
     }
   }
+  static deleteById(itemDelete) {
+    const db = getDb();
+    return db
+      .collection('products')
+      .deleteOne({ postItem: itemDelete })
+      .then(result => {
+        console.log('Deleted');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  
 }
 
 module.exports = { Product, ss };

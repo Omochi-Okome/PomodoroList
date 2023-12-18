@@ -26,11 +26,18 @@ exports.postItem = (req,res) => {
     product.home_save();
     res.redirect('/');
 }
+
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
-  console.log(itemDelete);
-  const product = new ss(itemDelete);
-  product.home_delete();
+  ss.deleteById(itemDelete)
+    .then(() => {
+      console.log('Destroyed item');
+    })
+    .catch(err => console.log(err));
+
+  // console.log(itemDelete);
+  // const product = new ss(itemDelete);
+  // product.home_delete();
   res.redirect('/');
 };
 
@@ -45,9 +52,8 @@ exports.editItem = (req, res) => {
   const originalText = req.body.originalText;
   const readingJSON = JSON.parse(fs.readFileSync("data.json", "utf8"));
 
-  console.log(editedText);
-  console.log(readingJSON);
-  console.log(originalText);
+  const product = new Product({editedText});
+  product.home_save();
 
   const index = readingJSON.indexOf(originalText);
   if (index !== -1) {

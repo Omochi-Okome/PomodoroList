@@ -41,7 +41,7 @@
                             <% if(active) {%>
                             <form action="/edit" method="POST">
                                 <input type="hidden" name="originalText" value="<%= data[i].postItem %>">
-                                <input type="text" name="editedText" value="<%= data[i] %>" placeholder="<%= data[i].postItem %>">
+                                <input type="text" name="editedText" value="<%= data[i].postItem %>" placeholder="<%= data[i].postItem %>">
                                 <button type="submit" >編集</button>
                             </form>
                             <% } %>
