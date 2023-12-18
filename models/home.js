@@ -2,6 +2,8 @@
 
 const fs = require('fs');
 const path = require('path');
+const mongodb = require('mongodb');
+const  getDb = require('../util/database').getDb;
 
 const DP = path.join(
   path.dirname(require.main.filename),
@@ -14,7 +16,7 @@ const AP = path.join(
 )
 
 class Product {
-  constructor(postItem) {
+  constructor({postItem}) {
     this.postItem = postItem;
   }
 
@@ -22,6 +24,17 @@ class Product {
   home_save(){
     const postItem = this.postItem;
     console.log(postItem);
+    //MongoDBの実験
+    const db = getDb();
+    db.collection('products')
+      .insertOne(this)
+      .then(result => {
+        console.log(result);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    //ここまで実験中
     try {
         const data = fs.readFileSync(DP,"utf8");
         let existingData = JSON.parse(data);
@@ -31,6 +44,34 @@ class Product {
     } catch(err) {
         console.log(err);
     }
+  }
+  static fetchAll() {
+    const db = getDb();
+    return db.collection('products')
+      .find()
+      .toArray()
+      .then(products => {
+        console.log(products);
+        return products.map(product => new Product(product)); // 各要素を Product クラスのインスタンスに変換
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+  
+
+  static findById(id) {
+    const db = getDb();
+    return db.collection('products')
+      .find({_id: new mongodb.ObjectId(id)})
+      .next()
+      .then(product => {
+        console.log(product);
+        return product;
+      })
+      .catch(err =>{
+      console.log(err);
+    })
   }
 
 };

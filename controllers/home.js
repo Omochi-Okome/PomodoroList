@@ -4,11 +4,17 @@ let active = false;
 let editActive = true;
 
 exports.getHome = (req,res) => {
-    res.render('../views/home.ejs',{
-        data:JSON.parse(fs.readFileSync("data.json","utf8")),
+  Product.fetchAll()
+    .then(products => {
+      res.render('../views/home.ejs',{
+        data:products,
         active:active,
         editActive:editActive,
+      });
     })
+    .catch(err => {
+      console.log(err);
+    });
 }
 
 //modelsに移植済み
@@ -16,7 +22,7 @@ exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const postItem = req.body.ToDoItem;
     console.log(postItem);
-    const product = new Product(postItem);
+    const product = new Product({postItem});
     product.home_save();
     res.redirect('/');
 }

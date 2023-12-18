@@ -2,7 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
-const mongoConnect = require('./util/database');
+const mongoConnect = require('./util/database').mongoConnect;
 
 require("dotenv").config();
 
@@ -18,4 +18,7 @@ const homeRoutes = require('./routes/home');
 
 app.use('/',homeRoutes);
 
-app.listen(3000);
+mongoConnect(() => {
+    app.listen(3000);
+})
+
