@@ -24,7 +24,6 @@ exports.deleteItem = (req, res) => {
   const itemToDelete = req.body.itemToDelete;
   const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
   const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
-
   // data から特定の要素を削除
   const index = readingDataJSON.indexOf(itemToDelete);
   const addArchive = readingDataJSON[index];
@@ -40,7 +39,6 @@ exports.deleteItem = (req, res) => {
 exports.editButton = (req,res) => {
   active =true;
   editActive = false;
-  console.log(active);
   res.redirect('/');
 }
 

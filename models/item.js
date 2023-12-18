@@ -8,11 +8,18 @@ const DP = path.join(
   'data.json',
 );
 
+const AP = path.join(
+  path.dirname(require.main.filename),
+  'archive.json'
+)
+
 module.exports = class Product {
-  constructor(postItem) {
+  constructor(postItem, itemDlete) {
     this.postItem = postItem;
+    this.itemDlete = itemDlete;
   }
 
+  //homeでのタスク保存
   home_save(){
     const postItem = this.postItem;
     try {
@@ -25,4 +32,14 @@ module.exports = class Product {
         console.log(err);
     }
   }
+  //homeからarchiveへ移動
+  home_delete(){
+    const itemDlete = this.itemDlete;
+    try {
+      
+    } catch(err) {
+
+    }
+  }
+
 };
