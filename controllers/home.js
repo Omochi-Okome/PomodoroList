@@ -31,13 +31,17 @@ exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
   const product = new ss({itemDelete});
   product.home_delete();
+  ss.deleteById(itemDelete)
+    .then(result => {
+      console.log('Destoyed product');
+    })
+    .catch(err => console.log(err));
 
   // ss.deleteById(itemDelete)
   //   .then(() => {
   //     console.log('Destroyed item');
   //   })
   //   .catch(err => console.log(err));
-  
 
   // console.log(itemDelete);
   // const product = new ss(itemDelete);

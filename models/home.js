@@ -108,6 +108,19 @@ class ss {
         console.log('Error fetching archive data:', err);
       });
   }
+  static deleteById(itemDelete) {
+    const db = getDb();
+    console.log(this.itemDelete);
+    return db
+      .collection('products')
+      .deleteOne({postItem:itemDelete})
+      .then(result => {
+        console.log('Deleted');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
   
 }
 
