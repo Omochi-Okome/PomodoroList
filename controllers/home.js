@@ -1,10 +1,10 @@
-const fs = require("fs");
-const {Product,ss, archive,returnHome,editText} = require("../models/home");
+
+const {homeItem,ss, archive,returnHome,editText} = require("../models/home");
 let active = false;
 let editActive = true;
 
 exports.getHome = (req,res) => {
-  Product.fetchAll()
+  homeItem.fetchAll()
     .then(products => {
       res.render('../views/home.ejs',{
         data:products,
@@ -22,8 +22,8 @@ exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const postItem = req.body.ToDoItem;
     // console.log(postItem);
-    const product = new Product({postItem});
-    product.home_save();
+    const product = new homeItem({postItem});
+    product.saveProducts();
     res.redirect('/');
 }
 
@@ -83,7 +83,6 @@ exports.deleteArchive = (req,res) => {
 
 exports.returnMain = (req,res) => {
   const returnObject = req.body.returnArchive;
-  // returnObjectはお寿司
   // console.log(returnObject);
   const product = new returnHome(returnObject);
   product.home_save();

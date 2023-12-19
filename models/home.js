@@ -1,18 +1,15 @@
-//以下危険コード.慎重に合流させよ
-
-const fs = require('fs');
 const path = require('path');
 const mongodb = require('mongodb');
 const  getDb = require('../util/database').getDb;
 /////////////////////////////////////
-class Product {
+class homeItem {
   constructor({postItem,_id}) {
     this.postItem = postItem;
     this._id = _id;
   }
 
-  //homeでのタスク保存
-  home_save() {
+  //DBのproductsへ保存
+  saveProducts() {
     const db = getDb();
     if (this._id) {
       // 更新
@@ -45,7 +42,7 @@ class Product {
       .toArray()
       .then(products => {
         // console.log(products);
-        return products.map(product => new Product(product));
+        return products.map(product => new homeItem(product));
       })
       .catch(err => {
         console.log(err);
@@ -214,4 +211,4 @@ class editText {
   }
 }
 
-module.exports = { Product, ss ,archive,returnHome,editText};
+module.exports = { homeItem, ss ,archive,returnHome,editText};
