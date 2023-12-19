@@ -1,5 +1,5 @@
 
-const {homeItem,ss, archive,returnHome,editText} = require("../models/home");
+const {homeItem,removeItem, archive,returnHome,editText} = require("../models/home");
 let active = false;
 let editActive = true;
 
@@ -29,9 +29,9 @@ exports.postItem = (req,res) => {
 
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
-  const product = new ss({itemDelete});
-  product.home_delete();
-  ss.deleteById(itemDelete)
+  const product = new removeItem({itemDelete});
+  product.saveArchive();
+  removeItem.deleteById(itemDelete)
     .then(result => {
       // console.log('Destoyed product');
     })
@@ -58,7 +58,7 @@ exports.editItem = (req, res) => {
 
   //以下アーカイブ関連
   exports.viewArchive = (req,res) => {
-    ss.fetchAll()
+    removeItem.fetchAll()
     .then(archive => {
       res.render("../views/archive.ejs",{
       data:archive,

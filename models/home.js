@@ -62,36 +62,16 @@ class homeItem {
 
 };
 //////////////////////////////////////////////////////////////
-class ss {
+class removeItem {
   constructor(itemDelete,_id) {
     this.itemDelete = itemDelete;
     this._id =_id;
   }
 
-  home_delete(){
-    const db = getDb();
-    if (this._id) {
-      // 更新
-      return db.collection('archive')
-        .updateOne({ _id: new mongodb.ObjectId(this._id) }, {itemDelete: itemDelete })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      // 挿入
-      return db.collection('archive')
-        .insertOne( this.itemDelete)
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+  saveArchive(){
+    const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete.itemDelete},this._id);
+    return operation.writeDB();
     }
-  }
   static fetchAll() {
     const db = getDb();
     return db.collection('archive')
@@ -99,7 +79,7 @@ class ss {
       .toArray()
       .then(archive => {
         // console.log('Fetched archive data:', archive);
-        return archive.map(item => new ss(item.itemDelete, item._id)); // ネストから解放
+        return archive.map(item => new removeItem(item.itemDelete, item._id)); // ネストから解放
       })
       .catch(err => {
         console.log('Error fetching archive data:', err);
@@ -180,4 +160,4 @@ class editText {
   }
 }
 
-module.exports = { homeItem, ss ,archive,returnHome,editText};
+module.exports = { homeItem, removeItem ,archive,returnHome,editText};
