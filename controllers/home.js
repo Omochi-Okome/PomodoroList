@@ -49,7 +49,7 @@ exports.editItem = (req, res) => {
   const editedText = req.body.editedText;
   const originalText = req.body.originalText;
   const product = new editText(editedText);
-  product.edit();
+  product.saveProducts();
   editText.deleteById(originalText);
 
   console.log(editedText);
@@ -85,7 +85,7 @@ exports.returnMain = (req,res) => {
   const returnObject = req.body.returnArchive;
   // console.log(returnObject);
   const product = new returnHome(returnObject);
-  product.home_save();
+  product.saveProducts();
   archive.deleteById(returnObject)
       .then(result => {
         // console.log('Destoyed product');

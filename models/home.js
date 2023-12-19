@@ -1,7 +1,39 @@
-const path = require('path');
 const mongodb = require('mongodb');
 const  getDb = require('../util/database').getDb;
 /////////////////////////////////////
+
+class CommonDbOperation {
+  constructor(collectionName,item,_id){
+    this.collectionName = collectionName;
+    this.item = item;
+    this._id;
+  }
+  writeDB() {
+    const db = getDb();
+    const collection = db.collection(this.collectionName);
+
+    if(this._id){
+      return collection
+        .updateOne({_id: new mongodb.ObjectId(this._id)},{ $set: { postItem: this.postItem } })
+        .then(result => {
+          //console.log(result)
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    } else {
+      return collection
+        .insertOne(this.item)
+        .then(result => {
+          //console.log(result)
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+}
+
 class homeItem {
   constructor({postItem,_id}) {
     this.postItem = postItem;
@@ -10,30 +42,9 @@ class homeItem {
 
   //DBのproductsへ保存
   saveProducts() {
-    const db = getDb();
-    if (this._id) {
-      // 更新
-      return db.collection('products')
-        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: { postItem: this.postItem } })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      // 挿入
-      return db.collection('products')
-        .insertOne({ postItem: this.postItem })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+    const operation = new CommonDbOperation('products',{postItem:this.postItem},this._id);
+    return operation.writeDB();
     }
-  }
-  
   
   static fetchAll() {
     const db = getDb();
@@ -137,30 +148,10 @@ class returnHome {
     this.returnArchive = returnArchive;
     this._id = _id;
   }
-  home_save() {
-    const db = getDb();
-    if (this._id) {
-      // 更新
-      return db.collection('products')
-        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: { postItem: this.returnArchive } })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      // 挿入
-      return db.collection('products')
-        .insertOne({ postItem: this.returnArchive })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+  saveProducts() {
+    const operation = new CommonDbOperation('products',{postItem:this.returnArchive},this._id);
+    return operation.writeDB();
     }
-  }
   
 }
 
@@ -170,34 +161,12 @@ class editText {
     this.originalText = originalText;
     this._id = _id;
   }
-  edit(){
-    console.log(this.editedText);
-    const db = getDb();
-    if (this._id) {
-      // 更新
-      return db.collection('products')
-        .updateOne({ _id:new mongodb.ObjectId(this._id) }, { postItem: editedText  })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    } else {
-      // 挿入
-      return db.collection('products')
-        .insertOne({ postItem: this.editedText })
-        .then(result => {
-          // console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+  saveProducts() {
+    const operation = new CommonDbOperation('products',{postItem:this.editedText},this._id);
+    return operation.writeDB();
     }
-  }
   static deleteById(originalText) {
     const db = getDb();
-    //itemDeleteはStringになっている。
     // console.log(itemDelete);
     return db
       .collection('products')
