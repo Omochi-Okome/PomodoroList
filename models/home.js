@@ -133,7 +133,6 @@ class archive {
 
   static deleteById(archiveDelete) {
     const db = getDb();
-    //archiveDeleteが_idになってしまっている
     console.log(archiveDelete);
     return db
       .collection('archive')
@@ -147,4 +146,35 @@ class archive {
   }
 }
 
-module.exports = { Product, ss ,archive};
+class returnHome {
+  constructor(returnArchive,_id) {
+    this.returnArchive = returnArchive;
+    this._id = _id;
+  }
+  home_save() {
+    const db = getDb();
+    if (this._id) {
+      // 更新
+      return db.collection('products')
+        .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: { postItem: this.returnArchive } })
+        .then(result => {
+          // console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      // 挿入
+      return db.collection('products')
+        .insertOne({ postItem: this.returnArchive })
+        .then(result => {
+          // console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+}
+
+module.exports = { Product, ss ,archive,returnHome};

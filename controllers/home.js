@@ -1,5 +1,5 @@
 const fs = require("fs");
-const {Product,ss, archive} = require("../models/home");
+const {Product,ss, archive,returnHome} = require("../models/home");
 let active = false;
 let editActive = true;
 
@@ -110,16 +110,25 @@ exports.deleteArchive = (req,res) => {
 
 exports.returnMain = (req,res) => {
   const returnObject = req.body.returnArchive;
-  const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json",'utf8'));
-  const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
-  const index = readingArchiveJSON.indexOf(returnObject);
-  const addData = readingArchiveJSON[index];
+  // returnObjectはお寿司
+  console.log(returnObject);
+  const product = new returnHome(returnObject);
+  product.home_save();
+  archive.deleteById(returnObject)
+      .then(result => {
+        // console.log('Destoyed product');
+      })
+      .catch(err => console.log(err));
 
-  if(index !== -1){
-    readingArchiveJSON.splice(index,1);
-    readingDataJSON.push(addData);
-    fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
-    fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
-  }
+  // const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json",'utf8'));
+  // const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
+  // const index = readingArchiveJSON.indexOf(returnObject);
+  // const addData = readingArchiveJSON[index];
+  // if(index !== -1){
+  //   readingArchiveJSON.splice(index,1);
+  //   readingDataJSON.push(addData);
+  //   fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
+  //   fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
+  // }
   res.redirect('/archive');
 }
