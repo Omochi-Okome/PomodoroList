@@ -1,5 +1,5 @@
 const fs = require("fs");
-const {Product,ss} = require("../models/home");
+const {Product,ss, archive} = require("../models/home");
 let active = false;
 let editActive = true;
 
@@ -21,7 +21,7 @@ exports.getHome = (req,res) => {
 exports.postItem = (req,res) => {
     //ToDoItemは入力された値
     const postItem = req.body.ToDoItem;
-    console.log(postItem);
+    // console.log(postItem);
     const product = new Product({postItem});
     product.home_save();
     res.redirect('/');
@@ -33,7 +33,7 @@ exports.deleteItem = (req, res) => {
   product.home_delete();
   ss.deleteById(itemDelete)
     .then(result => {
-      console.log('Destoyed product');
+      // console.log('Destoyed product');
     })
     .catch(err => console.log(err));
 
@@ -79,7 +79,6 @@ exports.editItem = (req, res) => {
   exports.viewArchive = (req,res) => {
     ss.fetchAll()
     .then(archive => {
-      console.log(archive)
       res.render("../views/archive.ejs",{
       data:archive,
       active:active,
@@ -92,14 +91,20 @@ exports.editItem = (req, res) => {
 }
 
 exports.deleteArchive = (req,res) => {
-    const archiveToDelete = req.body.archiveToDelete;
-    const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
+    const archiveDelete = req.body.archiveToDelete;
+    console.log(archiveDelete);
+    archive.deleteById(archiveDelete)
+      .then(result => {
+        // console.log('Destoyed product');
+      })
+      .catch(err => console.log(err));
+    // const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
 
-    const index = readingArchiveJSON.indexOf(archiveToDelete);
-    if(index !== -1) {
-      readingArchiveJSON.splice(index,1);
-      fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
-    }
+    // const index = readingArchiveJSON.indexOf(archiveToDelete);
+    // if(index !== -1) {
+    //   readingArchiveJSON.splice(index,1);
+    //   fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
+    // }
     res.redirect('/archive');
 }
 

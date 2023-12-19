@@ -30,7 +30,7 @@ class Product {
       return db.collection('products')
         .updateOne({ _id: new mongodb.ObjectId(this._id) }, { $set: { postItem: this.postItem } })
         .then(result => {
-          console.log(result);
+          // console.log(result);
         })
         .catch(err => {
           console.log(err);
@@ -40,7 +40,7 @@ class Product {
       return db.collection('products')
         .insertOne({ postItem: this.postItem })
         .then(result => {
-          console.log(result);
+          // console.log(result);
         })
         .catch(err => {
           console.log(err);
@@ -55,7 +55,7 @@ class Product {
       .find()
       .toArray()
       .then(products => {
-        console.log(products);
+        // console.log(products);
         return products.map(product => new Product(product));
       })
       .catch(err => {
@@ -78,7 +78,7 @@ class ss {
       return db.collection('archive')
         .updateOne({ _id: new mongodb.ObjectId(this._id) }, {itemDelete: itemDelete })
         .then(result => {
-          console.log(result);
+          // console.log(result);
         })
         .catch(err => {
           console.log(err);
@@ -88,7 +88,7 @@ class ss {
       return db.collection('archive')
         .insertOne( this.itemDelete)
         .then(result => {
-          console.log(result);
+          // console.log(result);
         })
         .catch(err => {
           console.log(err);
@@ -101,7 +101,7 @@ class ss {
       .find()
       .toArray()
       .then(archive => {
-        console.log('Fetched archive data:', archive);
+        // console.log('Fetched archive data:', archive);
         return archive.map(item => new ss(item.itemDelete, item._id)); // ネストから解放
       })
       .catch(err => {
@@ -110,12 +110,13 @@ class ss {
   }
   static deleteById(itemDelete) {
     const db = getDb();
-    console.log(this.itemDelete);
+    //itemDeleteはStringになっている。
+    console.log(itemDelete);
     return db
       .collection('products')
       .deleteOne({postItem:itemDelete})
       .then(result => {
-        console.log('Deleted');
+        // console.log('Deleted');
       })
       .catch(err => {
         console.log(err);
@@ -124,4 +125,26 @@ class ss {
   
 }
 
-module.exports = { Product, ss };
+class archive {
+  constructor(archiveDelete,_id) {
+    this.archiveDelete = archiveDelete
+    this._id = _id
+  }
+
+  static deleteById(archiveDelete) {
+    const db = getDb();
+    //archiveDeleteが_idになってしまっている
+    console.log(archiveDelete);
+    return db
+      .collection('archive')
+      .deleteOne({itemDelete:archiveDelete})
+      .then(result => {
+        // console.log('Deleted');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+}
+
+module.exports = { Product, ss ,archive};
