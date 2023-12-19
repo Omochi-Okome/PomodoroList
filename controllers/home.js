@@ -1,5 +1,5 @@
 const fs = require("fs");
-const {Product,ss, archive,returnHome} = require("../models/home");
+const {Product,ss, archive,returnHome,editText} = require("../models/home");
 let active = false;
 let editActive = true;
 
@@ -36,16 +36,6 @@ exports.deleteItem = (req, res) => {
       // console.log('Destoyed product');
     })
     .catch(err => console.log(err));
-
-  // ss.deleteById(itemDelete)
-  //   .then(() => {
-  //     console.log('Destroyed item');
-  //   })
-  //   .catch(err => console.log(err));
-
-  // console.log(itemDelete);
-  // const product = new ss(itemDelete);
-  // product.home_delete();
   res.redirect('/');
 };
 
@@ -58,21 +48,12 @@ exports.editButton = (req,res) => {
 exports.editItem = (req, res) => {
   const editedText = req.body.editedText;
   const originalText = req.body.originalText;
-  const readingJSON = JSON.parse(fs.readFileSync("data.json", "utf8"));
+  const product = new editText(editedText);
+  product.edit();
+  editText.deleteById(originalText);
 
-  const product = new Product({editedText});
-  product.home_save();
-
-  const index = readingJSON.indexOf(originalText);
-  if (index !== -1) {
-    readingJSON.splice(index, 1, editedText);
-    fs.writeFileSync("data.json", JSON.stringify(readingJSON));
-    } else {
-    console.error('指定された要素が見つかりませんでした。');
-    }
-    editActive = true;
-    active = false;
-    res.redirect('/');
+  console.log(editedText);
+  res.redirect('/');
   }
 
   //以下アーカイブ関連
@@ -92,26 +73,18 @@ exports.editItem = (req, res) => {
 
 exports.deleteArchive = (req,res) => {
     const archiveDelete = req.body.archiveToDelete;
-    console.log(archiveDelete);
     archive.deleteById(archiveDelete)
       .then(result => {
         // console.log('Destoyed product');
       })
       .catch(err => console.log(err));
-    // const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json","utf8"));
-
-    // const index = readingArchiveJSON.indexOf(archiveToDelete);
-    // if(index !== -1) {
-    //   readingArchiveJSON.splice(index,1);
-    //   fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
-    // }
     res.redirect('/archive');
 }
 
 exports.returnMain = (req,res) => {
   const returnObject = req.body.returnArchive;
   // returnObjectはお寿司
-  console.log(returnObject);
+  // console.log(returnObject);
   const product = new returnHome(returnObject);
   product.home_save();
   archive.deleteById(returnObject)
@@ -119,16 +92,5 @@ exports.returnMain = (req,res) => {
         // console.log('Destoyed product');
       })
       .catch(err => console.log(err));
-
-  // const readingArchiveJSON = JSON.parse(fs.readFileSync("archive.json",'utf8'));
-  // const readingDataJSON = JSON.parse(fs.readFileSync("data.json","utf8"));
-  // const index = readingArchiveJSON.indexOf(returnObject);
-  // const addData = readingArchiveJSON[index];
-  // if(index !== -1){
-  //   readingArchiveJSON.splice(index,1);
-  //   readingDataJSON.push(addData);
-  //   fs.writeFileSync("archive.json",JSON.stringify(readingArchiveJSON));
-  //   fs.writeFileSync("data.json",JSON.stringify(readingDataJSON));
-  // }
   res.redirect('/archive');
 }

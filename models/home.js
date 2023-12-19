@@ -4,17 +4,6 @@ const fs = require('fs');
 const path = require('path');
 const mongodb = require('mongodb');
 const  getDb = require('../util/database').getDb;
-
-const DP = path.join(
-  path.dirname(require.main.filename),
-  'data.json',
-);
-
-const AP = path.join(
-  path.dirname(require.main.filename),
-  'archive.json'
-)
-
 /////////////////////////////////////
 class Product {
   constructor({postItem,_id}) {
@@ -111,7 +100,7 @@ class ss {
   static deleteById(itemDelete) {
     const db = getDb();
     //itemDeleteはStringになっている。
-    console.log(itemDelete);
+    // console.log(itemDelete);
     return db
       .collection('products')
       .deleteOne({postItem:itemDelete})
@@ -127,13 +116,13 @@ class ss {
 
 class archive {
   constructor(archiveDelete,_id) {
-    this.archiveDelete = archiveDelete
-    this._id = _id
+    this.archiveDelete = archiveDelete;
+    this._id = _id;
   }
 
   static deleteById(archiveDelete) {
     const db = getDb();
-    console.log(archiveDelete);
+    // console.log(archiveDelete);
     return db
       .collection('archive')
       .deleteOne({itemDelete:archiveDelete})
@@ -175,6 +164,54 @@ class returnHome {
         });
     }
   }
+  
 }
 
-module.exports = { Product, ss ,archive,returnHome};
+class editText {
+  constructor(editedText,originalText,_id) {
+    this.editedText = editedText;
+    this.originalText = originalText;
+    this._id = _id;
+  }
+  edit(){
+    console.log(this.editedText);
+    const db = getDb();
+    if (this._id) {
+      // 更新
+      return db.collection('products')
+        .updateOne({ _id:new mongodb.ObjectId(this._id) }, { postItem: editedText  })
+        .then(result => {
+          // console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    } else {
+      // 挿入
+      return db.collection('products')
+        .insertOne({ postItem: this.editedText })
+        .then(result => {
+          // console.log(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  }
+  static deleteById(originalText) {
+    const db = getDb();
+    //itemDeleteはStringになっている。
+    // console.log(itemDelete);
+    return db
+      .collection('products')
+      .deleteOne({postItem:originalText})
+      .then(result => {
+        // console.log('Deleted');
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+}
+
+module.exports = { Product, ss ,archive,returnHome,editText};
