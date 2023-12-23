@@ -11,7 +11,6 @@ class CommonDbOperation {
   writeDB() {
     const db = getDb();
     const collection = db.collection(this.collectionName);
-
     if(this._id){
       return collection
         .updateOne({_id: new mongodb.ObjectId(this._id)},{ $set: { postItem: this.postItem } })
@@ -32,6 +31,13 @@ class CommonDbOperation {
         });
     }
   }
+
+  fetchAll() {
+    const db = getDb();
+    return db.collection(this.collectionName)
+      .find()
+      .toArray()
+  }
 }
 
 class homeItem {
@@ -44,22 +50,20 @@ class homeItem {
   saveProducts() {
     const operation = new CommonDbOperation('products',{postItem:this.postItem},this._id);
     return operation.writeDB();
-    }
+  }
   
-  static fetchAll() {
-    const db = getDb();
-    return db.collection('products')
-      .find()
-      .toArray()
+  static fetchAll(){
+      const operation = new CommonDbOperation('products',{postitem:this.postItem},this._id);
+      return operation.fetchAll()
       .then(products => {
         // console.log(products);
         return products.map(product => new homeItem(product));
       })
       .catch(err => {
         console.log(err);
+        throw err;
       });
   }
-
 };
 //////////////////////////////////////////////////////////////
 class removeItem {
@@ -71,20 +75,20 @@ class removeItem {
   saveArchive(){
     const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete.itemDelete},this._id);
     return operation.writeDB();
-    }
-  static fetchAll() {
-    const db = getDb();
-    return db.collection('archive')
-      .find()
-      .toArray()
-      .then(archive => {
+  }
+  fetchAll(){
+    const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete},this._id)
+    return operation.fetchAll()
+      .then(collectionName => {
         // console.log('Fetched archive data:', archive);
-        return archive.map(item => new removeItem(item.itemDelete, item._id)); // ネストから解放
+        return collectionName.map(item => new removeItem(item.itemDelete, item._id)); // ネストから解放
       })
       .catch(err => {
         console.log('Error fetching archive data:', err);
+        throw err;
       });
   }
+
   static deleteById(itemDelete) {
     const db = getDb();
     //itemDeleteはStringになっている。

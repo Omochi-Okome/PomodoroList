@@ -58,7 +58,9 @@ exports.editItem = (req, res) => {
 
   //以下アーカイブ関連
   exports.viewArchive = (req,res) => {
-    removeItem.fetchAll()
+    const itemDelete = req.body.itemDelete;
+    const product = new removeItem(itemDelete);
+    product.fetchAll()
     .then(archive => {
       res.render("../views/archive.ejs",{
       data:archive,
