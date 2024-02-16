@@ -41,15 +41,20 @@ class CommonDbOperation {
 }
 
 class homeItem {
-  constructor({postItem,_id}) {
+  constructor({postItem,id}) {
     this.postItem = postItem;
-    this._id = _id;
+    this.id = id;
   }
 
   //DBのproductsへ保存
   saveProducts() {
-    const operation = new CommonDbOperation('products',{postItem:this.postItem},this._id);
-    return operation.writeDB();
+    const db = getDb();
+    return db
+      .collection('list')
+      .insertOne({
+        _id:new mongodb.ObjectId(this.id),
+        item: this.postItem
+      });
   }
   
   static fetchAll(){

@@ -19,9 +19,7 @@ exports.getHome = (req,res) => {
 
 //modelsに移植済み
 exports.postItem = (req,res) => {
-    //ToDoItemは入力された値
     const postItem = req.body.ToDoItem;
-    // console.log(postItem);
     const product = new homeItem({postItem});
     product.saveProducts();
     res.redirect('/');
