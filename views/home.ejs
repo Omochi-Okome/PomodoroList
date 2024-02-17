@@ -26,11 +26,11 @@
         <div class="container_list">
             <% for (var i = 0; i < data.length; i++) {%>
                 <div class="item">
-                    <h1>やること<%= i %>: <%= data[i].postItem%></h1>
+                    <h1>やること<%= i %>: <%= data[i].item%></h1>
                         <div>
                             <form action="/delete" method="POST">
-                                <input type="hidden" name="itemToDelete" value="<%= data[i].postItem %>">
-                                <%//console.log(data[i].postItem) %>
+                                <input type="hidden" name="itemToDelete" value="<%= data[i].item %>">
+                                <%//console.log(data[i].item) %>
                                 <button type="submit" class="additionalButton">完了</button>
                             </form>
                             <% if(editActive) {%>
@@ -40,8 +40,8 @@
                             <% } %>
                             <% if(active) {%>
                             <form action="/edit" method="POST">
-                                <input type="hidden" name="originalText" value="<%= data[i].postItem %>">
-                                <input type="text" name="editedText" value="<%= data[i].postItem %>" placeholder="<%= data[i].postItem %>">
+                                <input type="hidden" name="originalText" value="<%= data[i].item %>">
+                                <input type="text" name="editedText" value="<%= data[i].item %>" placeholder="<%= data[i].item %>">
                                 <button type="submit" >編集</button>
                             </form>
                             <% } %>

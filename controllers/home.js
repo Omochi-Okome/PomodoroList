@@ -20,21 +20,23 @@ exports.getHome = (req,res) => {
 //modelsに移植済み
 exports.postItem = (req,res) => {
     const postItem = req.body.ToDoItem;
-    const product = new homeItem({postItem});
-    product.saveProducts();
-    res.redirect('/');
+    //postItemはある
+    console.log(postItem);
+    const product = new homeItem({item:postItem});
+    product
+      .saveProducts()
+      .then(() => res.redirect('/'))
+      .catch(err => console.log(err));
 }
 
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
+  console.log(itemDelete)
   const product = new removeItem({itemDelete});
   product.saveArchive();
   removeItem.deleteById(itemDelete)
-    .then(result => {
-      // console.log('Destoyed product');
-    })
+    .then(() => res.redirect('/'))
     .catch(err => console.log(err));
-  res.redirect('/');
 };
 
 exports.editButton = (req,res) => {

@@ -41,27 +41,27 @@ class CommonDbOperation {
 }
 
 class homeItem {
-  constructor({postItem,id}) {
-    this.postItem = postItem;
-    this.id = id;
+  constructor({item}) {
+    this.item = item;
   }
-
-  //DBのproductsへ保存
+  //DBのlistへ保存
   saveProducts() {
     const db = getDb();
     return db
       .collection('list')
       .insertOne({
-        _id:new mongodb.ObjectId(this.id),
-        item: this.postItem
+        _id:new mongodb.ObjectId(),
+        item: this.item
       });
   }
   
   static fetchAll(){
-      const operation = new CommonDbOperation('products',{postitem:this.postItem},this._id);
-      return operation.fetchAll()
+    const db = getDb();
+    return db
+      .collection('list')
+      .find()
+      .toArray()
       .then(products => {
-        // console.log(products);
         return products.map(product => new homeItem(product));
       })
       .catch(err => {
@@ -78,8 +78,10 @@ class removeItem {
   }
 
   saveArchive(){
-    const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete.itemDelete},this._id);
-    return operation.writeDB();
+    const db = getDb();
+    return db
+      .collection('archive')
+      .insertOne({_id:this.id,itemDelete:this.itemDelete})
   }
   fetchAll(){
     const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete},this._id)
@@ -96,11 +98,9 @@ class removeItem {
 
   static deleteById(itemDelete) {
     const db = getDb();
-    //itemDeleteはStringになっている。
-    // console.log(itemDelete);
     return db
-      .collection('products')
-      .deleteOne({postItem:itemDelete})
+      .collection('list')
+      .deleteOne({item:itemDelete})
       .then(result => {
         // console.log('Deleted');
       })
