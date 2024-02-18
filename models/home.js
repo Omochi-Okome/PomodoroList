@@ -78,9 +78,10 @@ class removeItem {
 
   saveArchive(){
     const db = getDb();
+    console.log('err'+this._id)
     return db
       .collection('archive')
-      .insertOne({_id:this.id,itemDelete:this.itemDelete})
+      .insertOne({_id:new mongodb.ObjectId(this._id),itemDelete:this.itemDelete})
   }
   fetchAll(){
     const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete},this._id)

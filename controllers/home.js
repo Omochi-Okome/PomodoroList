@@ -17,10 +17,8 @@ exports.getHome = (req,res) => {
     });
 }
 
-//modelsに移植済み
 exports.postItem = (req,res) => {
     const postItem = req.body.ToDoItem;
-    //postItemはある
     console.log(postItem);
     const product = new homeItem({item:postItem});
     product
@@ -31,8 +29,9 @@ exports.postItem = (req,res) => {
 
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
-  console.log(itemDelete)
-  const product = new removeItem({itemDelete});
+  const _id = req.body._id;
+  console.log('err実証'+_id);
+  const product = new removeItem(itemDelete,_id);
   product.saveArchive();
   removeItem.deleteById(itemDelete)
     .then(() => res.redirect('/'))
