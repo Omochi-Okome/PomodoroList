@@ -1,5 +1,6 @@
 const mongodb = require('mongodb');
 const  getDb = require('../util/database').getDb;
+const { ObjectId } = require('mongodb');
 /////////////////////////////////////
 
 class CommonDbOperation {
@@ -40,8 +41,8 @@ class CommonDbOperation {
 
 class homeItem {
   constructor({_id, item}) {
-    this.item = item;
     this._id = _id;
+    this.item = item;
   }
   //DBのlistへ保存
   saveProducts() {
@@ -71,24 +72,27 @@ class homeItem {
 };
 //////////////////////////////////////////////////////////////
 class removeItem {
-  constructor(itemDelete,_id) {
-    this.itemDelete = itemDelete;
+  constructor(_id,itemDelete) {
     this._id =_id;
+    this.itemDelete = itemDelete;
   }
 
   saveArchive(){
     const db = getDb();
-    console.log('err'+this._id)
     return db
       .collection('archive')
       .insertOne({_id:new mongodb.ObjectId(this._id),itemDelete:this.itemDelete})
   }
   fetchAll(){
-    const operation = new CommonDbOperation('archive',{itemDelete:this.itemDelete},this._id)
-    return operation.fetchAll()
+    const db = getDb();
+
+    return db
+      .collection('archive')
+      .find()
+      .toArray()
       .then(collectionName => {
         // console.log('Fetched archive data:', archive);
-        return collectionName.map(item => new removeItem(item.itemDelete, item._id)); // ネストから解放
+        return collectionName.map(item => new removeItem(item._id,item.itemDelete)); // ネストから解放
       })
       .catch(err => {
         console.log('Error fetching archive data:', err);
@@ -112,19 +116,19 @@ class removeItem {
 }
 
 class archive {
-  constructor(archiveDelete,_id) {
-    this.archiveDelete = archiveDelete;
+  constructor(_id,archiveDelete) {
     this._id = _id;
+    this.archiveDelete = archiveDelete;
   }
 
-  static deleteById(archiveDelete) {
+  static deleteById(_id) {
     const db = getDb();
-    // console.log(archiveDelete);
+    console.log('投入するid'+_id)
     return db
       .collection('archive')
-      .deleteOne({itemDelete:archiveDelete})
+      .deleteOne({_id: new ObjectId(_id)})
       .then(result => {
-        // console.log('Deleted');
+        console.log('Deleted');
       })
       .catch(err => {
         console.log(err);
@@ -151,7 +155,6 @@ class editText {
     this._id = _id ? new mongodb.ObjectId(_id) : undefined;
   }
   updateItem() {
-    console.log("this._id:", this._id); // デバッグ用
     const db = getDb();
     console.log(this._id);
     return db

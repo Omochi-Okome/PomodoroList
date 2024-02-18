@@ -14,10 +14,6 @@ router.post('/editbutton',homeController.editButton);
 
 router.post('/edit',homeController.posteditedItem);
 
-router.get('/archive',homeController.viewArchive);
-
-router.post('/deleteArchive',homeController.deleteArchive);
-
 router.post('/returnMain',homeController.returnMain);
 
 module.exports = router;

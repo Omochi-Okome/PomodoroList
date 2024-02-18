@@ -30,8 +30,7 @@ exports.postItem = (req,res) => {
 exports.deleteItem = (req, res) => {
   const itemDelete = req.body.itemToDelete;
   const _id = req.body._id;
-  console.log('err実証'+_id);
-  const product = new removeItem(itemDelete,_id);
+  const product = new removeItem(_id,itemDelete);
   product.saveArchive();
   removeItem.deleteById(itemDelete)
     .then(() => res.redirect('/'))
@@ -48,41 +47,14 @@ exports.posteditedItem = (req, res) => {
   const editedText = req.body.editedText;
   const originalText = req.body.originalText;
   const _id = req.body._id;
-  console.log('エラーの理由'+_id)
   const product = new editText(editedText,originalText,_id);
   product.updateItem();
-  editText.deleteById(originalText);
-
-  console.log(editedText);
-  res.redirect('/');
+  editText.deleteById(originalText)
+    .then(() => res.redirect('/'))
+    .catch(err => console.log(err));
   }
 
   //以下アーカイブ関連
-  exports.viewArchive = (req,res) => {
-    const itemDelete = req.body.itemDelete;
-    const product = new removeItem(itemDelete);
-    product.fetchAll()
-    .then(archive => {
-      res.render("../views/archive.ejs",{
-      data:archive,
-      active:active,
-      editActive:editActive,
-    })  
-  })
-  .catch(err => {
-      console.log(err);
-    });
-}
-
-exports.deleteArchive = (req,res) => {
-    const archiveDelete = req.body.archiveToDelete;
-    archive.deleteById(archiveDelete)
-      .then(result => {
-        // console.log('Destoyed product');
-      })
-      .catch(err => console.log(err));
-    res.redirect('/archive');
-}
 
 exports.returnMain = (req,res) => {
   const returnObject = req.body.returnArchive;
