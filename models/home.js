@@ -15,7 +15,6 @@ class CommonDbOperation {
       return collection
         .updateOne({_id: new mongodb.ObjectId(this._id)},{ $set: { postItem: this.postItem } })
         .then(result => {
-          //console.log(result)
         })
         .catch(err => {
           console.log(err);
@@ -24,7 +23,6 @@ class CommonDbOperation {
       return collection
         .insertOne(this.item)
         .then(result => {
-          //console.log(result)
         })
         .catch(err => {
           console.log(err);
@@ -41,8 +39,9 @@ class CommonDbOperation {
 }
 
 class homeItem {
-  constructor({item}) {
+  constructor({_id, item}) {
     this.item = item;
+    this._id = _id;
   }
   //DBのlistへ保存
   saveProducts() {
@@ -148,12 +147,20 @@ class editText {
   constructor(editedText,originalText,_id) {
     this.editedText = editedText;
     this.originalText = originalText;
-    this._id = _id;
+    this._id = _id ? new mongodb.ObjectId(_id) : undefined;
   }
-  saveProducts() {
-    const operation = new CommonDbOperation('products',{postItem:this.editedText},this._id);
-    return operation.writeDB();
-    }
+  updateItem() {
+    console.log("this._id:", this._id); // デバッグ用
+    const db = getDb();
+    console.log(this._id);
+    return db
+      .collection('list')
+      .findOneAndUpdate(
+        {_id: new mongodb.ObjectId(this._id)},
+        {$set: {item: this.editedText}},
+        { returnDocument: 'after'}
+      )
+  }
   static deleteById(originalText) {
     const db = getDb();
     // console.log(itemDelete);

@@ -45,11 +45,13 @@ exports.editButton = (req,res) => {
   res.redirect('/');
 }
 
-exports.editItem = (req, res) => {
+exports.posteditedItem = (req, res) => {
   const editedText = req.body.editedText;
   const originalText = req.body.originalText;
-  const product = new editText(editedText);
-  product.saveProducts();
+  const _id = req.body._id;
+  console.log('エラーの理由'+_id)
+  const product = new editText(editedText,originalText,_id);
+  product.updateItem();
   editText.deleteById(originalText);
 
   console.log(editedText);

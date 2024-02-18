@@ -41,6 +41,7 @@
                             <% if(active) {%>
                             <form action="/edit" method="POST">
                                 <input type="hidden" name="originalText" value="<%= data[i].item %>">
+                                <input type="hidden" name="_id" value="<%= data[i]._id %>">
                                 <input type="text" name="editedText" value="<%= data[i].item %>" placeholder="<%= data[i].item %>">
                                 <button type="submit" >編集</button>
                             </form>

@@ -12,7 +12,7 @@ router.post('/delete',homeController.deleteItem);
 
 router.post('/editbutton',homeController.editButton);
 
-router.post('/edit',homeController.editItem);
+router.post('/edit',homeController.posteditedItem);
 
 router.get('/archive',homeController.viewArchive);
 
