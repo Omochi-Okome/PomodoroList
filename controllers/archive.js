@@ -1,4 +1,5 @@
-const {removeItem,archive} = require("../models/home");
+const {removeItem} = require("../models/home");
+const {archive, returnHome} = require('../models/archive');
 
 let active = false;
 let editActive = true;
@@ -22,9 +23,17 @@ exports.viewArchive = (req,res) => {
 
 exports.deleteArchive = (req,res) => {
     const _id = req.body._id;
-    const archiveDelete = req.body.archiveToDelete;
-    console.log(_id)
     archive.deleteById(_id)
       .then(() => res.redirect('/archive'))
       .catch(err => console.log(err));
 }
+
+exports.returnMain = (req,res) => {
+    const returnObject = req.body.returnArchive;
+    const _id = req.body._id;
+    const product = new returnHome(_id,returnObject);
+    product.saveProducts();
+    archive.deleteById(_id)
+        .then(() => res.redirect('/archive'))
+        .catch(err => console.log(err));
+  }

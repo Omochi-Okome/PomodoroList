@@ -14,6 +14,4 @@ router.post('/editbutton',homeController.editButton);
 
 router.post('/edit',homeController.posteditedItem);
 
-router.post('/returnMain',homeController.returnMain);
-
 module.exports = router;

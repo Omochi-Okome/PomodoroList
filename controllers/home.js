@@ -56,15 +56,3 @@ exports.posteditedItem = (req, res) => {
 
   //以下アーカイブ関連
 
-exports.returnMain = (req,res) => {
-  const returnObject = req.body.returnArchive;
-  // console.log(returnObject);
-  const product = new returnHome(returnObject);
-  product.saveProducts();
-  archive.deleteById(returnObject)
-      .then(result => {
-        // console.log('Destoyed product');
-      })
-      .catch(err => console.log(err));
-  res.redirect('/archive');
-}

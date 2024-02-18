@@ -24,7 +24,7 @@
                                 <input type="hidden" name="archiveToDelete" value="<%= data[i].itemDelete %>">
                                 <button type="submit" class="additionalButton">完全に削除</button>
                             </form>
-                            <form action="/returnMain" method="POST">
+                            <form action="/archive/returnMain" method="POST">
                                 <input type="hidden" name="_id" value="<%= data[i]._id %>">
                                 <input type="hidden" name="returnArchive" value="<%=data[i].itemDelete%>">
                                 <button type="submit">ToDoリストに戻す</button>
