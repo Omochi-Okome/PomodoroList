@@ -48,7 +48,12 @@ exports.posteditedItem = (req, res) => {
   const originalText = req.body.originalText;
   const _id = req.body._id;
   const product = new editText(editedText,originalText,_id);
-  product.updateItem();
+  product.updateItem()
+  .then(()=> {
+    active = false;
+    editActive = true;
+  })
+  .catch(err => console.log(err))
   editText.deleteById(originalText)
     .then(() => res.redirect('/'))
     .catch(err => console.log(err));
