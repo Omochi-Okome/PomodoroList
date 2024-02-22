@@ -26,6 +26,7 @@
             <% for (var i = 0; i < data.length; i++) {%>
                 <div class="item">
                     <div class="card" style="width: 18rem;">
+                        <% if(completeButton) { %>
                         <div class="card-body">
                           <h5 class="card-title"><%= i %>: <%= data[i].item%></h5>
                             <form action="/delete" method="POST">
@@ -34,7 +35,8 @@
                                 <button type="submit" class="btn btn-primary">完了</button>
                             </form>
                         </div>
-                        <% if(editActive) {%>
+                        <% } %>
+                        <% if(editButton) {%>
                             <form action="/editbutton" method="POST">
                                 <button class="btn btn-warning" type="submit">編集する</button>
                             </form>

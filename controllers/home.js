@@ -1,15 +1,17 @@
 
 const {homeItem,removeItem, archive,returnHome,editText} = require("../models/home");
 let active = false;
-let editActive = true;
+let editButton = true;
+let completeButton = true;
 
 exports.getHome = (req,res) => {
   homeItem.fetchAll()
     .then(products => {
       res.render('../views/home.ejs',{
         data:products,
+        completeButton:completeButton,
         active:active,
-        editActive:editActive,
+        editButton:editButton,
       });
     })
     .catch(err => {
@@ -39,7 +41,8 @@ exports.deleteItem = (req, res) => {
 
 exports.editButton = (req,res) => {
   active =true;
-  editActive = false;
+  editButton = false;
+  completeButton = false;
   res.redirect('/');
 }
 
@@ -51,13 +54,11 @@ exports.posteditedItem = (req, res) => {
   product.updateItem()
   .then(()=> {
     active = false;
-    editActive = true;
+    editButton = true;
+    completeButton = true;
   })
   .catch(err => console.log(err))
   editText.deleteById(originalText)
     .then(() => res.redirect('/'))
     .catch(err => console.log(err));
   }
-
-  //以下アーカイブ関連
-
