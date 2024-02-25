@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const app = express();
+const cors = require('cors');
 const mongoConnect = require('./util/database').mongoConnect;
 
 require("dotenv").config();
