@@ -56,9 +56,7 @@ exports.posteditedItem = (req, res) => {
     active = false;
     editButton = true;
     completeButton = true;
+    res.redirect('/')
   })
   .catch(err => console.log(err))
-  editText.deleteById(originalText)
-    .then(() => res.redirect('/'))
-    .catch(err => console.log(err));
-  }
+}
