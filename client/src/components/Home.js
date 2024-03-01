@@ -1,13 +1,15 @@
 // Home.js
 
-import React from 'react';
+import React from "react";
+import Bar from "./Home_bar";
+import Input from "./Home_explore"
 
 const Home = () => {
   return (
-    <div>
-      <h1>Welcome to the Home Page</h1>
-      <p>This is a simple React home page component.</p>
-    </div>
+    <>
+      <Bar />
+      <Input />
+    </>
   );
 };
 
