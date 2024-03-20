@@ -5,10 +5,6 @@ const {
   returnHome,
   editText,
 } = require("../models/home");
-let active = false;
-let editButton = true;
-let completeButton = true;
-const mongodb = require("mongodb");
 const getDb = require("../util/database").getDb;
 
 exports.getHome = (req, res) => {
@@ -19,7 +15,7 @@ exports.getHome = (req, res) => {
     .toArray()
     .then(products => {
       console.log(products);
-      res.json(products); // レスポンスとして直接productsを返す
+      res.json(products);
     })
     .catch(err => {
       console.log(err);
@@ -27,21 +23,8 @@ exports.getHome = (req, res) => {
     });
 };
 
-
-// .then(products => {
-//   res.render('../views/home.ejs',{
-//     data:products,
-//     completeButton:completeButton,
-//     active:active,
-//     editButton:editButton,
-//   });
-// })
-// .catch(err => {
-//   console.log(err);
-// });
-
 exports.postItem = (req, res) => {
-  const postItem = req.body.ToDoItem;
+  const postItem = req.body.inputData;
   console.log(postItem);
   const product = new homeItem({ item: postItem });
   product

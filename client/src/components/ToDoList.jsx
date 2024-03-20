@@ -5,7 +5,6 @@ const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    console.log("useEffectが実行されました");
     axios.get("http://localhost:3001/")
       .then(response => {
         console.log(response.data);
@@ -15,8 +14,6 @@ const ToDoList = () => {
         console.error("データ取得時のエラー:", error);
       });
   }, []);
-
-  console.log("ToDoListコンポーネントがレンダリングされました");
 
   return (
     <div>
