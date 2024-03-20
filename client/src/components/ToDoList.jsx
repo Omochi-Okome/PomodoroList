@@ -5,15 +5,20 @@ const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);
 
   useEffect(() => {
-    axios.get("http://localhost:3001/")
-      .then(response => {
+    fetchTodoList();
+  }, []);
+
+  const fetchTodoList = () => {
+    axios
+      .get("http://localhost:3001/")
+      .then((response) => {
         console.log(response.data);
-        setTodoList(response.data.map(item => item.item));
+        setTodoList(response.data.map((item) => item.item));
       })
-      .catch(error => {
+      .catch((error) => {
         console.error("データ取得時のエラー:", error);
       });
-  }, []);
+  };
 
   return (
     <div>
