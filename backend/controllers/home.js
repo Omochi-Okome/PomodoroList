@@ -6,6 +6,7 @@ const {
   editText,
 } = require("../models/home");
 const getDb = require("../util/database").getDb;
+var ObjectId = require('mongodb').ObjectId;
 
 exports.getHome = (req, res) => {
   const db = getDb();
@@ -34,7 +35,8 @@ exports.postItem = (req, res) => {
 };
 
 exports.deleteItem = (req, res) => {
-  const itemDelete = req.body.itemToDelete;
+  const itemDelete = new ObjectId(req.body.itemToDelete);
+  console.log(itemDelete)
   const _id = req.body._id;
   const product = new removeItem(_id, itemDelete);
   product.saveArchive();

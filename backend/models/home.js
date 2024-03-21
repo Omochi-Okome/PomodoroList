@@ -66,7 +66,7 @@ class removeItem {
     const db = getDb();
     return db
       .collection('list')
-      .deleteOne({item:itemDelete})
+      .deleteOne({_id:itemDelete})
       .then(() => {})
       .catch(err => {
         console.log(err);
