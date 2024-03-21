@@ -1,11 +1,14 @@
+import { AppBar, Toolbar, Typography } from '@material-ui/core'
+import React from 'react'
 
-
-const TopBar = () => {
-    return(
-        <>
-            <h1>ToDoList</h1>
-        </>
+function TopBar() {
+    return (
+        <AppBar position="static">
+            <Toolbar>
+                <Typography>ヘッダー</Typography>
+            </Toolbar>
+        </AppBar>
     )
 }
 
-export default TopBar;
+export default TopBar

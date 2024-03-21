@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import Button from '@material-ui/core/Button';
+import { TextField } from "@material-ui/core";
 import axios from "axios";
 
 const InputList = ({updateList}) => {
@@ -10,11 +12,9 @@ const InputList = ({updateList}) => {
 
   const handleSubmit = async () => {
     try {
-        console.log("送信するデータ:", inputValue);
         const dataToSend = { inputData: inputValue };
         const response = await axios.post("http://localhost:3001/item", dataToSend);
         setInputValue("")
-        console.log("バックエンドからのレスポンス:", response.data);
         updateList(response.data)
     } catch (error) {
         console.error("データの送信時にエラーが発生しました:", error);
@@ -24,17 +24,18 @@ const InputList = ({updateList}) => {
 
   return (
     <div>
-      <input
+      <TextField
         type="text"
         value={inputValue}
         onChange={handleInputChange}
       />
-      <button
+      <Button
+        variant="contained"
         type="button"
         onClick={handleSubmit}
       >
         追加する
-      </button>
+      </Button>
     </div>
   );
 };

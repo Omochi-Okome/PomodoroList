@@ -1,8 +1,22 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { makeStyles } from "@material-ui/core/styles";
+import Card from "@material-ui/core/Card";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import { Grid } from "@material-ui/core";
+
+const useStyles = makeStyles({
+  card: {
+    width: 300,
+    margin: "20px auto",
+    textAlign: "center",
+  },
+});
 
 const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);
+  const classes = useStyles();
 
   useEffect(() => {
     fetchTodoList();
@@ -25,11 +39,15 @@ const ToDoList = () => {
       {todoList.length === 0 ? (
         <p>リストはありません</p>
       ) : (
-        <ul>
-          {todoList.map((todoItem, index) => (
-            <li key={index}>{todoItem}</li>
-          ))}
-        </ul>
+        <Grid container>
+            {todoList.map((todoItem, index) => (
+            <Card key={index} variant="outlined" className={classes.card}>
+              <CardContent>
+                <Typography variant="body1">{todoItem}</Typography>
+              </CardContent>
+            </Card>
+            ))}
+          </Grid>
       )}
     </div>
   );
