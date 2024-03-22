@@ -1,32 +1,24 @@
-const {
-  homeItem,
-  removeItem,
-  archive,
-  returnHome,
-  editText,
-} = require("../models/home");
+const {homeItem,removeItem,archive,returnHome,editText,} = require("../models/home");
 const getDb = require("../util/database").getDb;
-var ObjectId = require('mongodb').ObjectId;
+var ObjectId = require("mongodb").ObjectId;
 
 exports.getHome = (req, res) => {
   const db = getDb();
   return db
-    .collection('list')
+    .collection("list")
     .find()
     .toArray()
-    .then(products => {
-      console.log(products);
+    .then((products) => {
       res.json(products);
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-      res.status(500).json({ error: 'データ取得時にエラーが発生しました' });
+      res.status(500).json({ error: "データ取得時にエラーが発生しました" });
     });
 };
 
 exports.postItem = (req, res) => {
   const postItem = req.body.inputData;
-  console.log(postItem);
   const product = new homeItem({ item: postItem });
   product
     .saveProducts()
@@ -35,13 +27,12 @@ exports.postItem = (req, res) => {
 };
 
 exports.deleteItem = (req, res) => {
-  const itemDelete = new ObjectId(req.body.itemToDelete);
-  console.log(itemDelete)
-  const _id = req.body._id;
+  const _id = new ObjectId(req.body.itemToDelete);
+  const itemDelete = req.body.ArchiveItem;
   const product = new removeItem(_id, itemDelete);
   product.saveArchive();
   removeItem
-    .deleteById(itemDelete)
+    .deleteById(_id)
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
 };

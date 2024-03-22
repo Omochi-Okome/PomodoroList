@@ -35,7 +35,7 @@ class homeItem {
 //////////////////////////////////////////////////////////////
 class removeItem {
   constructor(_id,itemDelete) {
-    this._id =_id;
+    this._id =_id; //_idはobjectId化済み
     this.itemDelete = itemDelete;
   }
 
@@ -43,18 +43,16 @@ class removeItem {
     const db = getDb();
     return db
       .collection('archive')
-      .insertOne({_id:new mongodb.ObjectId(this._id),itemDelete:this.itemDelete})
+      .insertOne({_id:this._id,itemDelete:this.itemDelete})
   }
   fetchAll(){
     const db = getDb();
-
     return db
       .collection('archive')
       .find()
       .toArray()
       .then(collectionName => {
-        // console.log('Fetched archive data:', archive);
-        return collectionName.map(item => new removeItem(item._id,item.itemDelete)); // ネストから解放
+        return collectionName.map(item => new removeItem(item._id,item.itemDelete));
       })
       .catch(err => {
         console.log('Error fetching archive data:', err);
@@ -62,11 +60,11 @@ class removeItem {
       });
   }
 
-  static deleteById(itemDelete) {
+  static deleteById(_id) {
     const db = getDb();
     return db
       .collection('list')
-      .deleteOne({_id:itemDelete})
+      .deleteOne({_id:_id})
       .then(() => {})
       .catch(err => {
         console.log(err);
