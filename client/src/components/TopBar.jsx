@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, Typography } from '@material-ui/core'
+import { AppBar, Toolbar, Typography,Button } from '@material-ui/core'
 import React from 'react'
 
 function TopBar() {
@@ -6,6 +6,7 @@ function TopBar() {
         <AppBar position="static">
             <Toolbar>
                 <Typography>ヘッダー</Typography>
+                <Button href='/archive'>アーカイブ</Button>
             </Toolbar>
         </AppBar>
     )
