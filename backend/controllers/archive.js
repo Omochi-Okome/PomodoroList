@@ -1,5 +1,6 @@
 const {removeItem} = require("../models/home");
 const {archive, returnHome} = require('../models/archive');
+const getDb = require("../util/database").getDb;
 
 let active = false;
 let editActive = true;
@@ -8,17 +9,17 @@ exports.viewArchive = (req,res) => {
     const _id = req.body._id;
     const itemDelete = req.body.itemDelete;
     const product = new removeItem(_id,itemDelete);
-    product.fetchAll()
-    .then(archive => {
-      res.render("../views/archive.ejs",{
-      data:archive,
-      active:active,
-      editActive:editActive,
-    })  
-  })
-  .catch(err => {
-      console.log(err);
-    });
+    const db = getDb();
+    return db
+      .collection('archive')
+      .find()
+      .toArray()
+      .then(ArchiveList => {
+        res.json(ArchiveList)
+      })
+      .catch(err => {
+        console.log('アーカイブリストの取得失敗', err);
+      });
 }
 
 exports.deleteArchive = (req,res) => {

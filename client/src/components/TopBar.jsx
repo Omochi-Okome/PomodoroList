@@ -5,7 +5,7 @@ function TopBar() {
     return (
         <AppBar position="static">
             <Toolbar>
-                <Typography>ヘッダー</Typography>
+                <Button href='/'>ホーム</Button>
                 <Button href='/archive'>アーカイブ</Button>
             </Toolbar>
         </AppBar>
