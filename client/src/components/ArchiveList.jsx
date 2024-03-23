@@ -50,11 +50,7 @@ const ArchiveList = () => {
                 <Grid container>
                     {console.log({ArchiveList})}
                   {archiveList.map((archiveList) => (
-                    <Card
-                      key={archiveList._id}
-                      variant="outlined"
-                      className={classes.card}
-                    >
+                    <Card key={archiveList._id} variant="outlined" className={classes.card}>
                       <CardContent>
                         <Typography variant="body1">{archiveList.itemDelete}</Typography>
                       </CardContent>
