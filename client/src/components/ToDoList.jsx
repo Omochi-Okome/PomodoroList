@@ -9,18 +9,25 @@ import { Grid } from "@material-ui/core";
 import { Stack } from "@mui/material";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
+import dayjs from 'dayjs';
 
 const useStyles = makeStyles({
   card: {
     width: 300,
+    height:150,
     margin: "20px auto",
     textAlign: "center",
   },
 });
 
 const ToDoList = () => {
+  const initialDate = dayjs();
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [time,setTime] = useState(initialDate);
   const classes = useStyles();
 
   const handleInputChange = (event) => {
@@ -29,11 +36,8 @@ const ToDoList = () => {
 
   const handleSubmit = async () => {
     try {
-      const dataToSend = { inputData: inputValue };
-      const response = await axios.post(
-        "http://localhost:3001/item",
-        dataToSend
-      );
+      const dataToSend = { inputData: inputValue, deadline:time };
+      const response = await axios.post("http://localhost:3001/item",dataToSend);
       setInputValue("");
       updateList(response.data);
     } catch (error) {
@@ -53,6 +57,7 @@ const ToDoList = () => {
           response.data.map((item) => ({
             id: item._id.toString(),
             text: item.item,
+            deadline:item.deadline
           }))
         );
       })
@@ -87,50 +92,37 @@ const ToDoList = () => {
 
   return (
     <div>
-      <div>
-        <Stack spacing={2} direction="row">
-          <TextField
-            type="text"
-            value={inputValue}
-            onChange={handleInputChange}
-          />
-          <Button
-            variant="contained"
-            type="submit"
-            color="blue"
-            onClick={handleSubmit}
-            endIcon={<SendIcon />}
-          >
-            追加する
-          </Button>
-        </Stack>
-      </div>
-      <div>
-        {todoList.length === 0 ? (
-          <p>リストはありません</p>
-        ) : (
-          <Grid container>
-            {todoList.map((todoItem) => (
-              <Card
-                key={todoItem._id}
-                variant="outlined"
-                className={classes.card}
-              >
+      <Grid container>
+        <Grid item xs={2}>
+          <Stack spacing={2}>
+            <LocalizationProvider dateAdapter={AdapterDayjs} >
+            <DateCalendar value={time} onChange={(newTime) => setTime(newTime)} />
+            </LocalizationProvider>
+            <TextField type="text" value={inputValue} onChange={handleInputChange}/>
+            <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >追加する</Button>
+          </Stack>
+        </Grid>
+
+        <Grid item container xs={10} >
+          {todoList.length === 0 ? (
+            <p>リストはありません</p>
+          ) : (
+            todoList.map((todoItem) => (
+              <Card key={todoItem._id} variant="outlined" className={classes.card}>
                 <CardContent>
                   <Typography variant="body1">{todoItem.text}</Typography>
-                  <Button
-                    variant="outlined"
-                    onClick={() => deleteItem(todoItem.id, todoItem.text)}
-                  >
-                    削除する
+                  <Typography>締切：{todoItem.deadline}</Typography>
+                  <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text)}>
+                    完了
                   </Button>
                 </CardContent>
               </Card>
-            ))}
-          </Grid>
-        )}
+            ))
+          )}
+        </Grid>
+
+      </Grid>
       </div>
-    </div>
   );
 };
 

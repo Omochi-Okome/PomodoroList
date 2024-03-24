@@ -1,4 +1,5 @@
 const {homeItem,removeItem,archive,returnHome,editText,} = require("../models/home");
+const dayjs = require('dayjs');
 const getDb = require("../util/database").getDb;
 var ObjectId = require("mongodb").ObjectId;
 
@@ -19,7 +20,8 @@ exports.getHome = (req, res) => {
 
 exports.postItem = (req, res) => {
   const postItem = req.body.inputData;
-  const product = new homeItem({ item: postItem });
+  const deadline = req.body.deadline
+  const product = new homeItem({ item: postItem, deadline:dayjs(deadline).format("YYYY-MM-DD") });
   product
     .saveProducts()
     .then(() => res.redirect("/"))

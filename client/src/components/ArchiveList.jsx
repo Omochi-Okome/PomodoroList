@@ -4,11 +4,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
-import SendIcon from "@mui/icons-material/Send";
 import { Grid } from "@material-ui/core";
-import { Stack } from "@mui/material";
-import { TextField } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
     card: {

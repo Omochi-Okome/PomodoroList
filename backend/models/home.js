@@ -2,9 +2,10 @@ const mongodb = require('mongodb');
 const  getDb = require('../util/database').getDb;
 
 class homeItem {
-  constructor({_id, item}) {
+  constructor({_id, item,deadline}) {
     this._id = _id;
     this.item = item;
+    this.deadline = deadline
   }
   //DBのlistへ保存
   saveProducts() {
@@ -13,7 +14,8 @@ class homeItem {
       .collection('list')
       .insertOne({
         _id:new mongodb.ObjectId(),
-        item: this.item
+        item: this.item,
+        deadline: this.deadline 
       });
   }
   
