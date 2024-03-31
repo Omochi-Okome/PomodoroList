@@ -5,6 +5,8 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
+import Button from "@mui/material/Button";
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const useStyles = makeStyles({
     card: {
@@ -30,6 +32,7 @@ const ArchiveList = () => {
               response.data.map((item) => ({
                 id: item._id.toString(),
                 itemDelete: item.itemDelete,
+                deadline: item.deadline
               }))
             );
           })
@@ -49,6 +52,8 @@ const ArchiveList = () => {
                     <Card key={archiveList._id} variant="outlined" className={classes.card}>
                       <CardContent>
                         <Typography variant="body1">{archiveList.itemDelete}</Typography>
+                        <Typography variant="body1">締切:{archiveList.deadline}</Typography>
+                        <Button variant="outlined" startIcon={<DeleteIcon />}>削除する</Button>
                       </CardContent>
                     </Card>
                   ))}

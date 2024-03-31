@@ -1,4 +1,3 @@
-const {removeItem} = require("../models/home");
 const {archive, returnHome} = require('../models/archive');
 const getDb = require("../util/database").getDb;
 
@@ -6,9 +5,6 @@ let active = false;
 let editActive = true;
 
 exports.viewArchive = (req,res) => {
-    const _id = req.body._id;
-    const itemDelete = req.body.itemDelete;
-    const product = new removeItem(_id,itemDelete);
     const db = getDb();
     return db
       .collection('archive')

@@ -36,16 +36,17 @@ class homeItem {
 };
 //////////////////////////////////////////////////////////////
 class removeItem {
-  constructor(_id,itemDelete) {
+  constructor(_id, itemDelete, deadline) {
     this._id =_id; //_idはobjectId化済み
     this.itemDelete = itemDelete;
+    this.deadline = deadline
   }
 
   saveArchive(){
     const db = getDb();
     return db
       .collection('archive')
-      .insertOne({_id:this._id,itemDelete:this.itemDelete})
+      .insertOne({_id:this._id,itemDelete:this.itemDelete, deadline:this.deadline})
   }
   fetchAll(){
     const db = getDb();
@@ -54,7 +55,7 @@ class removeItem {
       .find()
       .toArray()
       .then(collectionName => {
-        return collectionName.map(item => new removeItem(item._id,item.itemDelete));
+        return collectionName.map(item => new removeItem(item._id,item.itemDelete,item.deadline));
       })
       .catch(err => {
         console.log('Error fetching archive data:', err);

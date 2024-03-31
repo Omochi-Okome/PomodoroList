@@ -31,7 +31,8 @@ exports.postItem = (req, res) => {
 exports.deleteItem = (req, res) => {
   const _id = new ObjectId(req.body.itemToDelete);
   const itemDelete = req.body.ArchiveItem;
-  const product = new removeItem(_id, itemDelete);
+  const deadline = req.body.deadline;
+  const product = new removeItem(_id, itemDelete, deadline);
   product.saveArchive();
   removeItem
     .deleteById(_id)

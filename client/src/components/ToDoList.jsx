@@ -66,11 +66,12 @@ const ToDoList = () => {
       });
   };
 
-  const deleteItem = (itemId, item) => {
+  const deleteItem = (itemId, item, deadline) => {
     axios
       .post("http://localhost:3001/delete", {
         itemToDelete: itemId,
         ArchiveItem: item,
+        deadline:deadline
       })
       .then(() => {
         console.log("削除成功");
@@ -112,7 +113,7 @@ const ToDoList = () => {
                 <CardContent>
                   <Typography variant="body1">{todoItem.text}</Typography>
                   <Typography>締切：{todoItem.deadline}</Typography>
-                  <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text)}>
+                  <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
                     完了
                   </Button>
                 </CardContent>
