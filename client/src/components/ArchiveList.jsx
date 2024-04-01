@@ -7,6 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
+import SelectedListItem from "./HomeFolder";
 
 const useStyles = makeStyles({
     card: {
@@ -46,8 +47,9 @@ const ArchiveList = () => {
             {archiveList.length === 0 ? (
                 <p>アーカイブリストはありません</p>
             ) : (
-                <Grid container>
-                    {console.log({ArchiveList})}
+                <Grid item container xs={12}>
+                  <Grid>
+                  {console.log({ArchiveList})}
                   {archiveList.map((archiveList) => (
                     <Card key={archiveList._id} variant="outlined" className={classes.card}>
                       <CardContent>
@@ -57,6 +59,8 @@ const ArchiveList = () => {
                       </CardContent>
                     </Card>
                   ))}
+                  </Grid>
+
                 </Grid>
               )}
         </div>

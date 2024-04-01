@@ -13,6 +13,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
+import SelectedListItem from "./HomeFolder";
 
 const useStyles = makeStyles({
   card: {
@@ -92,19 +93,18 @@ const ToDoList = () => {
   };
 
   return (
-    <div>
-      <Grid container>
-        <Grid item xs={2}>
-          <Stack spacing={2}>
+      <Grid container direction="row">
+        <Grid item xs={3}>
+          <Stack>
             <LocalizationProvider dateAdapter={AdapterDayjs} >
             <DateCalendar value={time} onChange={(newTime) => setTime(newTime)} />
             </LocalizationProvider>
-            <TextField type="text" value={inputValue} onChange={handleInputChange}/>
+            <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="やることを入力しよう！"/>
             <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >追加する</Button>
           </Stack>
         </Grid>
 
-        <Grid item container xs={10} >
+        <Grid item xs={9} >
           {todoList.length === 0 ? (
             <p>リストはありません</p>
           ) : (
@@ -123,7 +123,6 @@ const ToDoList = () => {
         </Grid>
 
       </Grid>
-      </div>
   );
 };
 
