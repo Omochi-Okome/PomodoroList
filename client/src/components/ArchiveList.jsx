@@ -7,7 +7,6 @@ import Typography from "@material-ui/core/Typography";
 import { Grid } from "@material-ui/core";
 import Button from "@mui/material/Button";
 import DeleteIcon from '@mui/icons-material/Delete';
-import SelectedListItem from "./HomeFolder";
 
 const useStyles = makeStyles({
     card: {
@@ -41,25 +40,40 @@ const ArchiveList = () => {
             console.error("データ取得時のエラー:", error);
           });
       };
+    const deleteCard = (itemId) => {
+      console.log("ItemIdの中身",itemId)
+      axios
+        .post("http://localhost:3001/Archive/delete", {
+          _id: itemId,
+        }).then(() => {
+          console.log("削除成功");
+          fetchArchiveList();
+        })
+        .catch((err) => {
+          console.log("削除時のエラー：",err)
+        })
+    }
 
     return(
         <div>
             {archiveList.length === 0 ? (
                 <p>アーカイブリストはありません</p>
             ) : (
-                <Grid item container xs={12}>
-                  <Grid>
+                <Grid container direction="row">
+                  
                   {console.log({ArchiveList})}
                   {archiveList.map((archiveList) => (
+                  <Grid item>
                     <Card key={archiveList._id} variant="outlined" className={classes.card}>
                       <CardContent>
                         <Typography variant="body1">{archiveList.itemDelete}</Typography>
                         <Typography variant="body1">締切:{archiveList.deadline}</Typography>
-                        <Button variant="outlined" startIcon={<DeleteIcon />}>削除する</Button>
+                        <Button variant="outlined" onClick={()=>deleteCard(archiveList._id)} startIcon={<DeleteIcon />}>削除する</Button>
                       </CardContent>
                     </Card>
-                  ))}
                   </Grid>
+                  ))}
+                 
 
                 </Grid>
               )}

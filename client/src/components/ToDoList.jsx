@@ -6,14 +6,12 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import SendIcon from "@mui/icons-material/Send";
 import { Grid } from "@material-ui/core";
-import { Stack } from "@mui/material";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { DateCalendar } from '@mui/x-date-pickers/DateCalendar';
 import dayjs from 'dayjs';
-import SelectedListItem from "./HomeFolder";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
 
 const useStyles = makeStyles({
   card: {
@@ -93,22 +91,29 @@ const ToDoList = () => {
   };
 
   return (
-      <Grid container direction="row">
-        <Grid item xs={3}>
-          <Stack>
+    <>
+      <Grid container direction="row" justifyContent="center">
+        <Grid item xs={2}>
             <LocalizationProvider dateAdapter={AdapterDayjs} >
-            <DateCalendar value={time} onChange={(newTime) => setTime(newTime)} />
+            <DateTimePicker value={time} onChange={(newTime) => setTime(newTime)} />
             </LocalizationProvider>
-            <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="やることを入力しよう！"/>
-            <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >追加する</Button>
-          </Stack>
         </Grid>
+        <Grid item xs={4}>
+          <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="やることを入力しよう！" fullWidth/>
+        </Grid>
+        <Grid item xs={1}>
+          <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >追加</Button>
+        </Grid>
+      </Grid>
 
-        <Grid item xs={9} >
+        <Grid container spacing={2} direction="row" >
           {todoList.length === 0 ? (
-            <p>リストはありません</p>
+            <Grid item >
+              <p>リストはありません</p>
+            </Grid>
           ) : (
             todoList.map((todoItem) => (
+            <Grid item>
               <Card key={todoItem._id} variant="outlined" className={classes.card}>
                 <CardContent>
                   <Typography variant="body1">{todoItem.text}</Typography>
@@ -118,11 +123,12 @@ const ToDoList = () => {
                   </Button>
                 </CardContent>
               </Card>
+            </Grid>
             ))
           )}
         </Grid>
+    </>
 
-      </Grid>
   );
 };
 
