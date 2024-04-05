@@ -8,6 +8,8 @@ import Divider from '@mui/material/Divider';
 import ArchiveIcon from '@mui/icons-material/Archive';
 import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+import SettingsIcon from '@mui/icons-material/Settings';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 export default function SelectedListItem() {
     const navigate = useNavigate();
@@ -18,10 +20,17 @@ export default function SelectedListItem() {
 
     switch(index){
         case 0:
-            navigate('/');
-            break;
-        default:
-            navigate('/archive')
+          navigate('/');
+          break;
+        case 1:
+          navigate('/archive');
+          break;
+        case 2:
+          navigate('/data');
+          break;
+        case 3:
+          navigate('/setting');
+          break; 
     }
 
   };
@@ -47,22 +56,26 @@ export default function SelectedListItem() {
           </ListItemIcon>
           <ListItemText primary="Archive" />
         </ListItemButton>
-      </List>
-      <Divider />
-      <List component="nav" aria-label="secondary mailbox folder">
         <ListItemButton
           selected={selectedIndex === 2}
           onClick={(event) => handleListItemClick(event, 2)}
         >
-          <ListItemText primary="Trash" />
+          <ListItemIcon>
+            <AssessmentIcon />
+          </ListItemIcon>
+          <ListItemText primary="Data" />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
           onClick={(event) => handleListItemClick(event, 3)}
         >
-          <ListItemText primary="Spam" />
+          <ListItemIcon>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary="Setting" />
         </ListItemButton>
       </List>
+      <Divider />
     </Box>
   );
 }

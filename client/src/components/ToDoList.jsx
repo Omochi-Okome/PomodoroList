@@ -99,17 +99,17 @@ const ToDoList = () => {
             </LocalizationProvider>
         </Grid>
         <Grid item xs={4}>
-          <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="やることを入力しよう！" fullWidth/>
+          <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth/>
         </Grid>
         <Grid item xs={1}>
-          <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >追加</Button>
+          <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >Add</Button>
         </Grid>
       </Grid>
 
         <Grid container spacing={2} direction="row" >
           {todoList.length === 0 ? (
             <Grid item >
-              <p>リストはありません</p>
+              <p>There is no to-do list</p>
             </Grid>
           ) : (
             todoList.map((todoItem) => (
@@ -117,9 +117,9 @@ const ToDoList = () => {
               <Card key={todoItem._id} variant="outlined" className={classes.card}>
                 <CardContent>
                   <Typography variant="body1">{todoItem.text}</Typography>
-                  <Typography>締切：{todoItem.deadline}</Typography>
+                  <Typography>Deadline:{todoItem.deadline}</Typography>
                   <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
-                    完了
+                    Done
                   </Button>
                 </CardContent>
               </Card>

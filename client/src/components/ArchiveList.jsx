@@ -57,7 +57,7 @@ const ArchiveList = () => {
     return(
         <div>
             {archiveList.length === 0 ? (
-                <p>アーカイブリストはありません</p>
+                <p>There is no archive list</p>
             ) : (
                 <Grid container direction="row">
                   {archiveList.map((archiveList) => (
