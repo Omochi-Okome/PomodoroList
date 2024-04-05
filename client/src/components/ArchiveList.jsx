@@ -32,7 +32,8 @@ const ArchiveList = () => {
               response.data.map((item) => ({
                 id: item._id.toString(),
                 itemDelete: item.itemDelete,
-                deadline: item.deadline
+                deadline: item.deadline,
+                
               }))
             );
           })
@@ -41,7 +42,6 @@ const ArchiveList = () => {
           });
       };
     const deleteCard = (itemId) => {
-      console.log("ItemIdの中身",itemId)
       axios
         .post("http://localhost:3001/Archive/delete", {
           _id: itemId,
@@ -60,21 +60,17 @@ const ArchiveList = () => {
                 <p>アーカイブリストはありません</p>
             ) : (
                 <Grid container direction="row">
-                  
-                  {console.log({ArchiveList})}
                   {archiveList.map((archiveList) => (
                   <Grid item>
-                    <Card key={archiveList._id} variant="outlined" className={classes.card}>
+                    <Card key={archiveList.id} variant="outlined" className={classes.card}>
                       <CardContent>
                         <Typography variant="body1">{archiveList.itemDelete}</Typography>
                         <Typography variant="body1">締切:{archiveList.deadline}</Typography>
-                        <Button variant="outlined" onClick={()=>deleteCard(archiveList._id)} startIcon={<DeleteIcon />}>削除する</Button>
+                        <Button variant="outlined" onClick={()=>deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>削除する</Button>
                       </CardContent>
                     </Card>
                   </Grid>
                   ))}
-                 
-
                 </Grid>
               )}
         </div>

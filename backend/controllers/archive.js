@@ -1,9 +1,6 @@
 const {archive, returnHome} = require('../models/archive');
 const getDb = require("../util/database").getDb;
 
-let active = false;
-let editActive = true;
-
 exports.viewArchive = (req,res) => {
     const db = getDb();
     return db
