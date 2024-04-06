@@ -5,13 +5,13 @@ import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import SendIcon from "@mui/icons-material/Send";
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import { Grid } from "@material-ui/core";
 import { TextField } from "@material-ui/core";
 import Button from "@material-ui/core/Button";
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import Modal from "./Modal";
+import { createPortal } from 'react-dom';
 
 const useStyles = makeStyles({
   card: {
@@ -22,11 +22,18 @@ const useStyles = makeStyles({
   },
 });
 
+const ModalPortal = ({ children}) => {
+  const target = document.querySelector('.container.start')
+  return createPortal(children, target)
+}
+
+
 const ToDoList = () => {
   const initialDate = dayjs();
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [time,setTime] = useState(initialDate);
+  const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
   const handleInputChange = (event) => {
@@ -34,6 +41,9 @@ const ToDoList = () => {
   };
 
   const handleSubmit = async () => {
+    if (!inputValue.trim()) {
+      return;
+    }
     try {
       const dataToSend = { inputData: inputValue, deadline:time };
       const response = await axios.post("http://localhost:3001/item",dataToSend);
@@ -43,6 +53,10 @@ const ToDoList = () => {
       console.error("データの送信時にエラーが発生しました:", error);
     }
   };
+
+  const handleStartCountdown = () => {
+    setModalOpen(true);
+  };  
 
   useEffect(() => {
     fetchTodoList();
@@ -89,22 +103,24 @@ const ToDoList = () => {
       }))
     );
   };
+  const handleOnComplete = () => {
+    console.log("Completed");
+    setModalOpen(false)
+  };
 
   return (
-    <>
+    <div className="container start">
+      <form action="">
       <Grid container direction="row" justifyContent="center">
-        <Grid item xs={2}>
-            <LocalizationProvider dateAdapter={AdapterDayjs} >
-            <DateTimePicker value={time} onChange={(newTime) => setTime(newTime)} />
-            </LocalizationProvider>
-        </Grid>
-        <Grid item xs={4}>
-          <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth/>
+        <Grid item xs={3}>
+          <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth required/>
         </Grid>
         <Grid item xs={1}>
           <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >Add</Button>
         </Grid>
       </Grid>
+      </form>
+
 
         <Grid container spacing={2} direction="row" >
           {todoList.length === 0 ? (
@@ -117,7 +133,7 @@ const ToDoList = () => {
               <Card key={todoItem._id} variant="outlined" className={classes.card}>
                 <CardContent>
                   <Typography variant="body1">{todoItem.text}</Typography>
-                  <Typography>Deadline:{todoItem.deadline}</Typography>
+                  <Button variant="outlined" onClick={() => handleStartCountdown()}><PlayCircleOutlineIcon/>Start</Button>
                   <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
                     Done
                   </Button>
@@ -126,8 +142,21 @@ const ToDoList = () => {
             </Grid>
             ))
           )}
+          
         </Grid>
-    </>
+        {modalOpen &&
+          (
+            <ModalPortal>
+              <Modal handleCloseClick={() => setModalOpen(false)}   
+                duration={10}
+                colors={["#ff9248", "#a20000"]}
+                colorValues={[20, 10]}
+                onComplete={handleOnComplete}
+              />
+            </ModalPortal>
+          )
+        }
+    </div>
 
   );
 };

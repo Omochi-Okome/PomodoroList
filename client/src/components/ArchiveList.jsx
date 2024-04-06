@@ -66,7 +66,7 @@ const ArchiveList = () => {
                       <CardContent>
                         <Typography variant="body1">{archiveList.itemDelete}</Typography>
                         <Typography variant="body1">締切:{archiveList.deadline}</Typography>
-                        <Button variant="outlined" onClick={()=>deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>削除する</Button>
+                        <Button variant="outlined" onClick={()=>deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>Delete</Button>
                       </CardContent>
                     </Card>
                   </Grid>
