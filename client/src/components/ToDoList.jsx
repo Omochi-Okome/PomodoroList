@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import dayjs from 'dayjs';
+import Modal from "./Modal";
+import { createPortal } from 'react-dom';
 import { makeStyles } from "@material-ui/core/styles";
+import { Grid } from "@material-ui/core";
+import { TextField } from "@material-ui/core";
+import Button from "@material-ui/core/Button";
 import Card from "@material-ui/core/Card";
 import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import SendIcon from "@mui/icons-material/Send";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import { Grid } from "@material-ui/core";
-import { TextField } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import dayjs from 'dayjs';
-import Modal from "./Modal";
-import { createPortal } from 'react-dom';
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 const useStyles = makeStyles({
   card: {
@@ -26,7 +28,6 @@ const ModalPortal = ({ children}) => {
   const target = document.querySelector('.container.start')
   return createPortal(children, target)
 }
-
 
 const ToDoList = () => {
   const initialDate = dayjs();
@@ -56,7 +57,11 @@ const ToDoList = () => {
 
   const handleStartCountdown = () => {
     setModalOpen(true);
-  };  
+  };
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+    
 
   useEffect(() => {
     fetchTodoList();
@@ -103,59 +108,51 @@ const ToDoList = () => {
       }))
     );
   };
-  const handleOnComplete = () => {
-    console.log("Completed");
+  const  handleOnComplete = () => {
     setModalOpen(false)
   };
 
   return (
     <div className="container start">
       <form action="">
-      <Grid container direction="row" justifyContent="center">
-        <Grid item xs={3}>
-          <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth required/>
+        <Grid container direction="row" justifyContent="center">
+          <Grid item xs={3}>
+            <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth required/>
+          </Grid>
+          <Grid item xs={1}>
+            <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >Add</Button>
+          </Grid>
         </Grid>
-        <Grid item xs={1}>
-          <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >Add</Button>
-        </Grid>
-      </Grid>
       </form>
 
-
-        <Grid container spacing={2} direction="row" >
-          {todoList.length === 0 ? (
-            <Grid item >
-              <p>There is no to-do list</p>
-            </Grid>
-          ) : (
-            todoList.map((todoItem) => (
-            <Grid item>
-              <Card key={todoItem._id} variant="outlined" className={classes.card}>
-                <CardContent>
-                  <Typography variant="body1">{todoItem.text}</Typography>
-                  <Button variant="outlined" onClick={() => handleStartCountdown()}><PlayCircleOutlineIcon/>Start</Button>
-                  <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
-                    Done
-                  </Button>
-                </CardContent>
-              </Card>
-            </Grid>
-            ))
-          )}
-          
-        </Grid>
-        {modalOpen &&
-          (
-            <ModalPortal>
-              <Modal handleCloseClick={() => setModalOpen(false)}   
-                duration={10}
-                colors={["#ff9248", "#a20000"]}
-                colorValues={[20, 10]}
-                onComplete={handleOnComplete}
-              />
-            </ModalPortal>
-          )
-        }
+      <Grid container spacing={2} direction="row" >
+        {todoList.length === 0 ? (
+          <Grid item>
+            <h2>There is no to-do list</h2>
+          </Grid>
+        ) : (
+          todoList.map((todoItem) => (
+          <Grid item>
+            <Card key={todoItem._id} variant="outlined" className={classes.card}>
+              <CardContent>
+                <Typography variant="body1">{todoItem.text}</Typography>
+                <Button variant="outlined" onClick={() => handleStartCountdown()}><PlayCircleOutlineIcon/>Start</Button>
+                <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
+                  Done
+                </Button>
+              </CardContent>
+            </Card>
+          </Grid>
+          ))
+        )}
+      </Grid>
+      {modalOpen &&
+      <>
+        <ModalPortal>
+            <Modal handleCloseClick={() => setModalOpen(false)} duration={100} colors={["#ff9248", "#a20000"]} colorValues={[20, 10]} onComplete={handleOnComplete}/>
+        </ModalPortal>
+      </>
+      }
     </div>
 
   );

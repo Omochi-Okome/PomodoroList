@@ -2,17 +2,13 @@ import {
   Box,
   CircularProgress,
   makeStyles,
-  Typography
+  Typography,
+  Button
 } from "@material-ui/core";
-import { findIndex, forEach } from "lodash";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState,  } from "react";
 
-//NOTE:
-//In Code Sandbox these methods throw error while clearing the interval,
-//but works fine in a actual project
-// import { clearInterval, setInterval } from "worker-timers";
 
-const useStylesCountDown = makeStyles((theme) => ({
+const useStylesCountDown = makeStyles(() => ({
   container: {
     position: "fixed",
     top: 0,
@@ -22,8 +18,8 @@ const useStylesCountDown = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // 半透明の背景
-    zIndex: 9999, // 他の要素よりも上に表示
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    zIndex: 9999,
   },
   root: {
     position: "relative"
@@ -54,6 +50,10 @@ const Modal = (props) => {
   const [countdownText, setCountdownText] = useState();
   const [countdownPercentage, setCountdownPercentage] = useState(100);
   const [countdownColor, setCountdownColor] = useState("#004082");
+
+  const handleCloseModal = () => {
+    props.handleCloseClick()
+  }
 
   useEffect(() => {
     let intervalId = setInterval(() => {
@@ -120,7 +120,10 @@ const Modal = (props) => {
             }}
           />
         </Box>
+        
         <Typography className={classes.text}>{countdownText}</Typography>
+        <Button onClick={() => handleCloseModal()}>discard</Button>
+        <Button>Stop</Button>
       </Box>
     </>
   );

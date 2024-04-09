@@ -33,7 +33,6 @@ const ArchiveList = () => {
                 id: item._id.toString(),
                 itemDelete: item.itemDelete,
                 deadline: item.deadline,
-                
               }))
             );
           })
@@ -45,7 +44,8 @@ const ArchiveList = () => {
       axios
         .post("http://localhost:3001/Archive/delete", {
           _id: itemId,
-        }).then(() => {
+        })
+        .then(() => {
           console.log("削除成功");
           fetchArchiveList();
         })
