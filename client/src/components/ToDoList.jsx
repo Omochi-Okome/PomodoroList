@@ -12,8 +12,8 @@ import CardContent from "@material-ui/core/CardContent";
 import Typography from "@material-ui/core/Typography";
 import SendIcon from "@mui/icons-material/Send";
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+
 
 const useStyles = makeStyles({
   card: {
@@ -33,7 +33,6 @@ const ToDoList = () => {
   const initialDate = dayjs();
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [time,setTime] = useState(initialDate);
   const [modalOpen, setModalOpen] = useState(false);
   const classes = useStyles();
 
@@ -46,7 +45,7 @@ const ToDoList = () => {
       return;
     }
     try {
-      const dataToSend = { inputData: inputValue, deadline:time };
+      const dataToSend = { inputData: inputValue, deadline:initialDate };
       const response = await axios.post("http://localhost:3001/item",dataToSend);
       setInputValue("");
       updateList(response.data);
@@ -57,9 +56,6 @@ const ToDoList = () => {
 
   const handleStartCountdown = () => {
     setModalOpen(true);
-  };
-  const handleCloseModal = () => {
-    setModalOpen(false);
   };
     
 
@@ -92,7 +88,6 @@ const ToDoList = () => {
         deadline:deadline
       })
       .then(() => {
-        console.log("削除成功");
         fetchTodoList();
       })
       .catch((error) => {
@@ -138,6 +133,7 @@ const ToDoList = () => {
                 <Typography variant="body1">{todoItem.text}</Typography>
                 <Button variant="outlined" onClick={() => handleStartCountdown()}><PlayCircleOutlineIcon/>Start</Button>
                 <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
+                  <CheckCircleIcon/>
                   Done
                 </Button>
               </CardContent>

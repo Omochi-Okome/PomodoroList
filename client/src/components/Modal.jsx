@@ -6,7 +6,9 @@ import {
   Button
 } from "@material-ui/core";
 import { useEffect, useState,  } from "react";
-
+import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
+import StopCircleIcon from '@mui/icons-material/StopCircle';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 const useStylesCountDown = makeStyles(() => ({
   container: {
@@ -16,13 +18,17 @@ const useStylesCountDown = makeStyles(() => ({
     bottom: 0,
     left: 0,
     display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
-    zIndex: 9999,
   },
   root: {
-    position: "relative"
+    position: "relative",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
   },
   bottom: {
     color: "#b2b2b2"
@@ -37,12 +43,19 @@ const useStylesCountDown = makeStyles(() => ({
   },
   text: {
     fontWeight: "bold",
-    fontSize: "5em",
-    marginTop: "1em"
+    fontSize: "3em",
+    marginTop: "1em",
+  },
+  buttonsContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
   }
 }));
 
 const Modal = (props) => {
+  const [stopBool, setStopBool] = useState(false);
+
   const classes = useStylesCountDown();
   const { duration, colors = [], colorValues = [], onComplete } = props;
 
@@ -55,28 +68,35 @@ const Modal = (props) => {
     props.handleCloseClick()
   }
 
+  const handleStopModal = () => {
+    setStopBool(true);
+  }
+  const handleReunionModal = () => {
+    setStopBool(false);
+  }
+
   useEffect(() => {
-    let intervalId = setInterval(() => {
-      setTimeDuration((prev) => {
-        const newTimeDuration = prev - 1;
-        const percentage = Math.ceil((newTimeDuration / timeDuration) * 100);
-        setCountdownPercentage(percentage);
-
-        if (newTimeDuration === 0) {
-          clearInterval(intervalId);
-          intervalId = null;
-          onComplete();
-        }
-
-        return newTimeDuration;
-      });
-    }, 1000);
-
+    let intervalId;
+    if (!stopBool) {
+      intervalId = setInterval(() => {
+        setTimeDuration((prev) => {
+          const newTimeDuration = prev - 1;
+          if (newTimeDuration >= 0) {
+            const percentage = Math.ceil((newTimeDuration / duration) * 100);
+            setCountdownPercentage(percentage);
+            if (newTimeDuration === 0) {
+              clearInterval(intervalId);
+              onComplete();
+            }
+          }
+          return newTimeDuration;
+        });
+      }, 1000);
+    }
     return () => {
-      clearInterval(intervalId);
-      intervalId = null;
+      if (intervalId) clearInterval(intervalId);
     };
-  }, []);
+  }, [stopBool, duration, onComplete]);
 
   useEffect(() => {
     const minutes = Math.floor(timeDuration / 60);
@@ -102,17 +122,15 @@ const Modal = (props) => {
             variant="determinate"
             className={classes.bottom}
             size={200}
-            thickness={4}
+            thickness={6}
             value={100}
           />
           <CircularProgress
             className={classes.top}
-            classes={{
-              circle: classes.circle
-            }}
+            classes={{ circle: classes.circle }}
             variant="determinate"
             size={200}
-            thickness={8}
+            thickness={6}
             value={countdownPercentage}
             style={{
               transform: "scaleX(-1) rotate(-90deg)",
@@ -120,10 +138,12 @@ const Modal = (props) => {
             }}
           />
         </Box>
-        
         <Typography className={classes.text}>{countdownText}</Typography>
-        <Button onClick={() => handleCloseModal()}>discard</Button>
-        <Button>Stop</Button>
+        <Box className={classes.buttonsContainer}>
+          <Button variant="outlined" onClick={handleCloseModal}><DeleteForeverIcon />discard</Button>
+          <Button variant="contained" onClick={handleStopModal}><StopCircleIcon/>stop</Button>
+          <Button variant="contained" onClick={handleReunionModal}><PlayCircleFilledWhiteIcon />reunion</Button>
+        </Box>
       </Box>
     </>
   );
