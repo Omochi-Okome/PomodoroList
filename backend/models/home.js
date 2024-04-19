@@ -2,12 +2,13 @@ const mongodb = require('mongodb');
 const  getDb = require('../util/database').getDb;
 
 class homeItem {
-  constructor({_id, item,deadline}) {
+  constructor({_id, item, registerDate, pomodoroCount}) {
     this._id = _id;
     this.item = item;
-    this.deadline = deadline
+    this.registerDate = registerDate;
+    this.pomodoroCount = pomodoroCount;
   }
-  //DBのlistへ保存
+
   saveProducts() {
     const db = getDb();
     return db
@@ -15,7 +16,8 @@ class homeItem {
       .insertOne({
         _id:new mongodb.ObjectId(),
         item: this.item,
-        deadline: this.deadline 
+        registerDate: this.registerDate,
+        pomodoroCount: this.pomodoroCount 
       });
   }
   
@@ -76,6 +78,28 @@ class removeItem {
   
 }
 
+class countUpPomodoro {
+  constructor(_id){
+    this._id = _id
+  }
+
+  countUpPomodoroCount(){
+      const db = getDb();
+      console.log(this._id)
+      return db
+        .collection('list')
+        .updateOne(
+          {_id: this._id},
+          {$inc: {pomodoroCount:1}},
+          {returnDocument:'after'}
+        )
+        .then(result => {
+          console.log(result)
+        })
+        .catch(err => console.log(err))
+  }
+}
+
 class editText {
   constructor(editedText,originalText,_id) {
     this.editedText = editedText;
@@ -95,17 +119,10 @@ class editText {
   }
   static deleteById(originalText) {
     const db = getDb();
-    // console.log(itemDelete);
     return db
       .collection('products')
       .deleteOne({postItem:originalText})
-      .then(result => {
-        // console.log('Deleted');
-      })
-      .catch(err => {
-        console.log(err);
-      });
   }
 }
 
-module.exports = { homeItem, removeItem, editText};
+module.exports = { homeItem, removeItem,countUpPomodoro, editText};

@@ -24,7 +24,7 @@ const useStyles = makeStyles({
   },
 });
 
-const ModalPortal = ({ children}) => {
+const ModalPortal = ({ children }) => {
   const target = document.querySelector('.container.start')
   return createPortal(children, target)
 }
@@ -34,7 +34,9 @@ const ToDoList = () => {
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
+  const [selectedTodoId, setSelectedTodoId] = useState(null);
   const classes = useStyles();
+  const pomodoroCount = 0;
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -45,7 +47,7 @@ const ToDoList = () => {
       return;
     }
     try {
-      const dataToSend = { inputData: inputValue, deadline:initialDate };
+      const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:pomodoroCount};
       const response = await axios.post("http://localhost:3001/item",dataToSend);
       setInputValue("");
       updateList(response.data);
@@ -54,7 +56,8 @@ const ToDoList = () => {
     }
   };
 
-  const handleStartCountdown = () => {
+  const handleStartCountdown = (todoId) => {
+    setSelectedTodoId(todoId);
     setModalOpen(true);
   };
     
@@ -131,7 +134,7 @@ const ToDoList = () => {
             <Card key={todoItem._id} variant="outlined" className={classes.card}>
               <CardContent>
                 <Typography variant="body1">{todoItem.text}</Typography>
-                <Button variant="outlined" onClick={() => handleStartCountdown()}><PlayCircleOutlineIcon/>Start</Button>
+                <Button variant="outlined" onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
                 <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
                   <CheckCircleIcon/>
                   Done
@@ -145,7 +148,14 @@ const ToDoList = () => {
       {modalOpen &&
       <>
         <ModalPortal>
-            <Modal handleCloseClick={() => setModalOpen(false)} duration={100} colors={["#ff9248", "#a20000"]} colorValues={[20, 10]} onComplete={handleOnComplete}/>
+            <Modal
+              handleCloseClick={() => setModalOpen(false)}
+              duration={3}
+              colors={["#ff9248", "#a20000"]}
+              colorValues={[20, 10]}
+              onComplete={handleOnComplete}
+              selectedId={selectedTodoId}
+            />
         </ModalPortal>
       </>
       }
