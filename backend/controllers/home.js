@@ -1,4 +1,4 @@
-const {homeItem,removeItem,archive,returnHome,editText,} = require("../models/home");
+const {homeItem,removeItem,countUpPomodoro,editText} = require("../models/home");
 const dayjs = require('dayjs');
 const getDb = require("../util/database").getDb;
 var ObjectId = require("mongodb").ObjectId;
@@ -20,8 +20,9 @@ exports.getHome = (req, res) => {
 
 exports.postItem = (req, res) => {
   const postItem = req.body.inputData;
-  const deadline = req.body.deadline
-  const product = new homeItem({ item: postItem, deadline:dayjs(deadline).format("YYYY-MM-DD") });
+  const registerDate = req.body.registerDate;
+  const pomodoroCount = req.body.pomodoroCount
+  const product = new homeItem({ item: postItem, registerDate:dayjs(registerDate).format("YYYY-MM-DD"), pomodoroCount: pomodoroCount});
   product
     .saveProducts()
     .then(() => res.redirect("/"))
@@ -39,6 +40,15 @@ exports.deleteItem = (req, res) => {
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
 };
+
+exports.countUpPomodoroCount = (req,res) => {
+  
+  const _id = new ObjectId(req.body.selectedId);
+  console.log("オブジェクト化する前のid",req.body.selectedId)
+  console.log("_idのチェック",_id)
+  const product = new countUpPomodoro(_id)
+  product.countUpPomodoroCount()
+}
 
 exports.editButton = (req, res) => {
   active = true;

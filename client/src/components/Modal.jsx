@@ -1,14 +1,9 @@
-import {
-  Box,
-  CircularProgress,
-  makeStyles,
-  Typography,
-  Button
-} from "@material-ui/core";
-import { useEffect, useState,  } from "react";
+import { Box, CircularProgress, makeStyles, Typography, Button } from "@material-ui/core";
+import { useEffect, useState } from "react";
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import axios from "axios";
 
 const useStylesCountDown = makeStyles(() => ({
   container: {
@@ -30,17 +25,13 @@ const useStylesCountDown = makeStyles(() => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  bottom: {
-    color: "#b2b2b2"
-  },
+  bottom: { color: "#b2b2b2" },
   top: {
     animationDuration: "100ms",
     position: "absolute",
     left: 0
   },
-  circle: {
-    strokeLinecap: "round"
-  },
+  circle: { strokeLinecap: "round" },
   text: {
     fontWeight: "bold",
     fontSize: "3em",
@@ -55,25 +46,13 @@ const useStylesCountDown = makeStyles(() => ({
 
 const Modal = (props) => {
   const [stopBool, setStopBool] = useState(false);
-
   const classes = useStylesCountDown();
-  const { duration, colors = [], colorValues = [], onComplete } = props;
+  const { duration, colors = [], colorValues = [], onComplete, selectedId } = props;
 
   const [timeDuration, setTimeDuration] = useState(duration);
   const [countdownText, setCountdownText] = useState();
   const [countdownPercentage, setCountdownPercentage] = useState(100);
   const [countdownColor, setCountdownColor] = useState("#004082");
-
-  const handleCloseModal = () => {
-    props.handleCloseClick()
-  }
-
-  const handleStopModal = () => {
-    setStopBool(true);
-  }
-  const handleReunionModal = () => {
-    setStopBool(false);
-  }
 
   useEffect(() => {
     let intervalId;
@@ -82,37 +61,40 @@ const Modal = (props) => {
         setTimeDuration((prev) => {
           const newTimeDuration = prev - 1;
           if (newTimeDuration >= 0) {
-            const percentage = Math.ceil((newTimeDuration / duration) * 100);
-            setCountdownPercentage(percentage);
+            setCountdownPercentage(Math.ceil((newTimeDuration / duration) * 100));
             if (newTimeDuration === 0) {
               clearInterval(intervalId);
               onComplete();
+              countUpPomodoroCount();
             }
           }
           return newTimeDuration;
         });
       }, 1000);
     }
-    return () => {
-      if (intervalId) clearInterval(intervalId);
-    };
-  }, [stopBool, duration, onComplete]);
+    return () => clearInterval(intervalId);
+  }, [stopBool, duration, onComplete, selectedId]);
 
   useEffect(() => {
     const minutes = Math.floor(timeDuration / 60);
     const seconds = timeDuration % 60;
-    setCountdownText(`${minutes}:${seconds < 10 ? "0" + seconds : seconds}`);
+    setCountdownText(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
   }, [timeDuration]);
 
   useEffect(() => {
-    for (let i = 0; i < colorValues.length; i++) {
-      const item = colorValues[i];
+    colorValues.forEach((item, i) => {
       if (timeDuration === item) {
         setCountdownColor(colors[i]);
-        break;
+        return;
       }
-    }
-  }, [timeDuration]);
+    });
+  }, [timeDuration, colorValues, colors]);
+
+  const countUpPomodoroCount = () => {
+    axios.post("http://localhost:3001/countUpPomodoroCount", { selectedId })
+      .then(onComplete)
+      .catch(console.error);
+  }
 
   return (
     <>
@@ -132,17 +114,14 @@ const Modal = (props) => {
             size={200}
             thickness={6}
             value={countdownPercentage}
-            style={{
-              transform: "scaleX(-1) rotate(-90deg)",
-              color: countdownColor
-            }}
+            style={{ transform: "scaleX(-1) rotate(-90deg)", color: countdownColor }}
           />
         </Box>
         <Typography className={classes.text}>{countdownText}</Typography>
         <Box className={classes.buttonsContainer}>
-          <Button variant="outlined" onClick={handleCloseModal}><DeleteForeverIcon />discard</Button>
-          <Button variant="contained" onClick={handleStopModal}><StopCircleIcon/>stop</Button>
-          <Button variant="contained" onClick={handleReunionModal}><PlayCircleFilledWhiteIcon />reunion</Button>
+          <Button variant="outlined" onClick={() => props.handleCloseClick()}><DeleteForeverIcon />discard</Button>
+          <Button variant="contained" onClick={() => setStopBool(true)}><StopCircleIcon />stop</Button>
+          <Button variant="contained" onClick={() => setStopBool(false)}><PlayCircleFilledWhiteIcon />reunion</Button>
         </Box>
       </Box>
     </>

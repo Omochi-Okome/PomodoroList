@@ -10,6 +10,8 @@ router.post("/item", homeController.postItem);
 
 router.post("/delete", homeController.deleteItem);
 
+router.post("/countUpPomodoroCount", homeController.countUpPomodoroCount)
+
 router.post("/editbutton", homeController.editButton);
 
 router.post("/edit", homeController.posteditedItem);
