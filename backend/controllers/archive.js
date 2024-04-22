@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { archive } = require('../models/archive');
+const { archive, returnArchiveItem } = require('../models/archive');
 const getDB = require("../util/database").getDB;
 
 exports.viewArchive = (req,res) => {
@@ -22,4 +22,20 @@ exports.deleteArchiveTodoItem = (req,res) => {
     product.deleteById()
       .then(() => res.redirect('/archive'))
       .catch(err => console.log(err));
+}
+
+exports.returnHome = (req,res) => {
+  const returnItem = req.body.returnItem;
+  const _id = new ObjectId(req.body.id)
+  console.log("idのチェック",_id)
+  const productReturnItem = new returnArchiveItem(returnItem);
+  const productArchive = new archive(_id);
+  try{
+    productArchive.deleteById()
+    productReturnItem.returnArchiveItem()
+    
+  } catch(err) {
+    console.log(err);
+  }
+  res.redirect("/")
 }

@@ -8,4 +8,6 @@ router.get("/", archiveRoutes.viewArchive);
 
 router.post("/delete", archiveRoutes.deleteArchiveTodoItem);
 
+router.post("/returnHome",archiveRoutes.returnHome);
+
 module.exports = router;

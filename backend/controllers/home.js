@@ -31,10 +31,10 @@ exports.postItem = (req, res) => {
 
 exports.deleteItem = (req, res) => {
   const _id = req.body.itemId
-  const itemDelete = req.body.ArchiveItem;
+  const ArchiveItem = req.body.ArchiveItem;
   const registerDate = req.body.registerDate;
   console.log(_id,"削除対象のID")
-  const product = new HomeArchiveMover(_id,itemDelete, registerDate);
+  const product = new HomeArchiveMover(_id,ArchiveItem, registerDate);
   product.saveArchive();
   product
     .deleteById()

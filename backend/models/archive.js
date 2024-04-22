@@ -17,4 +17,19 @@ class archive {
   }
 }
 
-module.exports = { archive};
+class returnArchiveItem {
+  constructor(returnItem){
+    this.returnItem = returnItem;
+  }
+  returnArchiveItem() {
+    const db = getDB();
+    return db
+      .collection("list")
+      .insertOne({
+        item:this.returnItem
+      })
+  }
+  
+}
+
+module.exports = { archive, returnArchiveItem};
