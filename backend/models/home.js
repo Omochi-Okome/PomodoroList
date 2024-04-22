@@ -1,76 +1,49 @@
 const mongodb = require('mongodb');
-const  getDb = require('../util/database').getDb;
+const  getDB = require('../util/database').getDB;
+const ObjectId  = require('mongodb').ObjectId
 
-class homeItem {
-  constructor({_id, item, registerDate, pomodoroCount}) {
-    this._id = _id;
+class savingTodoList {
+  constructor({item, registerDate, pomodoroCount}) {
     this.item = item;
     this.registerDate = registerDate;
     this.pomodoroCount = pomodoroCount;
   }
 
-  saveProducts() {
-    const db = getDb();
+  saveTodoItem() {
+    const db = getDB();
     return db
       .collection('list')
       .insertOne({
         _id:new mongodb.ObjectId(),
         item: this.item,
         registerDate: this.registerDate,
-        pomodoroCount: this.pomodoroCount 
-      });
-  }
-  
-  static fetchAll(){
-    const db = getDb();
-    return db
-      .collection('list')
-      .find()
-      .toArray()
-      .then(products => {
-        return products.map(product => new homeItem(product));
-      })
-      .catch(err => {
-        console.log(err);
-        throw err;
+        pomodoroCount: this.pomodoroCount
       });
   }
 };
-//////////////////////////////////////////////////////////////
-class removeItem {
-  constructor(_id, itemDelete, deadline) {
-    this._id =_id; //_idはobjectId化済み
+
+class HomeArchiveMover {
+  constructor(_id,itemDelete, registerDate) {
+    this._id = _id;
     this.itemDelete = itemDelete;
-    this.deadline = deadline
+    this.registerDate = registerDate;
   }
 
   saveArchive(){
-    const db = getDb();
+    const db = getDB();
     return db
       .collection('archive')
-      .insertOne({_id:this._id,itemDelete:this.itemDelete, deadline:this.deadline})
-  }
-  fetchAll(){
-    const db = getDb();
-    return db
-      .collection('archive')
-      .find()
-      .toArray()
-      .then(collectionName => {
-        return collectionName.map(item => new removeItem(item._id,item.itemDelete,item.deadline));
-      })
-      .catch(err => {
-        console.log('Error fetching archive data:', err);
-        throw err;
-      });
+      .insertOne({itemDelete:this.itemDelete, registerDate:this.registerDate})
   }
 
-  static deleteById(_id) {
-    const db = getDb();
+  deleteById() {
+    const db = getDB();
     return db
       .collection('list')
-      .deleteOne({_id:_id})
-      .then(() => {})
+      .deleteOne({_id:new ObjectId(this._id)})
+      .then(() => {
+        console.log("削除完了")
+      })
       .catch(err => {
         console.log(err);
       });
@@ -84,7 +57,7 @@ class countUpPomodoro {
   }
 
   countUpPomodoroCount(){
-      const db = getDb();
+      const db = getDB();
       console.log(this._id)
       return db
         .collection('list')
@@ -100,29 +73,5 @@ class countUpPomodoro {
   }
 }
 
-class editText {
-  constructor(editedText,originalText,_id) {
-    this.editedText = editedText;
-    this.originalText = originalText;
-    this._id = _id ? new mongodb.ObjectId(_id) : undefined;
-  }
-  updateItem() {
-    const db = getDb();
-    console.log(this._id);
-    return db
-      .collection('list')
-      .findOneAndUpdate(
-        {_id: new mongodb.ObjectId(this._id)},
-        {$set: {item: this.editedText}},
-        { returnDocument: 'after'}
-      )
-  }
-  static deleteById(originalText) {
-    const db = getDb();
-    return db
-      .collection('products')
-      .deleteOne({postItem:originalText})
-  }
-}
 
-module.exports = { homeItem, removeItem,countUpPomodoro, editText};
+module.exports = { savingTodoList, HomeArchiveMover,countUpPomodoro};

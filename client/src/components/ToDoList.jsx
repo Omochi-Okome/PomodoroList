@@ -74,7 +74,7 @@ const ToDoList = () => {
           response.data.map((item) => ({
             id: item._id.toString(),
             text: item.item,
-            deadline:item.deadline
+            registerDate:item.registerDate
           }))
         );
       })
@@ -83,12 +83,12 @@ const ToDoList = () => {
       });
   };
 
-  const deleteItem = (itemId, item, deadline) => {
+  const deleteItem = (itemId, item, registerDate) => {
     axios
       .post("http://localhost:3001/delete", {
-        itemToDelete: itemId,
+        itemId: itemId,
         ArchiveItem: item,
-        deadline:deadline
+        registerDate:registerDate
       })
       .then(() => {
         fetchTodoList();
@@ -106,6 +106,7 @@ const ToDoList = () => {
       }))
     );
   };
+  
   const  handleOnComplete = () => {
     setModalOpen(false)
   };
@@ -135,7 +136,8 @@ const ToDoList = () => {
               <CardContent>
                 <Typography variant="body1">{todoItem.text}</Typography>
                 <Button variant="outlined" onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
-                <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.deadline)}>
+                <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.registerDate)}>
+                  {console.log("ID:",todoItem.id,"やること:",todoItem.text, "登録日",todoItem.registerDate)}
                   <CheckCircleIcon/>
                   Done
                 </Button>

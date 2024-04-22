@@ -1,8 +1,9 @@
-const {archive, returnHome} = require('../models/archive');
-const getDb = require("../util/database").getDb;
+const { ObjectId } = require('mongodb');
+const { archive } = require('../models/archive');
+const getDB = require("../util/database").getDB;
 
 exports.viewArchive = (req,res) => {
-    const db = getDb();
+    const db = getDB();
     return db
       .collection('archive')
       .find()
@@ -15,19 +16,10 @@ exports.viewArchive = (req,res) => {
       });
 }
 
-exports.deleteArchive = (req,res) => {
-    const _id = req.body._id;
-    archive.deleteById(_id)
+exports.deleteArchiveTodoItem = (req,res) => {
+    const _id = new ObjectId(req.body._id);
+    const product = new archive(_id)
+    product.deleteById()
       .then(() => res.redirect('/archive'))
       .catch(err => console.log(err));
 }
-
-exports.returnMain = (req,res) => {
-    const returnObject = req.body.returnArchive;
-    const _id = req.body._id;
-    const product = new returnHome(_id,returnObject);
-    product.saveProducts();
-    archive.deleteById(_id)
-        .then(() => res.redirect('/archive'))
-        .catch(err => console.log(err));
-  }

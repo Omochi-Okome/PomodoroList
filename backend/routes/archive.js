@@ -6,8 +6,6 @@ const router = express.Router();
 
 router.get("/", archiveRoutes.viewArchive);
 
-router.post("/delete", archiveRoutes.deleteArchive);
-
-router.post("/returnMain", archiveRoutes.returnMain);
+router.post("/delete", archiveRoutes.deleteArchiveTodoItem);
 
 module.exports = router;

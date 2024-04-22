@@ -1,10 +1,10 @@
-const {homeItem,removeItem,countUpPomodoro,editText} = require("../models/home");
+const {savingTodoList,HomeArchiveMover,countUpPomodoro} = require("../models/home");
 const dayjs = require('dayjs');
-const getDb = require("../util/database").getDb;
+const getDB = require("../util/database").getDB;
 var ObjectId = require("mongodb").ObjectId;
 
 exports.getHome = (req, res) => {
-  const db = getDb();
+  const db = getDB();
   return db
     .collection("list")
     .find()
@@ -14,7 +14,7 @@ exports.getHome = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ error: "データ取得時にエラーが発生しました" });
+      res.status(500).json({ err: "データ取得時にエラーが発生しました" });
     });
 };
 
@@ -22,53 +22,30 @@ exports.postItem = (req, res) => {
   const postItem = req.body.inputData;
   const registerDate = req.body.registerDate;
   const pomodoroCount = req.body.pomodoroCount
-  const product = new homeItem({ item: postItem, registerDate:dayjs(registerDate).format("YYYY-MM-DD"), pomodoroCount: pomodoroCount});
+  const product = new savingTodoList({ item: postItem, registerDate:dayjs(registerDate).format("YYYY-MM-DD"), pomodoroCount: pomodoroCount});
   product
-    .saveProducts()
+    .saveTodoItem()
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
 };
 
 exports.deleteItem = (req, res) => {
-  const _id = new ObjectId(req.body.itemToDelete);
+  const _id = req.body.itemId
   const itemDelete = req.body.ArchiveItem;
-  const deadline = req.body.deadline;
-  const product = new removeItem(_id, itemDelete, deadline);
+  const registerDate = req.body.registerDate;
+  console.log(_id,"削除対象のID")
+  const product = new HomeArchiveMover(_id,itemDelete, registerDate);
   product.saveArchive();
-  removeItem
-    .deleteById(_id)
+  product
+    .deleteById()
     .then(() => res.redirect("/"))
     .catch((err) => console.log(err));
 };
 
 exports.countUpPomodoroCount = (req,res) => {
-  
   const _id = new ObjectId(req.body.selectedId);
-  console.log("オブジェクト化する前のid",req.body.selectedId)
-  console.log("_idのチェック",_id)
   const product = new countUpPomodoro(_id)
   product.countUpPomodoroCount()
+    .then(() => console.log("成功"))
+    .catch((err) => console.log(err))
 }
-
-exports.editButton = (req, res) => {
-  active = true;
-  editButton = false;
-  completeButton = false;
-  res.redirect("/");
-};
-
-exports.posteditedItem = (req, res) => {
-  const editedText = req.body.editedText;
-  const originalText = req.body.originalText;
-  const _id = req.body._id;
-  const product = new editText(editedText, originalText, _id);
-  product
-    .updateItem()
-    .then(() => {
-      active = false;
-      editButton = true;
-      completeButton = true;
-      res.redirect("/");
-    })
-    .catch((err) => console.log(err));
-};
