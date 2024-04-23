@@ -52,7 +52,7 @@ const ToDoList = () => {
       setInputValue("");
       updateList(response.data);
     } catch (error) {
-      console.error("データの送信時にエラーが発生しました:", error);
+      console.error("handleSubmitでエラー発生", error);
     }
   };
 
@@ -80,12 +80,11 @@ const ToDoList = () => {
         );
       })
       .catch((error) => {
-        console.error("データ取得時のエラー:", error);
+        console.error("fetchTodoListでエラー発生", error);
       });
   };
 
   const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
-    console.log("pomodoroCountのチェック",pomodoroCount)
     axios
       .post("http://localhost:3001/delete", {
         itemId: itemId,
@@ -97,7 +96,7 @@ const ToDoList = () => {
         fetchTodoList();
       })
       .catch((error) => {
-        console.error("削除時のエラー:", error);
+        console.error("deleteItemでエラー発生", error);
       });
   };
 
@@ -117,7 +116,7 @@ const ToDoList = () => {
   return (
     <div className="container start">
       <form action="">
-        <Grid container direction="row" justifyContent="center">
+        <Grid container direction="" justifyContent="center">
           <Grid item xs={3}>
             <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth required/>
           </Grid>
@@ -127,7 +126,7 @@ const ToDoList = () => {
         </Grid>
       </form>
 
-      <Grid container spacing={2} direction="row" >
+      <Grid container spacing={2} direction="" >
         {todoList.length === 0 ? (
           <Grid item>
             <h2>There is no to-do list</h2>
@@ -140,7 +139,6 @@ const ToDoList = () => {
                 <Typography variant="body1">{todoItem.item}</Typography>
                 <Button variant="outlined" onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
                 <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
-                  {console.log("ID:",todoItem.id,"やること:",todoItem.item, "登録日",todoItem.registerDate)}
                   <CheckCircleIcon/>
                   Done
                 </Button>

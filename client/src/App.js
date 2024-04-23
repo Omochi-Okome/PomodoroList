@@ -14,7 +14,7 @@ function App() {
     <Router>
       <TopBar />
       <Grid container>
-        <Grid item xs={10}>
+        <Grid xs={10}>
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/archive" element={<Archive />} />
@@ -24,7 +24,7 @@ function App() {
             <Route path="/login" element={<Login />} />
           </Routes>
         </Grid>
-        <Grid item xs={2}>
+        <Grid xs={2}>
           <SelectedListItem />
         </Grid>
       </Grid>

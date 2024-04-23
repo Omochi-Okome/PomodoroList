@@ -93,7 +93,7 @@ const Modal = (props) => {
   const countUpPomodoroCount = () => {
     axios.post("http://localhost:3001/countUpPomodoroCount", { selectedId })
       .then(onComplete)
-      .catch(console.error);
+      .catch((err) => console.log("countUpPomodoroCountでエラー発生"));
   }
 
   return (

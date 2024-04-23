@@ -38,8 +38,8 @@ const ArchiveList = () => {
           }))
         );
       })
-      .catch((error) => {
-        console.error("データ取得時のエラー:", error);
+      .catch((err) => {
+        console.error("fetchArchiveListでエラー発生:", err);
       });
   };
 
@@ -54,7 +54,7 @@ const ArchiveList = () => {
       .then(() => {
         fetchArchiveList();
       })
-      .catch((err) => console.log(err))
+      .catch((err) => console.log("returnHomeでエラー発生",err))
   }
 
   const deleteCard = (itemId) => {
@@ -63,11 +63,10 @@ const ArchiveList = () => {
         _id: itemId,
       })
       .then(() => {
-        console.log("削除成功");
         fetchArchiveList();
       })
       .catch((err) => {
-        console.log("削除時のエラー：",err)
+        console.log("deleteCardでエラー発生",err)
       })
   }
 
@@ -76,7 +75,7 @@ const ArchiveList = () => {
       {archiveList.length === 0 ? (
           <h2>There is no archive list</h2>
       ) : (
-        <Grid container direction="row">
+        <Grid container direction="">
             {archiveList.map((archiveList) => (
           <Grid item>
             <Card key={archiveList.id} variant="outlined" className={classes.card}>
