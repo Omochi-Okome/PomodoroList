@@ -23,17 +23,18 @@ class savingTodoList {
 };
 
 class HomeArchiveMover {
-  constructor(_id,ArchiveItem, registerDate) {
+  constructor(_id, ArchiveItem, registerDate, pomodoroCount) {
     this._id = _id;
     this.ArchiveItem = ArchiveItem;
     this.registerDate = registerDate;
+    this.pomodoroCount = pomodoroCount;
   }
 
   saveArchive(){
     const db = getDB();
     return db
       .collection('archive')
-      .insertOne({ArchiveItem:this.ArchiveItem, registerDate:this.registerDate})
+      .insertOne({ArchiveItem:this.ArchiveItem, registerDate:this.registerDate, pomodoroCount:this.pomodoroCount})
   }
 
   deleteById() {

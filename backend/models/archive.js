@@ -18,15 +18,19 @@ class archive {
 }
 
 class returnArchiveItem {
-  constructor(returnItem){
+  constructor(returnItem, registerDate, pomodoroCount){
     this.returnItem = returnItem;
+    this.registerDate = registerDate;
+    this.pomodoroCount = pomodoroCount
   }
   returnArchiveItem() {
     const db = getDB();
     return db
       .collection("list")
       .insertOne({
-        item:this.returnItem
+        item: this.returnItem,
+        registerDate: this.registerDate,
+        pomodoroCount: this.pomodoroCount
       })
   }
   

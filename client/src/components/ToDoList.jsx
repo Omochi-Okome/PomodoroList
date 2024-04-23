@@ -36,7 +36,7 @@ const ToDoList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodoId, setSelectedTodoId] = useState(null);
   const classes = useStyles();
-  const pomodoroCount = 0;
+  const firstPomodoroCount = 0;
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -47,7 +47,7 @@ const ToDoList = () => {
       return;
     }
     try {
-      const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:pomodoroCount};
+      const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
       const response = await axios.post("http://localhost:3001/item",dataToSend);
       setInputValue("");
       updateList(response.data);
@@ -73,8 +73,9 @@ const ToDoList = () => {
         setTodoList(
           response.data.map((item) => ({
             id: item._id.toString(),
-            text: item.item,
-            registerDate:item.registerDate
+            item: item.item,
+            registerDate: item.registerDate,
+            pomodoroCount: item.pomodoroCount
           }))
         );
       })
@@ -83,12 +84,14 @@ const ToDoList = () => {
       });
   };
 
-  const deleteItem = (itemId, item, registerDate) => {
+  const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
+    console.log("pomodoroCountのチェック",pomodoroCount)
     axios
       .post("http://localhost:3001/delete", {
         itemId: itemId,
         ArchiveItem: item,
-        registerDate:registerDate
+        registerDate:registerDate,
+        pomodoroCount:pomodoroCount
       })
       .then(() => {
         fetchTodoList();
@@ -102,7 +105,7 @@ const ToDoList = () => {
     setTodoList(
       newList.map((item) => ({
         id: item._id.toString(),
-        text: item.item,
+        item: item.item,
       }))
     );
   };
@@ -134,10 +137,10 @@ const ToDoList = () => {
           <Grid item>
             <Card key={todoItem._id} variant="outlined" className={classes.card}>
               <CardContent>
-                <Typography variant="body1">{todoItem.text}</Typography>
+                <Typography variant="body1">{todoItem.item}</Typography>
                 <Button variant="outlined" onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
-                <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.text, todoItem.registerDate)}>
-                  {console.log("ID:",todoItem.id,"やること:",todoItem.text, "登録日",todoItem.registerDate)}
+                <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
+                  {console.log("ID:",todoItem.id,"やること:",todoItem.item, "登録日",todoItem.registerDate)}
                   <CheckCircleIcon/>
                   Done
                 </Button>

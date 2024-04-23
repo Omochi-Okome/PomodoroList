@@ -33,6 +33,8 @@ const ArchiveList = () => {
           response.data.map((item) => ({
             id: item._id.toString(),
             ArchiveItem: item.ArchiveItem,
+            registerDate: item.registerDate,
+            pomodoroCount: item.pomodoroCount
           }))
         );
       })
@@ -41,11 +43,13 @@ const ArchiveList = () => {
       });
   };
 
-  const returnHome = (archiveItem,id) => {
+  const returnHome = (id, archiveItem, registerDate, pomodoroCount) => {
     axios
       .post("http://localhost:3001/Archive/returnHome",{
-        returnItem:archiveItem,
-        id:id
+        id: id,
+        returnItem: archiveItem,
+        registerDate: registerDate,
+        pomodoroCount: pomodoroCount
       })
       .then(() => {
         fetchArchiveList();
@@ -78,7 +82,7 @@ const ArchiveList = () => {
             <Card key={archiveList.id} variant="outlined" className={classes.card}>
               <CardContent>
                 <Typography variant="body1">{archiveList.ArchiveItem}</Typography>
-                <Button variant="outlined" color="primary" onClick={() => returnHome(archiveList.ArchiveItem,archiveList.id)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
+                <Button variant="outlined" color="primary" onClick={() => returnHome(archiveList.id, archiveList.ArchiveItem, archiveList.registerDate, archiveList.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
                 <Button variant="contained" color="error" onClick={()=> deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>Delete</Button>
               </CardContent>
             </Card>

@@ -33,8 +33,9 @@ exports.deleteItem = (req, res) => {
   const _id = req.body.itemId
   const ArchiveItem = req.body.ArchiveItem;
   const registerDate = req.body.registerDate;
+  const pomodoroCount = req.body.pomodoroCount
   console.log(_id,"削除対象のID")
-  const product = new HomeArchiveMover(_id,ArchiveItem, registerDate);
+  const product = new HomeArchiveMover(_id, ArchiveItem, registerDate, pomodoroCount);
   product.saveArchive();
   product
     .deleteById()
