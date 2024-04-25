@@ -4,7 +4,7 @@ import Archive from "./pages/Archive"
 import Data from "./pages/Data";
 import Setting from "./pages/Setting";
 import Mypage from "./pages/Mypage";
-import Login from "./pages/Login";
+import Login from "./pages/LoginPage";
 import SelectedListItem from "./components/HomeFolder";
 import TopBar from "./components/TopBar"
 import { Grid } from "@material-ui/core";

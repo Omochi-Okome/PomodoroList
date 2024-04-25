@@ -1,8 +1,8 @@
 const express = require("express");
 
-const archiveRoutes = require("../controllers/archive");
-
 const router = express.Router();
+
+const archiveRoutes = require("../controllers/archive");
 
 router.get("/", archiveRoutes.viewArchive);
 
