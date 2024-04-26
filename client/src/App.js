@@ -5,6 +5,7 @@ import Data from "./pages/Data";
 import Setting from "./pages/Setting";
 import Mypage from "./pages/Mypage";
 import Login from "./pages/LoginPage";
+import SignupPage from "./pages/SignupPage";
 import SelectedListItem from "./components/HomeFolder";
 import TopBar from "./components/TopBar"
 import { Grid } from "@material-ui/core";
@@ -22,6 +23,7 @@ function App() {
             <Route path="/setting" element={<Setting/>} />
             <Route path="/mypage" element={<Mypage />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignupPage />}></Route>
           </Routes>
         </Grid>
         <Grid xs={2}>

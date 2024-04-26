@@ -7,11 +7,16 @@ exports.checkInformation = (req,res) => {
     console.log(email,password)
     product
         .checkDB()
-        .then((result) => {
-            if (result) {
-                console.log(result)
-            } else {
-                console.log("存在しない")
-            }
+        .then(user => {
+            const token = jwt.sign(
+                { userId: user._id, email: user.email },
+                'YOUR_SECRET_KEY',
+                { expiresIn: '1h' }
+            );
+            res.status(200).json({ token: token, userId: user._id });
+            res.redirect("/");
         })
+        .catch(err => {
+            res.status(401).json({ error: err.message });
+        });
 }
