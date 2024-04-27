@@ -13,10 +13,12 @@ app.use(cors());
 const homeRoutes = require("./routes/home");
 const archiveRoutes = require("./routes/archive");
 const loginRoutes = require("./routes/login");
+const signupRoutes = require("./routes/signup");
 
 app.use("/", homeRoutes);
 app.use("/archive", archiveRoutes);
 app.use("/login",loginRoutes);
+app.use("/signup",signupRoutes);
 
 mongoConnect(() => {
   app.listen(3001);

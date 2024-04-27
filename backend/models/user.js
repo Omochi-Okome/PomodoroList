@@ -37,4 +37,36 @@ class loginUser {
     }
 }
 
-module.exports ={loginUser};
+class SignupUser {
+    constructor(email,password) {
+        this.email = email
+        this.password = password
+    }
+
+    Signup() {
+        const DB = getDB();
+        return DB
+            .collection("users")
+            .findOne({email: this.email})
+            .then((result) => {
+                if (result) {
+                    console.log("すでに登録されています")
+                    throw new Error("このメールアドレスはすでに登録されています。")
+                }
+                return bcrypt.hash(this.password, 10)
+                .then(hashedPassword => {
+                    DB
+                    .collection("users")
+                    .insertOne({email: this.email, password: hashedPassword})
+                })
+                .then(signUpresult => {
+                    console.log("ユーザー登録が完了しました")
+                    return signUpresult
+                })
+                .catch(err => console.log("Signupでエラー発生:",err))
+            })
+                
+    }
+}
+
+module.exports ={loginUser, SignupUser};

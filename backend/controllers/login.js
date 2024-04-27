@@ -1,4 +1,5 @@
 const {loginUser} = require("../models/user");
+const bcrpt = require("bcryptjs");
 
 exports.checkInformation = (req,res) => {
     const email = req.body.email;
