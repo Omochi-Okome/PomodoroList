@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
+import {useNavigate}from 'react-router-dom';
 import axios from 'axios';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -16,6 +17,7 @@ const InputUser = () => {
     const [inputEmail, setInputEmail] = useState('');
     const [inputPassword, setInputPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const navigate = useNavigate();
 
     const handleClickShowPassword = () => setShowPassword((show) => !show);
   
@@ -27,11 +29,9 @@ const InputUser = () => {
       setInputPassword(event.target.value)
     }
           
-    const handleMouseDownPassword = (event) => {
-      event.preventDefault();
-    };
   
-    const submitUserInformation = () => {
+    const submitUserInformation = (event) => {
+      event.preventDefault();
       axios
         .post("http://localhost:3001/login/check",{
           email: inputEmail,
@@ -39,11 +39,13 @@ const InputUser = () => {
         })
         .then(() => {
           console.log("送信に成功しました")
+          navigate("/")
         })
         .catch((err) => console.log("submitUserInformationのエラー:",err))
     }
     return(
         <Box
+            onSubmit={submitUserInformation}
             component="form"
             sx={{
                 display: "flex",
@@ -68,7 +70,6 @@ const InputUser = () => {
                         <IconButton
                         aria-label="toggle password visibility"
                         onClick={handleClickShowPassword}
-                        onMouseDown={handleMouseDownPassword}
                         >
                         {showPassword ? <VisibilityOff /> : <Visibility />}
                         </IconButton>
@@ -76,7 +77,7 @@ const InputUser = () => {
                     }
                     onChange={handleChangePassword}
                 />
-                <Button onClick={() => submitUserInformation(inputEmail,inputPassword)} type="submit" color="primary" variant="contained" fullWidth>
+                <Button onSubmit={() => submitUserInformation(inputEmail,inputPassword)} type="submit" color="primary" variant="contained" fullWidth>
                 サインイン
                 </Button>
             </FormControl>

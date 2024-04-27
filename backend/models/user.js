@@ -19,8 +19,6 @@ class loginUser {
                     throw new Error("ユーザーが見つかりません。");
                 }
                 console.log("ユーザーが見つかりました",user.password);
-                console.log("user.password:", password);
-                console.log("this.password:",this.password)
                 return bcrypt.compare(this.password, user.password)
                     .then(match => {
                         console.log("match",match)
