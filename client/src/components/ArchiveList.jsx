@@ -27,7 +27,9 @@ const ArchiveList = () => {
     
   const fetchArchiveList = () => {
     axios
-      .get("http://localhost:3001/Archive")
+      .get("http://localhost:3001/Archive",{
+        credentials: 'include'
+      })
       .then((response) => {
         setArchiveList(
           response.data.map((item) => ({
@@ -49,7 +51,8 @@ const ArchiveList = () => {
         id: id,
         returnItem: archiveItem,
         registerDate: registerDate,
-        pomodoroCount: pomodoroCount
+        pomodoroCount: pomodoroCount,
+        credentials: 'include'
       })
       .then(() => {
         fetchArchiveList();
@@ -61,6 +64,7 @@ const ArchiveList = () => {
     axios
       .post("http://localhost:3001/Archive/delete", {
         _id: itemId,
+        credentials: 'include'
       })
       .then(() => {
         fetchArchiveList();

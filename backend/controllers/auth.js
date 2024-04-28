@@ -1,11 +1,11 @@
-const {loginUser} = require("../models/user");
+const {loginUser,SignupUser} = require("../models/user");
 const jwt = require("jsonwebtoken")
 
 exports.checkInformation = (req,res) => {
     const email = req.body.email;
     const password = req.body.password;
     const product = new loginUser(email,password)
-    console.log(req.session)
+    
     product
         .checkDB()
         .then(user => {
@@ -33,4 +33,23 @@ exports.checkInformation = (req,res) => {
 
 exports.getLoginForm = (req,res) => {
     res.status(200).send('Login form page.');
+}
+
+exports.postSignup = (req,res) => {
+    const email = req.body.email;
+    const password = req.body.password;
+    const product = new SignupUser(email,password);
+    product.Signup()
+        .then(() => {
+            res.setHeader("Set-Cookie","loggedIn=true")
+            res.redirect("/")
+        })
+        .catch((err) => console.log(err));
+}
+
+exports.postLogout = (req,res) => {
+    req.session.destroy((err) => {
+        console.log(err);
+        res.redirect("/");
+    });
 }

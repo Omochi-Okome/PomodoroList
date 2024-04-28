@@ -1,12 +1,18 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const session = require('express-session');
+const MongoDBStore = require("connect-mongodb-session")(session);
 const cors = require("cors");
 const mongoConnect = require("./util/database").mongoConnect;
 require("dotenv").config();
 
 const app = express();
 
+
+const store = new MongoDBStore({
+  uri:process.env.MONGO_URI,
+  collection: "session"
+})
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -18,23 +24,22 @@ app.use(session({
   secret:"my secret", 
   resave: false, 
   saveUninitialized: false,
-  cookie:{
-    secure: false,
-    httpOnly: true,
-    maxAge:1000 * 60 * 60 * 24
+  store: store,
+  cookie: {
+    httpOnly: false,
+    
+    secure: process.env.NODE_ENV === "production",  // 本番環境でのみsecureをtrueに
+    maxAge: 24 * 60 * 60 * 1000  // 24時間
   }
 }))
 
-
 const homeRoutes = require("./routes/home");
 const archiveRoutes = require("./routes/archive");
-const loginRoutes = require("./routes/login");
-const signupRoutes = require("./routes/signup");
+const authRoutes = require("./routes/auth");
 
 app.use("/", homeRoutes);
 app.use("/archive", archiveRoutes);
-app.use("/login",loginRoutes);
-app.use("/signup",signupRoutes);
+app.use("/auth",authRoutes);
 
 mongoConnect(() => {
   app.listen(3001);

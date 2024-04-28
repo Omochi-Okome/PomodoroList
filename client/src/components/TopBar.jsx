@@ -3,6 +3,7 @@ import * as React from 'react';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
 import ListItemText from '@mui/material/ListItemText';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useNavigate } from 'react-router-dom';
@@ -20,6 +21,9 @@ function TopBar() {
                 navigate("/login");
                 break;
             case 1:
+                navigate("/logout");
+                break;
+            case 2:
                 navigate("/mypage");
                 break;
         }
@@ -29,13 +33,19 @@ function TopBar() {
         <AppBar position="static">
             <Toolbar>
                 <List style={{marginLeft: 'auto',display:'flex', flexDirection: 'row'}}>
-                    <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
+                <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
                         <ListItemIcon>
                             <LoginIcon />
                         </ListItemIcon>
                         <ListItemText primary="Login" />
                     </ListItemButton>
                     <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 1)}>
+                        <ListItemIcon>
+                            <MeetingRoomIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Logout" />
+                    </ListItemButton>
+                    <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 2)}>
                         <ListItemIcon>
                             <AccountCircleIcon fontSize="large"/>
                         </ListItemIcon>

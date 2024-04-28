@@ -33,9 +33,10 @@ const InputUser = () => {
     const submitUserInformation = (event) => {
       event.preventDefault();
       axios
-        .post("http://localhost:3001/login/check",{
+        .post("http://localhost:3001/auth/login",{
           email: inputEmail,
-          password: inputPassword
+          password: inputPassword,
+          credentials: 'include'
         })
         .then(() => {
           console.log("送信に成功しました")

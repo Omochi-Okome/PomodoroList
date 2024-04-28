@@ -4,7 +4,8 @@ const getDB = require("../util/database").getDB;
 var ObjectId = require("mongodb").ObjectId;
 
 exports.getHome = (req, res) => {
-  console.log(req.session)
+  console.log(req.isLoggedIn)
+  console.log(1)
   const db = getDB();
   return db
     .collection("list")
@@ -35,7 +36,6 @@ exports.deleteItem = (req, res) => {
   const ArchiveItem = req.body.ArchiveItem;
   const registerDate = req.body.registerDate;
   const pomodoroCount = req.body.pomodoroCount
-  console.log(_id,"削除対象のID")
   const product = new HomeArchiveMover(_id, ArchiveItem, registerDate, pomodoroCount);
   product.saveArchive();
   product

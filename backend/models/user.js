@@ -15,15 +15,11 @@ class loginUser {
             .findOne({email: this.email})
             .then(user => {
                 if (!user) {
-                    console.log("ユーザーが見つかりません");
                     throw new Error("ユーザーが見つかりません。");
                 }
-                console.log("ユーザーが見つかりました",user.password);
                 return bcrypt.compare(this.password, user.password)
                     .then(match => {
-                        console.log("match",match)
-                        if (match) {
-                            
+                        if (match) {                            
                             console.log("パスワードが一致しました。");
                             return user;
                         } else {

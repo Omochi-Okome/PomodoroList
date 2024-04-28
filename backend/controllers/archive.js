@@ -29,7 +29,6 @@ exports.returnHome = (req,res) => {
   const returnItem = req.body.returnItem;
   const registerDate = req.body.registerDate;
   const pomodoroCount = req.body.pomodoroCount;
-  console.log("idのチェック",_id)
   const productReturnItem = new returnArchiveItem(returnItem, registerDate, pomodoroCount);
   const productArchive = new archive(_id);
   try{

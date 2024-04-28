@@ -59,7 +59,6 @@ class countUpPomodoro {
 
   countUpPomodoroCount(){
       const db = getDB();
-      console.log(this._id)
       return db
         .collection('list')
         .updateOne(

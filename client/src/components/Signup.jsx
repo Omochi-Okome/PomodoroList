@@ -33,9 +33,10 @@ const Signup = () => {
 
   const submitUserInformation = () => {
     axios
-      .post("http://localhost:3001/signup",{
+      .post("http://localhost:3001/auth/signup",{
         email: inputEmail,
-        password: inputPassword
+        password: inputPassword,
+        credentials: 'include'
       })
       .then(() => {
         console.log("送信に成功しました")

@@ -91,7 +91,10 @@ const Modal = (props) => {
   }, [timeDuration, colorValues, colors]);
 
   const countUpPomodoroCount = () => {
-    axios.post("http://localhost:3001/countUpPomodoroCount", { selectedId })
+    axios.post("http://localhost:3001/countUpPomodoroCount", {
+      selectedId,
+      credentials: 'include'
+    })
       .then(onComplete)
       .catch((err) => console.log("countUpPomodoroCountでエラー発生"));
   }

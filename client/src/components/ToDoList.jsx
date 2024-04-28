@@ -48,7 +48,9 @@ const ToDoList = () => {
     }
     try {
       const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
-      const response = await axios.post("http://localhost:3001/item",dataToSend);
+      const response = await axios.post("http://localhost:3001/item",dataToSend,{
+        credentials: 'include'
+      });
       setInputValue("");
       updateList(response.data);
     } catch (error) {
@@ -68,7 +70,9 @@ const ToDoList = () => {
 
   const fetchTodoList = () => {
     axios
-      .get("http://localhost:3001/")
+      .get("http://localhost:3001/",{
+        credentials: 'include'
+      })
       .then((response) => {
         setTodoList(
           response.data.map((item) => ({
@@ -90,7 +94,8 @@ const ToDoList = () => {
         itemId: itemId,
         ArchiveItem: item,
         registerDate:registerDate,
-        pomodoroCount:pomodoroCount
+        pomodoroCount:pomodoroCount,
+        credentials: 'include'
       })
       .then(() => {
         fetchTodoList();
