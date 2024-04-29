@@ -49,7 +49,6 @@ class HomeArchiveMover {
         console.log(err);
       });
   }
-  
 }
 
 class countUpPomodoro {
@@ -58,18 +57,18 @@ class countUpPomodoro {
   }
 
   countUpPomodoroCount(){
-      const db = getDB();
-      return db
-        .collection('list')
-        .updateOne(
-          {_id: this._id},
-          {$inc: {pomodoroCount:1}},
-          {returnDocument:'after'}
-        )
-        .then(result => {
-          console.log(result)
-        })
-        .catch(err => console.log(err))
+    const db = getDB();
+    return db
+      .collection('list')
+      .updateOne(
+        {_id: this._id},
+        {$inc: {pomodoroCount:1}},
+        {returnDocument:'after'}
+      )
+      .then(result => {
+        console.log(result)
+      })
+      .catch(err => console.log(err))
   }
 }
 

@@ -28,8 +28,8 @@ app.use(session({
   cookie: {
     httpOnly: false,
     
-    secure: process.env.NODE_ENV === "production",  // 本番環境でのみsecureをtrueに
-    maxAge: 24 * 60 * 60 * 1000  // 24時間
+    secure: process.env.NODE_ENV === "production",
+    maxAge: 24 * 60 * 60 * 1000 
   }
 }))
 

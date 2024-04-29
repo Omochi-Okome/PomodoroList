@@ -4,8 +4,6 @@ const getDB = require("../util/database").getDB;
 var ObjectId = require("mongodb").ObjectId;
 
 exports.getHome = (req, res) => {
-  console.log(req.isLoggedIn)
-  console.log(1)
   const db = getDB();
   return db
     .collection("list")
