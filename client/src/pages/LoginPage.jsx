@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
-import InputUser from '../components/LoginUser';
 import { Button } from '@mui/material';
+import LoginForm from "../components/LoginForm"
 
 
 const LoginPage = () => {
-
+    const [isSignup, setIsSignup] = React.useState(false);
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     const navigate = useNavigate();
     const handleListItemClick = (event, index) => {
@@ -19,7 +19,9 @@ const LoginPage = () => {
           
     return(
         <>
-            <InputUser />
+            <LoginForm
+                isSignup={isSignup}
+            />
             <Button onClick={(event) => handleListItemClick(event, 0)}>サインアップ</Button>
         </>
     )

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+/* pages */
 import Home from "./pages/Home";
 import Archive from "./pages/Archive"
 import Data from "./pages/Data";
@@ -7,8 +8,10 @@ import Mypage from "./pages/Mypage";
 import Login from "./pages/LoginPage";
 import Logout from "./pages/LogoutPage"
 import SignupPage from "./pages/SignupPage";
+/* components */
 import SelectedListItem from "./components/HomeFolder";
 import TopBar from "./components/TopBar"
+/* MaterialUI */
 import { Grid } from "@material-ui/core";
 
 function App() {

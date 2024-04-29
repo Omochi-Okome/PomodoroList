@@ -1,10 +1,13 @@
 import * as React from 'react';
-import Signup from '../components/Signup';
+import LoginForm from '../components/LoginForm';
 
 const SignupPage = () => {
+    const [isSignup, setIsSignup] = React.useState(true);
     return(
         <>
-            <Signup />
+            <LoginForm
+                isSignup={isSignup}
+            />
         </>
     )
 }
