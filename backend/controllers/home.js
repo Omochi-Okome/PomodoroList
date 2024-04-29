@@ -45,7 +45,12 @@ exports.deleteItem = (req, res) => {
 exports.countUpPomodoroCount = (req,res) => {
   const _id = new ObjectId(req.body.selectedId);
   const product = new countUpPomodoro(_id)
+  console.log('countUpPomodoroCount received:', new Date());
   product.countUpPomodoroCount()
-    .then(() => console.log("成功"))
+    .then(() => {
+      res.json({ message: "カウントアップ成功" });  // 応答の送信
+      console.log('Response sent:', new Date());  // 応答送信時のログ
+      return
+    })
     .catch((err) => console.log(err))
 }

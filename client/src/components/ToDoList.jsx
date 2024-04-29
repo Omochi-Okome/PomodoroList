@@ -114,8 +114,8 @@ const ToDoList = () => {
     );
   };
   
-  const  handleOnComplete = () => {
-    setModalOpen(false)
+  const handleOnComplete = () => {
+    setModalOpen(false);
   };
 
   return (
