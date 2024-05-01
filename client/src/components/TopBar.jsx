@@ -20,36 +20,36 @@ function TopBar() {
 
         switch(index) {
             case 0:
-                navigate("/login");
+                navigate('/login');
                 break;
             case 1:
-                navigate("/logout");
+                navigate('/logout');
                 break;
             case 2:
-                navigate("/mypage");
+                navigate('/mypage');
                 break;
         }
     };
 
     return (
-        <AppBar position="static">
+        <AppBar position='static'>
             <Toolbar>
                 <List style={{marginLeft: 'auto',display:'flex', flexDirection: 'row'}}>
                 <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 0)}>
                         <ListItemIcon>
                             <LoginIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Login" />
+                        <ListItemText primary='Login' />
                     </ListItemButton>
                     <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 1)}>
                         <ListItemIcon>
                             <MeetingRoomIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Logout" />
+                        <ListItemText primary='Logout' />
                     </ListItemButton>
                     <ListItemButton selected={selectedIndex === 0} onClick={(event) => handleListItemClick(event, 2)}>
                         <ListItemIcon>
-                            <AccountCircleIcon fontSize="large"/>
+                            <AccountCircleIcon fontSize='large'/>
                         </ListItemIcon>
                     </ListItemButton>
                 </List>

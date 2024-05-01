@@ -1,4 +1,4 @@
-const getDB = require("../util/database").getDB;
+const getDB = require('../util/database').getDB;
 
 class archive {
   constructor(_id) {
@@ -8,7 +8,7 @@ class archive {
   deleteById() {
     const db = getDB();
     return db
-      .collection("archive")
+      .collection('archive')
       .deleteOne({ _id: this._id })
       .then(() => {})
       .catch((err) => {
@@ -26,7 +26,7 @@ class returnArchiveItem {
   returnArchiveItem() {
     const db = getDB();
     return db
-      .collection("list")
+      .collection('list')
       .insertOne({
         item: this.returnItem,
         registerDate: this.registerDate,

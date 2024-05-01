@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 /* MaterialUI */
-import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import { Grid } from "@material-ui/core";
-import Button from "@mui/material/Button";
+import { makeStyles } from '@material-ui/core/styles';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import { Grid } from '@material-ui/core';
+import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 
 const useStyles = makeStyles({
   card: {
     width: 300,
-    margin: "20px auto",
-    textAlign: "center",
+    margin: '20px auto',
+    textAlign: 'center',
   },
 });
 
@@ -28,7 +28,7 @@ const ArchiveList = () => {
     
   const fetchArchiveList = () => {
     axios
-      .get("http://localhost:3001/Archive",{
+      .get('http://localhost:3001/Archive',{
         credentials: 'include'
       })
       .then((response) => {
@@ -42,13 +42,13 @@ const ArchiveList = () => {
         );
       })
       .catch((err) => {
-        console.error("fetchArchiveListでエラー発生:", err);
+        console.error('fetchArchiveListでエラー発生:', err);
       });
   };
 
   const returnHome = (id, archiveItem, registerDate, pomodoroCount) => {
     axios
-      .post("http://localhost:3001/Archive/returnHome",{
+      .post('http://localhost:3001/Archive/returnHome',{
         id: id,
         returnItem: archiveItem,
         registerDate: registerDate,
@@ -58,12 +58,12 @@ const ArchiveList = () => {
       .then(() => {
         fetchArchiveList();
       })
-      .catch((err) => console.log("returnHomeでエラー発生",err))
+      .catch((err) => console.log('returnHomeでエラー発生',err))
   }
 
   const deleteCard = (itemId) => {
     axios
-      .post("http://localhost:3001/Archive/delete", {
+      .post('http://localhost:3001/Archive/delete', {
         _id: itemId,
         credentials: 'include'
       })
@@ -71,7 +71,7 @@ const ArchiveList = () => {
         fetchArchiveList();
       })
       .catch((err) => {
-        console.log("deleteCardでエラー発生",err)
+        console.log('deleteCardでエラー発生',err)
       })
   }
 
@@ -80,14 +80,14 @@ const ArchiveList = () => {
       {archiveList.length === 0 ? (
           <h2>There is no archive list</h2>
       ) : (
-        <Grid container direction="">
+        <Grid container direction=''>
             {archiveList.map((archiveList) => (
           <Grid item>
-            <Card key={archiveList.id} variant="outlined" className={classes.card}>
+            <Card key={archiveList.id} variant='outlined' className={classes.card}>
               <CardContent>
-                <Typography variant="body1">{archiveList.ArchiveItem}</Typography>
-                <Button variant="outlined" color="primary" onClick={() => returnHome(archiveList.id, archiveList.ArchiveItem, archiveList.registerDate, archiveList.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
-                <Button variant="contained" color="error" onClick={()=> deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>Delete</Button>
+                <Typography variant='body1'>{archiveList.ArchiveItem}</Typography>
+                <Button variant='outlined' color='primary' onClick={() => returnHome(archiveList.id, archiveList.ArchiveItem, archiveList.registerDate, archiveList.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
+                <Button variant='contained' color='error' onClick={()=> deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>Delete</Button>
               </CardContent>
             </Card>
           </Grid>

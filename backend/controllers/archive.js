@@ -1,6 +1,6 @@
 const { ObjectId } = require('mongodb');
 const { archive, returnArchiveItem } = require('../models/archive');
-const getDB = require("../util/database").getDB;
+const getDB = require('../util/database').getDB;
 
 exports.viewArchive = (req,res) => {
   const db = getDB();
@@ -37,5 +37,5 @@ exports.returnHome = (req,res) => {
   } catch(err) {
     console.log(err);
   }
-  res.redirect("/")
+  res.redirect('/')
 }

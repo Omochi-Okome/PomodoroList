@@ -38,7 +38,7 @@ export default function SelectedListItem() {
 
   return (
     <Box sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}>
-      <List component="nav" aria-label="main mailbox folders">
+      <List component='nav' aria-label='main mailbox folders'>
         <ListItemButton
           selected={selectedIndex === 0}
           onClick={(event) => handleListItemClick(event, 0)}
@@ -46,7 +46,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary="Home" />
+          <ListItemText primary='Home' />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 1}
@@ -55,7 +55,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <ArchiveIcon />
           </ListItemIcon>
-          <ListItemText primary="Archive" />
+          <ListItemText primary='Archive' />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 2}
@@ -64,7 +64,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <AssessmentIcon />
           </ListItemIcon>
-          <ListItemText primary="Data" />
+          <ListItemText primary='Data' />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
@@ -73,7 +73,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary="Setting" />
+          <ListItemText primary='Setting' />
         </ListItemButton>
       </List>
       <Divider />

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@mui/material';
-import LoginForm from "../components/LoginForm"
+import LoginForm from '../components/LoginForm'
 
 
 const LoginPage = () => {
@@ -12,7 +12,7 @@ const LoginPage = () => {
     setSelectedIndex(index);
     switch(index) {
         case 0:
-        navigate("/signup");
+        navigate('/signup');
         break;
     }
     };

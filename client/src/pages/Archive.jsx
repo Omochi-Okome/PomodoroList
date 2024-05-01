@@ -1,4 +1,4 @@
-import ArchiveList from "../components/ArchiveList";
+import ArchiveList from '../components/ArchiveList';
 
 const Archive = () => {
     return(

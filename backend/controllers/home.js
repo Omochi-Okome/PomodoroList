@@ -1,12 +1,12 @@
-const {savingTodoList,HomeArchiveMover,countUpPomodoro} = require("../models/home");
+const {savingTodoList,HomeArchiveMover,countUpPomodoro} = require('../models/home');
 const dayjs = require('dayjs');
-const getDB = require("../util/database").getDB;
-var ObjectId = require("mongodb").ObjectId;
+const getDB = require('../util/database').getDB;
+var ObjectId = require('mongodb').ObjectId;
 
 exports.getHome = (req, res) => {
   const db = getDB();
   return db
-    .collection("list")
+    .collection('list')
     .find()
     .toArray()
     .then((products) => {
@@ -14,7 +14,7 @@ exports.getHome = (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      res.status(500).json({ err: "データ取得時にエラーが発生しました" });
+      res.status(500).json({ err: 'データ取得時にエラーが発生しました' });
     });
 };
 
@@ -22,10 +22,10 @@ exports.postItem = (req, res) => {
   const postItem = req.body.inputData;
   const registerDate = req.body.registerDate;
   const pomodoroCount = req.body.pomodoroCount
-  const product = new savingTodoList({ item: postItem, registerDate:dayjs(registerDate).format("YYYY-MM-DD"), pomodoroCount: pomodoroCount});
+  const product = new savingTodoList({ item: postItem, registerDate:dayjs(registerDate).format('YYYY-MM-DD'), pomodoroCount: pomodoroCount});
   product
     .saveTodoItem()
-    .then(() => res.redirect("/"))
+    .then(() => res.redirect('/'))
     .catch((err) => console.log(err));
 };
 
@@ -38,7 +38,7 @@ exports.deleteItem = (req, res) => {
   product.saveArchive();
   product
     .deleteById()
-    .then(() => res.redirect("/"))
+    .then(() => res.redirect('/'))
     .catch((err) => console.log(err));
 };
 
@@ -48,7 +48,7 @@ exports.countUpPomodoroCount = (req,res) => {
   console.log('countUpPomodoroCount received:', new Date());
   product.countUpPomodoroCount()
     .then(() => {
-      res.json({ message: "カウントアップ成功" });  // 応答の送信
+      res.json({ message: 'カウントアップ成功' });  // 応答の送信
       console.log('Response sent:', new Date());  // 応答送信時のログ
       return
     })

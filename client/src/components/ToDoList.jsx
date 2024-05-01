@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import dayjs from 'dayjs';
-import Modal from "./Modal";
+import Modal from './Modal';
 import { createPortal } from 'react-dom';
 /* MaterialUI */
-import { makeStyles } from "@material-ui/core/styles";
-import { Grid } from "@material-ui/core";
-import { TextField } from "@material-ui/core";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import SendIcon from "@mui/icons-material/Send";
+import { makeStyles } from '@material-ui/core/styles';
+import { Grid } from '@material-ui/core';
+import { TextField } from '@material-ui/core';
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+import CardContent from '@material-ui/core/CardContent';
+import Typography from '@material-ui/core/Typography';
+import SendIcon from '@mui/icons-material/Send';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
@@ -20,8 +20,8 @@ const useStyles = makeStyles({
   card: {
     width: 300,
     height:150,
-    margin: "20px auto",
-    textAlign: "center",
+    margin: '20px auto',
+    textAlign: 'center',
   },
 });
 
@@ -33,7 +33,7 @@ const ModalPortal = ({ children }) => {
 const ToDoList = () => {
   const initialDate = dayjs();
   const [todoList, setTodoList] = useState([]);
-  const [inputValue, setInputValue] = useState("");
+  const [inputValue, setInputValue] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodoId, setSelectedTodoId] = useState(null);
   const classes = useStyles();
@@ -49,13 +49,13 @@ const ToDoList = () => {
     }
     try {
       const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
-      const response = await axios.post("http://localhost:3001/item",dataToSend,{
+      const response = await axios.post('http://localhost:3001/item',dataToSend,{
         credentials: 'include'
       });
-      setInputValue("");
+      setInputValue('');
       updateList(response.data);
     } catch (error) {
-      console.error("handleSubmitでエラー発生", error);
+      console.error('handleSubmitでエラー発生', error);
     }
   };
 
@@ -71,7 +71,7 @@ const ToDoList = () => {
 
   const fetchTodoList = () => {
     axios
-      .get("http://localhost:3001/",{
+      .get('http://localhost:3001/',{
         credentials: 'include'
       })
       .then((response) => {
@@ -85,13 +85,13 @@ const ToDoList = () => {
         );
       })
       .catch((error) => {
-        console.error("fetchTodoListでエラー発生", error);
+        console.error('fetchTodoListでエラー発生', error);
       });
   };
 
   const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
     axios
-      .post("http://localhost:3001/delete", {
+      .post('http://localhost:3001/delete', {
         itemId: itemId,
         ArchiveItem: item,
         registerDate:registerDate,
@@ -102,7 +102,7 @@ const ToDoList = () => {
         fetchTodoList();
       })
       .catch((error) => {
-        console.error("deleteItemでエラー発生", error);
+        console.error('deleteItemでエラー発生', error);
       });
   };
 
@@ -120,19 +120,19 @@ const ToDoList = () => {
   };
 
   return (
-    <div className="container start">
-      <form action="">
-        <Grid container direction="" justifyContent="center">
+    <div className='container start'>
+      <form action=''>
+        <Grid container direction='' justifyContent='center'>
           <Grid item xs={3}>
-            <TextField type="text" value={inputValue} onChange={handleInputChange} placeholder="Enter your to-do list!" fullWidth required/>
+            <TextField type='text' value={inputValue} onChange={handleInputChange} placeholder='Enter your to-do list!' fullWidth required/>
           </Grid>
           <Grid item xs={1}>
-            <Button variant="contained" type="submit" color="blue" onClick={handleSubmit} endIcon={<SendIcon />} >Add</Button>
+            <Button variant='contained' type='submit' color='blue' onClick={handleSubmit} endIcon={<SendIcon />} >Add</Button>
           </Grid>
         </Grid>
       </form>
 
-      <Grid container spacing={2} direction="" >
+      <Grid container spacing={2} direction='' >
         {todoList.length === 0 ? (
           <Grid item>
             <h2>There is no to-do list</h2>
@@ -140,11 +140,11 @@ const ToDoList = () => {
         ) : (
           todoList.map((todoItem) => (
           <Grid item>
-            <Card key={todoItem._id} variant="outlined" className={classes.card}>
+            <Card key={todoItem._id} variant='outlined' className={classes.card}>
               <CardContent>
-                <Typography variant="body1">{todoItem.item}</Typography>
-                <Button variant="outlined" onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
-                <Button variant="outlined" onClick={() => deleteItem(todoItem.id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
+                <Typography variant='body1'>{todoItem.item}</Typography>
+                <Button variant='outlined' onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
+                <Button variant='outlined' onClick={() => deleteItem(todoItem.id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
                   <CheckCircleIcon/>
                   Done
                 </Button>
@@ -160,7 +160,7 @@ const ToDoList = () => {
             <Modal
               handleCloseClick={() => setModalOpen(false)}
               duration={3}
-              colors={["#ff9248", "#a20000"]}
+              colors={['#ff9248', '#a20000']}
               colorValues={[20, 10]}
               onComplete={handleOnComplete}
               selectedId={selectedTodoId}

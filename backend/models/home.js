@@ -43,7 +43,7 @@ class HomeArchiveMover {
       .collection('list')
       .deleteOne({_id:new ObjectId(this._id)})
       .then(() => {
-        console.log("削除完了")
+        console.log('削除完了')
       })
       .catch(err => {
         console.log(err);
