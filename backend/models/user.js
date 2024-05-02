@@ -1,5 +1,5 @@
 const  getDB = require('../util/database').getDB;
-const bcrypt = require('bcrypt');
+const bcryptjs = require('bcryptjs');
 const dayjs = require('dayjs');
 
 class loginUser {
@@ -22,7 +22,7 @@ class loginUser {
         if (!user) {
           throw new Error('ユーザーが見つかりません。');
         }
-        return bcrypt.compare(this.password, user.password)
+        return bcryptjs.compare(this.password, user.password)
           .then(match => {
             if (match) {                            
               console.log('パスワードが一致しました。');
@@ -60,7 +60,7 @@ class SignupUser {
           console.log('すでに登録されています')
           throw new Error('登録したメールアドレスかユーザーネームがすでに登録されています。')
         }
-        return bcrypt.hash(this.password, 10)
+        return bcryptjs.hash(this.password, 10)
           .then(hashedPassword => {
             DB
               .collection('users')
