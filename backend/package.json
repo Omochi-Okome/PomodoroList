@@ -24,7 +24,8 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node backend/app.js",
+    "dev": "nodemon backend/app.js",
     "client": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

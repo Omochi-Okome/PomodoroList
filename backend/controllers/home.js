@@ -25,7 +25,10 @@ exports.postItem = (req, res) => {
   const product = new savingTodoList({ item: postItem, registerDate:dayjs(registerDate).format('YYYY-MM-DD'), pomodoroCount: pomodoroCount});
   product
     .saveTodoItem()
-    .then(() => res.redirect('/'))
+    .then(() => {
+      res.setHeader('Set-Cookie', 'loggedIn=true')
+      res.redirect('/')
+    })
     .catch((err) => console.log(err));
 };
 

@@ -16,12 +16,7 @@ exports.checkInformation = (req,res) => {
           console.log(err);
           res.status(500).json({ error: 'セッション保存時にエラーが発生しました。' });
         } else {
-          const token = jwt.sign(
-            { userId: user._id, emailUsername: user.emailUsername },
-            'YOUR_SECRET_KEY',
-            { expiresIn: '1h' }
-          );
-          res.status(200).json({ token: token, userId: user._id });
+          req.isLoggedIn = true;
         }
       })
     })
