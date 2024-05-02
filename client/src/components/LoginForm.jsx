@@ -35,7 +35,7 @@ const LoginForm = ({isSignup}) => {
     setInputPassword(event.target.value)
   }
   
-  const URL = useMemo(() => isSignup ? 'http://localhost:3001/auth/signup' : 'http://localhost:3001/auth/login');
+  const URL = useMemo(() => isSignup ? 'https://todolist-aemc.onrender.com/auth/signup' : 'https://todolist-aemc.onrender.com/auth/login');
 
   const submitUserInformation = (event) => {
     event.preventDefault();

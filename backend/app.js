@@ -17,7 +17,7 @@ const store = new MongoDBStore({
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  origin: ['http://localhost:3000','https://todolist-aemc.onrender.com/'],
   credentials: true
 }));
 app.use(session({

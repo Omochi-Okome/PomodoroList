@@ -49,7 +49,7 @@ const ToDoList = () => {
     }
     try {
       const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
-      const response = await axios.post('http://localhost:3001/item',dataToSend,{
+      const response = await axios.post('https://todolist-aemc.onrender.com/item',dataToSend,{
         credentials: 'include'
       });
       setInputValue('');
@@ -71,7 +71,7 @@ const ToDoList = () => {
 
   const fetchTodoList = () => {
     axios
-      .get('http://localhost:3001/',{
+      .get('https://todolist-aemc.onrender.com/',{
         credentials: 'include'
       })
       .then((response) => {
@@ -91,7 +91,7 @@ const ToDoList = () => {
 
   const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
     axios
-      .post('http://localhost:3001/delete', {
+      .post('https://todolist-aemc.onrender.com/delete', {
         itemId: itemId,
         ArchiveItem: item,
         registerDate:registerDate,

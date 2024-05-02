@@ -28,7 +28,7 @@ const ArchiveList = () => {
     
   const fetchArchiveList = () => {
     axios
-      .get('http://localhost:3001/Archive',{
+      .get('https://todolist-aemc.onrender.com/Archive',{
         credentials: 'include'
       })
       .then((response) => {
@@ -48,7 +48,7 @@ const ArchiveList = () => {
 
   const returnHome = (id, archiveItem, registerDate, pomodoroCount) => {
     axios
-      .post('http://localhost:3001/Archive/returnHome',{
+      .post('https://todolist-aemc.onrender.com/Archive/returnHome',{
         id: id,
         returnItem: archiveItem,
         registerDate: registerDate,
@@ -63,7 +63,7 @@ const ArchiveList = () => {
 
   const deleteCard = (itemId) => {
     axios
-      .post('http://localhost:3001/Archive/delete', {
+      .post('https://todolist-aemc.onrender.com/Archive/delete', {
         _id: itemId,
         credentials: 'include'
       })
