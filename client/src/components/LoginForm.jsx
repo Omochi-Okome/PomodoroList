@@ -35,25 +35,23 @@ const LoginForm = ({isSignup}) => {
     setInputPassword(event.target.value)
   }
   
-  const URL = useMemo(() => isSignup ? 'https://todolist-aemc.onrender.com/auth/signup' : 'https://todolist-aemc.onrender.com/auth/login');
-
-  const submitUserInformation = (event) => {
-    event.preventDefault();
+  const submitUserInformation = () => {
     isSignup ? 
     axios
-      .post(URL,{
+      .post(`${process.env.REACT_APP_API_URL}/auth/signup`,{
         email: input,
         username: inputUsername,
         password: inputPassword,
       })
     : axios
-      .post(URL,{
+      .post(`${process.env.REACT_APP_API_URL}/auth/login`,{
         emailUsername: input,
         password: inputPassword
       })
       .then(() => {
         console.log('送信に成功しました')
-        navigate('/')
+        console.log('辿り着いていない')
+        navigate(`${process.env.REACT_APP_API_URL}/`)
       })
       .catch((err) => console.log('submitUserInformationのエラー:',err))
   }
@@ -96,7 +94,7 @@ const LoginForm = ({isSignup}) => {
                   }
                   onChange={handleChangePassword}
               />
-                <Button onSubmit={() => submitUserInformation(input,inputPassword)} type='submit' color='primary' variant='contained' fullWidth>
+                <Button onClick={() => submitUserInformation(input,inputPassword)} type='submit' color='primary' variant='contained' fullWidth>
                 {isSignup ? 'サインアップ' : 'サインイン'}
                 </Button>
           </FormControl>

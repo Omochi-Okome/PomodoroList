@@ -48,8 +48,9 @@ const ToDoList = () => {
       return;
     }
     try {
+      
       const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
-      const response = await axios.post('https://todolist-aemc.onrender.com/item',dataToSend,{
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/item`,dataToSend,{
         credentials: 'include'
       });
       setInputValue('');
@@ -70,8 +71,9 @@ const ToDoList = () => {
   }, []);
 
   const fetchTodoList = () => {
+    console.log("原因特定作業1",`${process.env.REACT_APP_API_URL}`)
     axios
-      .get('https://todolist-aemc.onrender.com/',{
+      .get(`${process.env.REACT_APP_API_URL}`,{
         credentials: 'include'
       })
       .then((response) => {
@@ -91,7 +93,7 @@ const ToDoList = () => {
 
   const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
     axios
-      .post('https://todolist-aemc.onrender.com/delete', {
+      .post(`${process.env.REACT_APP_API_URL}/delete`, {
         itemId: itemId,
         ArchiveItem: item,
         registerDate:registerDate,

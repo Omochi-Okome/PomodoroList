@@ -6,6 +6,8 @@ const cors = require('cors');
 const mongoConnect = require('./util/database').mongoConnect;
 require('dotenv').config();
 
+const PORT = 3001;
+
 const app = express();
 
 
@@ -27,7 +29,6 @@ app.use(session({
   store: store,
   cookie: {
     httpOnly: false,
-    
     secure: process.env.NODE_ENV === 'production',
     maxAge: 24 * 60 * 60 * 1000 
   }
@@ -42,5 +43,5 @@ app.use('/archive', archiveRoutes);
 app.use('/auth',authRoutes);
 
 mongoConnect(() => {
-  app.listen(3001);
+  app.listen(PORT);
 });

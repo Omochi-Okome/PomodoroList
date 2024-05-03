@@ -14,6 +14,7 @@ import TopBar from './components/TopBar'
 /* MaterialUI */
 import { Grid } from '@material-ui/core';
 
+
 function App() {
   return (
     <Router>
@@ -21,7 +22,7 @@ function App() {
       <Grid container>
         <Grid xs={10}>
           <Routes>
-            <Route path='https://todolist-aemc.onrender.com/' element={<Home />} />
+            <Route path='/' element={<Home />} />
             <Route path='/archive' element={<Archive />} />
             <Route path='/data' element={<Data/>}/>
             <Route path='/setting' element={<Setting/>} />

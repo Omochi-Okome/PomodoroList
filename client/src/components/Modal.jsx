@@ -101,7 +101,7 @@ const Modal = (props) => {
   const countUpPomodoroCount = () => {
     if (isRequesting) return;
     setIsRequesting(true); 
-    axios.post('https://todolist-aemc.onrender.com/countUpPomodoroCount', {
+    axios.post(`${process.env.REACT_APP_API_URL}/countUpPomodoroCount`, {
       selectedId,
       credentials:'include'
     })
