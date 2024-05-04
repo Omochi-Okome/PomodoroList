@@ -9,14 +9,21 @@ exports.checkInformation = (req,res) => {
   product
     .checkDB()
     .then(user => {
-      req.session.isLoggedIn = true;
-      req.session.user = user;
+      const token = jwt.sign(
+        { userEmail: user.email, userName: user.username},
+        'your_secret_key',
+        {expiresIn: '1h'}
+      );
       req.session.save(err => {
         if (err) {
           console.log(err);
           res.status(500).json({ error: 'セッション保存時にエラーが発生しました。' });
         } else {
-          req.isLoggedIn = true;
+          return res.status(200).cookie('jwt', token, {
+            secure: false,
+            domain: 'localhost',
+            httpOnly: false,
+          }).json(user)
         }
       })
     })

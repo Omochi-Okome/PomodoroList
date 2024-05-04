@@ -70,9 +70,7 @@ const ArchiveList = () => {
       .then(() => {
         fetchArchiveList();
       })
-      .catch((err) => {
-        console.log('deleteCardでエラー発生',err)
-      })
+      .catch((err) => console.log('deleteCardでエラー発生',err))
   }
 
   return(

@@ -7,9 +7,7 @@ const mongoConnect = require('./util/database').mongoConnect;
 require('dotenv').config();
 
 const PORT = 3001;
-
 const app = express();
-
 
 const store = new MongoDBStore({
   uri:process.env.MONGO_URI,
@@ -18,19 +16,24 @@ const store = new MongoDBStore({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(cors({
-  origin: ['http://localhost:3000','https://todolist-aemc.onrender.com/'],
-  credentials: true
-}));
+app.use(
+  cors({
+    origin: ['http://localhost:3000','https://todolist-aemc.onrender.com/'],
+    credentials: true,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorizatikon']
+  })
+);
+
 app.use(session({
   secret:'my secret', 
   resave: false, 
-  saveUninitialized: false,
+  saveUninitialized: true,
   store: store,
   cookie: {
-    httpOnly: false,
-    secure: process.env.NODE_ENV === 'production',
-    maxAge: 24 * 60 * 60 * 1000 
+    secure: false,
+    httpOnly: true,
+    maxAge:30000
   }
 }))
 
@@ -43,5 +46,7 @@ app.use('/archive', archiveRoutes);
 app.use('/auth',authRoutes);
 
 mongoConnect(() => {
-  app.listen(PORT);
+  app.listen(PORT,()=>{
+    console.log(`Server is running on port ${PORT}`)
+  });
 });

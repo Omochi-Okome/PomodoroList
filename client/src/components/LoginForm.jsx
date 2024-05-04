@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import {useNavigate}from 'react-router-dom';
-import axios from 'axios';
-import Box from '@mui/material/Box';
+import API from '../api';
 /* MaterialUI */
+import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import { Button } from '@mui/material';
@@ -23,35 +23,22 @@ const LoginForm = ({isSignup}) => {
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
-  const handleChangeEmail = (event) => {
-    setInput(event.target.value)
-  }
+  const handleChangeEmail = (event) => setInput(event.target.value);
 
-  const handleChangeUsername = (event) => {
-    setInputUsername(event.target.value);
-  }
+  const handleChangeUsername = (event) => setInputUsername(event.target.value);
 
-  const handleChangePassword = (event) => {
-    setInputPassword(event.target.value)
-  }
+  const handleChangePassword = (event) => setInputPassword(event.target.value);
   
-  const submitUserInformation = () => {
-    isSignup ? 
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/signup`,{
-        email: input,
-        username: inputUsername,
-        password: inputPassword,
-      })
-    : axios
-      .post(`${process.env.REACT_APP_API_URL}/auth/login`,{
-        emailUsername: input,
-        password: inputPassword
-      })
+  
+  const submitUserInformation = (event) => {
+    event.preventDefault();
+    const endPoint = isSignup ? '/auth/signup' : '/auth/login';
+    const data = isSignup ? {email: input, username: inputUsername, password: inputPassword} : {emailUsername: input, password: inputPassword}
+  
+    API.post(endPoint,data)
       .then(() => {
         console.log('送信に成功しました')
-        console.log('辿り着いていない')
-        navigate(`${process.env.REACT_APP_API_URL}/`)
+        navigate('/')
       })
       .catch((err) => console.log('submitUserInformationのエラー:',err))
   }
@@ -93,8 +80,9 @@ const LoginForm = ({isSignup}) => {
                   </InputAdornment>
                   }
                   onChange={handleChangePassword}
+                  required
               />
-                <Button onClick={() => submitUserInformation(input,inputPassword)} type='submit' color='primary' variant='contained' fullWidth>
+                <Button type='submit' color='primary' variant='contained' fullWidth>
                 {isSignup ? 'サインアップ' : 'サインイン'}
                 </Button>
           </FormControl>
