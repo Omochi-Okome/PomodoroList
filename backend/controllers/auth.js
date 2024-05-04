@@ -13,7 +13,7 @@ exports.checkInformation = (req,res) => {
       req.session.user = user;
       req.session.save(err => {
         if (err) {
-          console.log('checkInformationでエラー',err);
+          console.log(err);
           res.status(500).json({ error: 'セッション保存時にエラーが発生しました。' });
         } else {
           req.isLoggedIn = true;
@@ -21,7 +21,7 @@ exports.checkInformation = (req,res) => {
       })
     })
     .catch(err => {
-      console.log('checkInformationでエラー',err);
+      console.log(err);
       res.status(401).json({ error: err.message });
     });
 }
@@ -41,7 +41,7 @@ exports.postSignup = (req,res) => {
           console.log("サインアップに成功しました")
           res.status(200).json({ success: true, message: 'Signup successful!' });
         })
-        .catch((err) => console.log('postSignupでエラー',err));
+        .catch((err) => console.log(err));
 }
 
 exports.postLogout = (req,res) => {

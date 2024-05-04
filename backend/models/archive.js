@@ -12,7 +12,7 @@ class archive {
       .deleteOne({ _id: this._id })
       .then(() => {})
       .catch((err) => {
-        console.log('deleteByIdでエラー',err);
+        console.log(err);
       });
   }
 }

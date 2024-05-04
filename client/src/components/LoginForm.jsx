@@ -50,6 +50,7 @@ const LoginForm = ({isSignup}) => {
       })
       .then(() => {
         console.log('送信に成功しました')
+        console.log('辿り着いていない')
         navigate(`${process.env.REACT_APP_API_URL}/`)
       })
       .catch((err) => console.log('submitUserInformationのエラー:',err))

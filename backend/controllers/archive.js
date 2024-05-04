@@ -12,7 +12,7 @@ exports.viewArchive = (req,res) => {
       res.json(ArchiveList)
     })
     .catch(err => {
-      console.log('viewArchiveでエラー', err);
+      console.log('アーカイブリストの取得失敗', err);
     });
 }
 
@@ -21,7 +21,7 @@ exports.deleteArchiveTodoItem = (req,res) => {
   const product = new archive(_id)
   product.deleteById()
     .then(() => res.redirect('/archive'))
-    .catch(err => console.log('deleteArchiveTodoItemでエラー',err));
+    .catch(err => console.log(err));
 }
 
 exports.returnHome = (req,res) => {
@@ -35,7 +35,7 @@ exports.returnHome = (req,res) => {
     productArchive.deleteById()
     productReturnItem.returnArchiveItem()
   } catch(err) {
-    console.log('returnHomeでエラー',err);
+    console.log(err);
   }
   res.redirect('/')
 }

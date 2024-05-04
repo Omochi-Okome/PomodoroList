@@ -70,6 +70,7 @@ const Modal = (props) => {
               clearInterval(intervalId)
               if (!timerCompleted) {
                 onComplete();
+                console.log('わっきゃい');
                 countUpPomodoroCount();
                 setTimerCompleted(true);
               }
