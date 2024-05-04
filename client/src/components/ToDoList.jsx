@@ -55,8 +55,8 @@ const ToDoList = () => {
       });
       setInputValue('');
       updateList(response.data);
-    } catch (error) {
-      console.error('handleSubmitでエラー発生', error);
+    } catch (err) {
+      console.log('handleSubmitでエラー発生', err);
     }
   };
 
@@ -71,7 +71,6 @@ const ToDoList = () => {
   }, []);
 
   const fetchTodoList = () => {
-    console.log("原因特定作業1",`${process.env.REACT_APP_API_URL}`)
     axios
       .get(`${process.env.REACT_APP_API_URL}`,{
         credentials: 'include'
@@ -86,9 +85,7 @@ const ToDoList = () => {
           }))
         );
       })
-      .catch((error) => {
-        console.error('fetchTodoListでエラー発生', error);
-      });
+      .catch((err) => console.err('fetchTodoListでエラー発生', err))
   };
 
   const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
@@ -103,9 +100,7 @@ const ToDoList = () => {
       .then(() => {
         fetchTodoList();
       })
-      .catch((error) => {
-        console.error('deleteItemでエラー発生', error);
-      });
+      .catch((err) => console.log('deleteItemでエラー発生', err));
   };
 
   const updateList = (newList) => {

@@ -31,7 +31,8 @@ class loginUser {
               console.log('パスワードが違います。');
               throw new Error('パスワードが違います。');
             }
-          });
+          })
+          .catch(err => console.log('checkDBでエラー',err))
       })
   }
 }

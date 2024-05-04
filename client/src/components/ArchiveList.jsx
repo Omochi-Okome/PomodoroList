@@ -41,9 +41,7 @@ const ArchiveList = () => {
           }))
         );
       })
-      .catch((err) => {
-        console.error('fetchArchiveListでエラー発生:', err);
-      });
+      .catch((err) => console.error('fetchArchiveListでエラー発生:', err));
   };
 
   const returnHome = (id, archiveItem, registerDate, pomodoroCount) => {
@@ -70,9 +68,7 @@ const ArchiveList = () => {
       .then(() => {
         fetchArchiveList();
       })
-      .catch((err) => {
-        console.log('deleteCardでエラー発生',err)
-      })
+      .catch((err) => console.log('deleteCardでエラー発生',err))
   }
 
   return(

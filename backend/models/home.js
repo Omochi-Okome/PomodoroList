@@ -46,7 +46,7 @@ class HomeArchiveMover {
         console.log('削除完了')
       })
       .catch(err => {
-        console.log(err);
+        console.log('deleteByIdでエラー',err);
       });
   }
 }

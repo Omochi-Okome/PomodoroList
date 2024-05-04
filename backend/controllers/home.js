@@ -13,7 +13,7 @@ exports.getHome = (req, res) => {
       res.json(products);
     })
     .catch((err) => {
-      console.log(err);
+      console.log('getHomeでエラー',err);
       res.status(500).json({ err: 'データ取得時にエラーが発生しました' });
     });
 };
@@ -29,7 +29,7 @@ exports.postItem = (req, res) => {
       res.setHeader('Set-Cookie', 'loggedIn=true')
       res.redirect('/')
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log('postItemでエラー',err));
 };
 
 exports.deleteItem = (req, res) => {
@@ -42,18 +42,16 @@ exports.deleteItem = (req, res) => {
   product
     .deleteById()
     .then(() => res.redirect('/'))
-    .catch((err) => console.log(err));
+    .catch((err) => console.log('deleteItemでエラー',err));
 };
 
 exports.countUpPomodoroCount = (req,res) => {
   const _id = new ObjectId(req.body.selectedId);
   const product = new countUpPomodoro(_id)
-  console.log('countUpPomodoroCount received:', new Date());
   product.countUpPomodoroCount()
     .then(() => {
-      res.json({ message: 'カウントアップ成功' });  // 応答の送信
-      console.log('Response sent:', new Date());  // 応答送信時のログ
+      res.json({ message: 'カウントアップ成功' });
       return
     })
-    .catch((err) => console.log(err))
+    .catch((err) => console.log('countUpPomodoroCountでエラー',err))
 }
