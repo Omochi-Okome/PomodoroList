@@ -20,7 +20,10 @@ function App() {
     <Router>
       <TopBar />
       <Grid container>
-        <Grid xs={10}>
+      <Grid item xs={12} sm={12} md={2} lg={2} xl={2}>
+          <SelectedListItem />
+        </Grid>
+        <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
           <Routes>
             <Route path='/' element={<Home />} />
             <Route path='/archive' element={<Archive />} />
@@ -31,9 +34,6 @@ function App() {
             <Route path='/logout' element={<Logout/>}></Route>
             <Route path='/signup' element={<SignupPage />}></Route>
           </Routes>
-        </Grid>
-        <Grid xs={2}>
-          <SelectedListItem />
         </Grid>
       </Grid>
     </Router>
