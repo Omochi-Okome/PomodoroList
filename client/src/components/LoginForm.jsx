@@ -11,6 +11,7 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import FormControl from '@mui/material/FormControl';
+/* MaterialUI icon */
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
@@ -29,6 +30,9 @@ const LoginForm = ({isSignup}) => {
 
   const handleChangePassword = (event) => setInputPassword(event.target.value);
   
+  const handleSignupClick = () => {
+        navigate('/signup');
+    }
   
   const submitUserInformation = (event) => {
     event.preventDefault();
@@ -85,6 +89,7 @@ const LoginForm = ({isSignup}) => {
                 <Button type='submit' color='primary' variant='contained' fullWidth>
                 {isSignup ? 'サインアップ' : 'サインイン'}
                 </Button>
+                {isSignup ? '' : <Button onClick={() => handleSignupClick()}>サインアップ</Button>}
           </FormControl>
       </Box>
   )

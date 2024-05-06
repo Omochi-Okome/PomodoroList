@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 /* MaterialUI */
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -14,9 +15,9 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 
 export default function SelectedListItem() {
     const navigate = useNavigate();
-    const [selectedIndex, setSelectedIndex] = React.useState(0);
+    const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const handleListItemClick = (event, index) => {
+  const handleListItemClick = (index) => {
     setSelectedIndex(index);
 
     switch(index){
@@ -41,7 +42,7 @@ export default function SelectedListItem() {
       <List component='nav' aria-label='main mailbox folders'>
         <ListItemButton
           selected={selectedIndex === 0}
-          onClick={(event) => handleListItemClick(event, 0)}
+          onClick={() => handleListItemClick(0)}
         >
           <ListItemIcon>
             <HomeIcon />
@@ -50,7 +51,7 @@ export default function SelectedListItem() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 1}
-          onClick={(event) => handleListItemClick(event, 1)}
+          onClick={() => handleListItemClick(1)}
         >
           <ListItemIcon>
             <ArchiveIcon />
@@ -59,7 +60,7 @@ export default function SelectedListItem() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 2}
-          onClick={(event) => handleListItemClick(event, 2)}
+          onClick={() => handleListItemClick(2)}
         >
           <ListItemIcon>
             <AssessmentIcon />
@@ -68,7 +69,7 @@ export default function SelectedListItem() {
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
-          onClick={(event) => handleListItemClick(event, 3)}
+          onClick={() => handleListItemClick(3)}
         >
           <ListItemIcon>
             <SettingsIcon />

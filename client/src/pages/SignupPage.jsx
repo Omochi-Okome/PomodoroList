@@ -2,14 +2,11 @@ import * as React from 'react';
 import LoginForm from '../components/LoginForm';
 
 const SignupPage = () => {
-  const [isSignup, setIsSignup] = React.useState(true);
-    return(
-      <>
-        <LoginForm
-          isSignup={isSignup}
-        />
-      </>
-    )
+  return(
+    <>
+      <LoginForm isSignup={true} />
+    </>
+  )
 }
 
 export default SignupPage;

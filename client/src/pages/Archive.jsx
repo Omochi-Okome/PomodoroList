@@ -1,11 +1,11 @@
 import ArchiveList from '../components/ArchiveList';
 
 const Archive = () => {
-    return(
-        <>
-            <ArchiveList />
-        </>
-    )
+  return(
+    <>
+      <ArchiveList />
+    </>
+  )
 }
 
 export default Archive;
