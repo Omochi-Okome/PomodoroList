@@ -6,7 +6,7 @@ const cors = require('cors');
 const mongoConnect = require('./util/database').mongoConnect;
 require('dotenv').config();
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3000;
 const app = express();
 
 const store = new MongoDBStore({
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(
   cors({
-    origin: ['http://localhost:3000','https://todolist-aemc.onrender.com/'],
+    origin: ['http://localhost:3000','https://todolist-aemc.onrender.com'],
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorizatikon']

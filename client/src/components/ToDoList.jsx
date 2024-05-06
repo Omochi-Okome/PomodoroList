@@ -65,13 +65,11 @@ const ToDoList = () => {
     setModalOpen(true);
   };
     
-
   useEffect(() => {
     fetchTodoList();
   }, []);
 
   const fetchTodoList = () => {
-    console.log("原因特定作業1",`${process.env.REACT_APP_API_URL}`)
     axios
       .get(`${process.env.REACT_APP_API_URL}`,{
         credentials: 'include'

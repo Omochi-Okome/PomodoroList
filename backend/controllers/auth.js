@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 exports.checkInformation = (req,res) => {
   const emailUsername = req.body.emailUsername;
   const password = req.body.password;
-  console.log("emailUsername:",emailUsername)
   const product = new loginUser(emailUsername,password)
   product
     .checkDB()
@@ -41,14 +40,12 @@ exports.postSignup = (req,res) => {
     const email = req.body.email;
     const username = req.body.username;
     const password = req.body.password;
-    console.log('username:',username)
     const product = new SignupUser(email,username,password);
     product.Signup()
-        .then(() => {
-          console.log("サインアップに成功しました")
-          res.status(200).json({ success: true, message: 'Signup successful!' });
-        })
-        .catch((err) => console.log(err));
+      .then(() => {
+        res.status(200).json({ success: true, message: 'Signup successful!' });
+      })
+      .catch((err) => console.log(err));
 }
 
 exports.postLogout = (req,res) => {

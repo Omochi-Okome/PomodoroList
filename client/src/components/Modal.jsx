@@ -78,6 +78,7 @@ const Modal = (props) => {
           }
           return newTimeDuration;
         });
+        
       }, 1000);
     }
     return () => clearInterval(intervalId);
@@ -99,14 +100,22 @@ const Modal = (props) => {
   }, [timeDuration, colorValues, colors]);
 
   const countUpPomodoroCount = () => {
-    if (isRequesting) return;
+    if (isRequesting || timerCompleted) return;
     setIsRequesting(true); 
     axios.post(`${process.env.REACT_APP_API_URL}/countUpPomodoroCount`, {
       selectedId,
       credentials:'include'
     })
-      .then((result)=> console.log(result))
-      .catch((err) => console.log('countUpPomodoroCountでエラー発生',err))
+      .then((result)=> {
+        if (!timerCompleted) {
+          console.log(result)}
+        }
+      )
+      .catch((err) => {
+        if (!timerCompleted) {
+          console.log('countUpPomodoroCountでエラー発生',err)
+        }
+      })
       .finally(() => setIsRequesting(false));
   }
 
