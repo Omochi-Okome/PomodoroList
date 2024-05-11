@@ -33,7 +33,7 @@ exports.checkInformation = (req,res) => {
 }
 
 exports.getLoginForm = (req,res) => {
-    res.status(200).send('Login form page.');
+  res.status(200).send('Login form page.');
 }
 
 exports.postSignup = (req,res) => {
@@ -49,8 +49,12 @@ exports.postSignup = (req,res) => {
 }
 
 exports.postLogout = (req,res) => {
-    req.session.destroy((err) => {
-        console.log(err);
-        res.redirect('/');
-    });
+  if (req.session) {
+    req.session.destroy(() =>{
+      console.log('sessionを破棄しました');
+      res.redirect('/');
+    })
+  } else {
+    console.log('sessionがありません')
+  }
 }
