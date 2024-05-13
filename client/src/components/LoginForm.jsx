@@ -2,6 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import {useNavigate}from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { initializeApp } from "firebase/app";
 /* MaterialUI */
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -15,12 +16,23 @@ import FormControl from '@mui/material/FormControl';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
 const LoginForm = ({isSignup}) => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const auth = getAuth();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
 
@@ -38,7 +50,6 @@ const LoginForm = ({isSignup}) => {
     if(isSignup) {
       createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
         .then((userCredential) => {
-          const user = userCredential.inputEmail;
           console.log('ユーザー登録に成功しました');
         })
         .catch((err) => console.log('firebaseでエラー発生',err));
