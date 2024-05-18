@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import {useNavigate}from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 /* MaterialUI */
 import Box from '@mui/material/Box';
@@ -17,12 +17,12 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGE_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -35,24 +35,30 @@ const LoginForm = ({isSignup}) => {
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
   const handleChangeEmail = (event) => setInputEmail(event.target.value);
-
   const handleChangePassword = (event) => setInputPassword(event.target.value);
   
   const handleSignupClick = () => {
-        navigate('/signup');
-    }
+    navigate('/signup');
+  }
   
   const submitUserInformation = (event) => {
     event.preventDefault();
     
     if(isSignup) {
       createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
-        .then((userCredential) => {
+        .then(() => {
           console.log('ユーザー登録に成功しました');
+          navigate('/')
         })
-        .catch((err) => console.log('firebaseでエラー発生',err));
+        .catch((err) => console.log('firebaseでユーザー登録時にエラー発生',err));
+    } else {
+      signInWithEmailAndPassword(auth, inputEmail, inputPassword)
+        .then(() => {
+          console.log('ログインに成功しました');
+          navigate('/');
+        })
+        .catch(err => console.log('firebaseでサインイン時にエラー発生',err));
     }
   }
   return(
