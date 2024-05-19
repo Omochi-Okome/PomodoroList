@@ -120,22 +120,22 @@ const ToDoList = () => {
   return (
     <div className='container start' onSubmit={handleSubmit}>
       <form action=''>
-        <Grid container direction='' justifyContent='center'>
+        <Grid container justifyContent='center'>
           <Grid item xs={3}>
             <TextField type='text' value={inputValue} onChange={handleInputChange} placeholder='Enter your to-do list!' fullWidth required/>
           </Grid>
         </Grid>
       </form>
 
-      <Grid container spacing={2} direction='' >
+      <Grid container spacing={2}>
         {todoList.length === 0 ? (
           <Grid item>
             <h2>There is no to-do list</h2>
           </Grid>
         ) : (
           todoList.map((todoItem) => (
-          <Grid item>
-            <Card key={todoItem._id} variant='outlined' className={classes.card}>
+          <Grid item key={todoItem.id}>
+            <Card variant='outlined' className={classes.card}>
               <CardContent>
                 <Typography variant='body1'>{todoItem.item}</Typography>
                 <Button variant='outlined' onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
