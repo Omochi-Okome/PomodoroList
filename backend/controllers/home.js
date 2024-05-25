@@ -2,6 +2,7 @@ const {savingTodoList,HomeArchiveMover,countUpPomodoro} = require('../models/hom
 const dayjs = require('dayjs');
 const getDB = require('../util/database').getDB;
 var ObjectId = require('mongodb').ObjectId;
+const List = require('../models/list');
 
 exports.getHome = (req, res) => {
   const db = getDB();
@@ -18,18 +19,31 @@ exports.getHome = (req, res) => {
     });
 };
 
-exports.postItem = (req, res) => {
-  const postItem = req.body.inputData;
+exports.postItem = async (req, res) => {
+  const item = req.body.inputData;
   const registerDate = req.body.registerDate;
-  const pomodoroCount = req.body.pomodoroCount
-  const product = new savingTodoList({ item: postItem, registerDate:dayjs(registerDate).format('YYYY-MM-DD'), pomodoroCount: pomodoroCount});
-  product
-    .saveTodoItem()
-    .then(() => {
-      res.setHeader('Set-Cookie', 'loggedIn=true')
-      res.redirect('/')
-    })
-    .catch((err) => console.log(err));
+  const pomodoroCount = req.body.pomodoroCount;
+  const saveTodoItem = new List({
+    item,
+    registerDate,
+    pomodoroCount
+  });
+
+  try {
+    const savedItem = await saveTodoItem.save();
+    return savedItem;
+  } catch(err) {
+    console.log(err)
+  }
+
+  // const product = new savingTodoList({ item: postItem, registerDate:dayjs(registerDate).format('YYYY-MM-DD'), pomodoroCount: pomodoroCount});
+  // product
+  //   .saveTodoItem()
+  //   .then(() => {
+  //     res.setHeader('Set-Cookie', 'loggedIn=true')
+  //     res.redirect('/')
+  //   })
+  //   .catch((err) => console.log(err));
 };
 
 exports.deleteItem = (req, res) => {

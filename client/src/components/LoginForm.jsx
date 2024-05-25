@@ -26,7 +26,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
+const auth = getAuth();
 
 const LoginForm = ({isSignup}) => {
   const [inputEmail, setInputEmail] = useState('');
@@ -49,14 +49,15 @@ const LoginForm = ({isSignup}) => {
       createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
         .then(() => {
           console.log('ユーザー登録に成功しました');
-          navigate('/')
+          navigate('/');
         })
         .catch((err) => console.log('firebaseでユーザー登録時にエラー発生',err));
     } else {
       signInWithEmailAndPassword(auth, inputEmail, inputPassword)
-        .then(() => {
+        .then((userCredential) => {
+          const user = userCredential.user;
           console.log('ログインに成功しました');
-          navigate('/');
+          console.log(user)
         })
         .catch(err => console.log('firebaseでサインイン時にエラー発生',err));
     }

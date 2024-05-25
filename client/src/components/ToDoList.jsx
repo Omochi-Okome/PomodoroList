@@ -46,7 +46,6 @@ const ToDoList = () => {
       return;
     }
     try {
-      
       const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/item`,dataToSend,{
         credentials: 'include'
@@ -54,7 +53,7 @@ const ToDoList = () => {
       setInputValue('');
       updateList(response.data);
     } catch (error) {
-      console.error('handleSubmitでエラー発生', error);
+      console.log('handleSubmitでエラー発生', error);
     }
   };
 

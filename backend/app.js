@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const cors = require('cors');
-const mongoConnect = require('./util/database').mongoConnect;
+const connectDB = require('./util/database');
 require('dotenv').config();
 
 const PORT = process.env.PORT || 3000;
@@ -45,8 +45,8 @@ app.use('/', homeRoutes);
 app.use('/archive', archiveRoutes);
 app.use('/auth',authRoutes);
 
-mongoConnect(() => {
+connectDB().then(() => {
   app.listen(PORT,()=>{
     console.log(`Server is running on port ${PORT}`)
   });
-});
+}).catch(err => console.log('Failed to connect to MongoDB:',err))
