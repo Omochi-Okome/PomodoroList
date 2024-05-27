@@ -26,31 +26,24 @@ const ArchiveList = () => {
     fetchArchiveList();
   }, []);
     
-  const fetchArchiveList = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}/Archive`,{
-        credentials: 'include'
-      })
-      .then((response) => {
-        setArchiveList(
-          response.data.map((item) => ({
-            id: item._id.toString(),
-            ArchiveItem: item.ArchiveItem,
-            registerDate: item.registerDate,
-            pomodoroCount: item.pomodoroCount
-          }))
-        );
-      })
-      .catch((err) => {
-        console.error('fetchArchiveListでエラー発生:', err);
-      });
+  const fetchArchiveList = async() => {
+    try{
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/Archive`)
+      if (!response.ok) {
+        throw new Error('データ取得に失敗');
+      }
+      const data = await response.json();
+      setArchiveList(data)
+    } catch(err) {
+      console.log(err)
+    }
   };
 
-  const returnHome = (id, archiveItem, registerDate, pomodoroCount) => {
+  const returnHome = (id, item, registerDate, pomodoroCount) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
         id: id,
-        returnItem: archiveItem,
+        returnItem: item,
         registerDate: registerDate,
         pomodoroCount: pomodoroCount,
         credentials: 'include'
@@ -79,13 +72,13 @@ const ArchiveList = () => {
           <h2>There is no archive list</h2>
       ) : (
         <Grid container direction=''>
-            {archiveList.map((archiveList) => (
+            {archiveList.map((archive) => (
           <Grid item>
-            <Card key={archiveList.id} variant='outlined' className={classes.card}>
+            <Card key={archive.id} variant='outlined' className={classes.card}>
               <CardContent>
-                <Typography variant='body1'>{archiveList.ArchiveItem}</Typography>
-                <Button variant='outlined' color='primary' onClick={() => returnHome(archiveList.id, archiveList.ArchiveItem, archiveList.registerDate, archiveList.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
-                <Button variant='contained' color='error' onClick={()=> deleteCard(archiveList.id)} startIcon={<DeleteIcon />}>Delete</Button>
+                <Typography variant='body1'>{archive.item}</Typography>
+                <Button variant='outlined' color='primary' onClick={() => returnHome(archive.id, archive.item, archive.registerDate, archive.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
+                <Button variant='contained' color='error' onClick={()=> deleteCard(archive.id)} startIcon={<DeleteIcon />}>Delete</Button>
               </CardContent>
             </Card>
           </Grid>

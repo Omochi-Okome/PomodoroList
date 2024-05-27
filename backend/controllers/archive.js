@@ -1,19 +1,15 @@
 const { ObjectId } = require('mongodb');
-const { archive, returnArchiveItem } = require('../models/archive');
-const getDB = require('../util/database').getDB;
+const archiveList = require('../models/archiveList')
+const connectDB = require('../util/database')
 
-exports.viewArchive = (req,res) => {
-  const db = getDB();
-  return db
-    .collection('archive')
-    .find()
-    .toArray()
-    .then(ArchiveList => {
-      res.json(ArchiveList)
-    })
-    .catch(err => {
-      console.log('アーカイブリストの取得失敗', err);
-    });
+exports.viewArchive = async(req,res) => {
+  try{
+    await connectDB();
+    const product = await archiveList.find().exec();
+    res.json(product)
+  } catch(err) {
+    res.status(500).json({err: 'アーカイブデータを取得できませんでした。'});
+  }
 }
 
 exports.deleteArchiveTodoItem = (req,res) => {

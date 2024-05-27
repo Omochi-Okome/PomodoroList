@@ -1,7 +1,4 @@
-const mongodb = require('mongodb');
 const mongoose = require('mongoose')
-
-let _db;
 
 const connectDB = async () => {
     try {

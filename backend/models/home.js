@@ -1,26 +1,5 @@
-const mongodb = require('mongodb');
-const  getDB = require('../util/database').getDB;
+const getDB = require('../util/database').getDB;
 const ObjectId  = require('mongodb').ObjectId
-
-class savingTodoList {
-  constructor({item, registerDate, pomodoroCount}) {
-    this.item = item;
-    this.registerDate = registerDate;
-    this.pomodoroCount = pomodoroCount;
-  }
-
-  saveTodoItem() {
-    const db = getDB();
-    return db
-      .collection('list')
-      .insertOne({
-        _id:new mongodb.ObjectId(),
-        item: this.item,
-        registerDate: this.registerDate,
-        pomodoroCount: this.pomodoroCount
-      });
-  }
-};
 
 class HomeArchiveMover {
   constructor(_id, ArchiveItem, registerDate, pomodoroCount) {
@@ -73,4 +52,4 @@ class countUpPomodoro {
 }
 
 
-module.exports = { savingTodoList, HomeArchiveMover,countUpPomodoro};
+module.exports = {HomeArchiveMover, countUpPomodoro};

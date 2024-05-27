@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const listSchema = new mongoose.Schema({
+const archiveListSchema = new mongoose.Schema({
   item: {
     type: String,
     required: true,
@@ -15,6 +15,6 @@ const listSchema = new mongoose.Schema({
   }
 })
 
-const List = mongoose.model('List', listSchema, 'list');
+const archiveList = mongoose.model('archiveList', archiveListSchema, 'archive');
 
-module.exports = List;
+module.exports = archiveList;

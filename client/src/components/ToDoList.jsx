@@ -66,24 +66,19 @@ const ToDoList = () => {
     fetchTodoList();
   }, []);
 
-  const fetchTodoList = () => {
-    axios
-      .get(`${process.env.REACT_APP_API_URL}`,{
-        credentials: 'include'
-      })
-      .then((response) => {
-        setTodoList(
-          response.data.map((item) => ({
-            id: item._id.toString(),
-            item: item.item,
-            registerDate: item.registerDate,
-            pomodoroCount: item.pomodoroCount
-          }))
-        );
-      })
-      .catch((error) => {
-        console.error('fetchTodoListでエラー発生', error);
-      });
+  const fetchTodoList = async() => {
+    try{
+      const response = await fetch(`${process.env.REACT_APP_API_URL}`)
+      if (!response.ok) {
+        throw new Error('データ取得に失敗');
+      }
+      
+      const data = await response.json();
+      setTodoList(data)
+      console.log('テスト',data)
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
