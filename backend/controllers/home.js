@@ -1,7 +1,5 @@
-const countUpPomodoro = require('../models/home');
 const dayjs = require('dayjs');
 const connectDB = require('../util/database')
-var ObjectId = require('mongodb').ObjectId;
 const List = require('../models/list');
 const ArchiveList = require('../models/archiveList');
 
@@ -39,15 +37,16 @@ exports.deleteItem = async (req, res) => {
   }
 };
 
-exports.countUpPomodoroCount = (req,res) => {
-  const _id = new ObjectId(req.body.selectedId);
-  const product = new countUpPomodoro(_id)
-  console.log('countUpPomodoroCount received:', new Date());
-  product.countUpPomodoroCount()
-    .then(() => {
-      res.json({ message: 'カウントアップ成功' });
-      console.log('Response sent:', new Date());
-      return
-    })
-    .catch((err) => console.log(err))
+exports.countUpPomodoroCount = async(req,res) => {
+  const _id = req.body.selectedId;
+  try {
+    await List.findOneAndUpdate(
+      { _id: _id},
+      { $inc: { pomodoroCount: 1}},
+      {new: true}
+    );
+    res.json();
+  } catch(err) {
+    console.log(err);
+  }
 }

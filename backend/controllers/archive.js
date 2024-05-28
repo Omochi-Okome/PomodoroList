@@ -28,8 +28,8 @@ exports.returnHome = async(req,res) => {
   try {
     await returnProduct.save();
     await ArchiveList.deleteOne({_id: _id});
+    res.json();
   } catch(err) {
     console.log(err);
   }
-  res.redirect('/')
 }

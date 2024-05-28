@@ -130,7 +130,7 @@ const ToDoList = () => {
             <Card variant='outlined' className={classes.card}>
               <CardContent>
                 <Typography variant='body1'>{todoItem.item}</Typography>
-                <Button variant='outlined' onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
+                <Button variant='outlined' onClick={() => handleStartCountdown(todoItem._id)}><PlayCircleOutlineIcon/>Start</Button>
                 <Button variant='outlined' onClick={() => deleteItem(todoItem._id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
                   <CheckCircleIcon/>
                   Done

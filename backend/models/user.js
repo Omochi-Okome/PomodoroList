@@ -1,4 +1,4 @@
-const  getDB = require('../util/database').getDB;
+const getDB = require('../util/database').getDB;
 const bcryptjs = require('bcryptjs');
 const dayjs = require('dayjs');
 
