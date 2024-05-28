@@ -1,34 +1,4 @@
 const getDB = require('../util/database').getDB;
-const ObjectId  = require('mongodb').ObjectId
-
-class HomeArchiveMover {
-  constructor(_id, ArchiveItem, registerDate, pomodoroCount) {
-    this._id = _id;
-    this.ArchiveItem = ArchiveItem;
-    this.registerDate = registerDate;
-    this.pomodoroCount = pomodoroCount;
-  }
-
-  saveArchive(){
-    const db = getDB();
-    return db
-      .collection('archive')
-      .insertOne({ArchiveItem:this.ArchiveItem, registerDate:this.registerDate, pomodoroCount:this.pomodoroCount})
-  }
-
-  deleteById() {
-    const db = getDB();
-    return db
-      .collection('list')
-      .deleteOne({_id:new ObjectId(this._id)})
-      .then(() => {
-        console.log('削除完了')
-      })
-      .catch(err => {
-        console.log(err);
-      });
-  }
-}
 
 class countUpPomodoro {
   constructor(_id){
@@ -52,4 +22,4 @@ class countUpPomodoro {
 }
 
 
-module.exports = {HomeArchiveMover, countUpPomodoro};
+module.exports = {countUpPomodoro};

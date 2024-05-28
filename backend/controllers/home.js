@@ -20,8 +20,8 @@ exports.postItem = async (req, res) => {
   const {inputData: item, registerDate, pomodoroCount} = req.body;
   const saveTodoItem = new List({item, registerDate, pomodoroCount});
   try {
-    const savedItem = await saveTodoItem.save();
-    return savedItem;
+    await saveTodoItem.save();
+    res.json()
   } catch(err) {
     console.log(err)
   }

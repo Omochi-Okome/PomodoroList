@@ -39,10 +39,10 @@ const ArchiveList = () => {
     }
   };
 
-  const returnHome = (id, item, registerDate, pomodoroCount) => {
+  const returnHome = (_id, item, registerDate, pomodoroCount) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
-        _id: id,
+        _id: _id,
         returnItem: item,
         registerDate: registerDate,
         pomodoroCount: pomodoroCount,
