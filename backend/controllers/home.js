@@ -1,17 +1,18 @@
-const {HomeArchiveMover,countUpPomodoro} = require('../models/home');
+const countUpPomodoro = require('../models/home');
 const dayjs = require('dayjs');
 const connectDB = require('../util/database')
 var ObjectId = require('mongodb').ObjectId;
 const List = require('../models/list');
+const ArchiveList = require('../models/archiveList');
 
 exports.getHome = async (req, res) => {
-  try{
+  try {
     await connectDB();
     const products = await List.find().exec();
-    res.json(products)
+    res.json(products);
   } catch(err) {
-    console.log(err)
-    res.status(500).json({err: 'データ取得時にエラーが発生しました。'})
+    console.log(err);
+    res.status(500).json({err: 'データ取得時にエラーが発生しました。'});
   }
 };
 
@@ -26,14 +27,16 @@ exports.postItem = async (req, res) => {
   }
 };
 
-exports.deleteItem = (req, res) => {
-  const {itemId: _id, ArchiveItem, registerDate, pomodoroCount} = req.body;
-  const product = new HomeArchiveMover(_id, ArchiveItem, registerDate, pomodoroCount);
-  product.saveArchive();
-  product
-    .deleteById()
-    .then(() => res.redirect('/'))
-    .catch((err) => console.log(err));
+exports.deleteItem = async (req, res) => {
+  const {itemId, item, registerDate, pomodoroCount} = req.body;
+  const saveArchiveItem = new ArchiveList({item, registerDate, pomodoroCount});
+  try {
+    const savedArchiveItem = await saveArchiveItem.save();
+    await List.deleteOne({_id:itemId});
+    res.json(savedArchiveItem);
+  } catch(err) {
+    console.log(err);
+  }
 };
 
 exports.countUpPomodoroCount = (req,res) => {
@@ -42,8 +45,8 @@ exports.countUpPomodoroCount = (req,res) => {
   console.log('countUpPomodoroCount received:', new Date());
   product.countUpPomodoroCount()
     .then(() => {
-      res.json({ message: 'カウントアップ成功' });  // 応答の送信
-      console.log('Response sent:', new Date());  // 応答送信時のログ
+      res.json({ message: 'カウントアップ成功' });
+      console.log('Response sent:', new Date());
       return
     })
     .catch((err) => console.log(err))

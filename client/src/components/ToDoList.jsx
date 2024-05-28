@@ -72,10 +72,8 @@ const ToDoList = () => {
       if (!response.ok) {
         throw new Error('データ取得に失敗');
       }
-      
       const data = await response.json();
       setTodoList(data)
-      console.log('テスト',data)
     } catch(err) {
       console.log(err);
     }
@@ -85,7 +83,7 @@ const ToDoList = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/delete`, {
         itemId: itemId,
-        ArchiveItem: item,
+        item: item,
         registerDate:registerDate,
         pomodoroCount:pomodoroCount,
         credentials: 'include'
@@ -128,12 +126,12 @@ const ToDoList = () => {
           </Grid>
         ) : (
           todoList.map((todoItem) => (
-          <Grid item key={todoItem.id}>
+          <Grid item key={todoItem._id}>
             <Card variant='outlined' className={classes.card}>
               <CardContent>
                 <Typography variant='body1'>{todoItem.item}</Typography>
                 <Button variant='outlined' onClick={() => handleStartCountdown(todoItem.id)}><PlayCircleOutlineIcon/>Start</Button>
-                <Button variant='outlined' onClick={() => deleteItem(todoItem.id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
+                <Button variant='outlined' onClick={() => deleteItem(todoItem._id, todoItem.item, todoItem.registerDate, todoItem.pomodoroCount)}>
                   <CheckCircleIcon/>
                   Done
                 </Button>

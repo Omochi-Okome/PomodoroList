@@ -15,6 +15,6 @@ const archiveListSchema = new mongoose.Schema({
   }
 })
 
-const archiveList = mongoose.model('archiveList', archiveListSchema, 'archive');
+const ArchiveList = mongoose.model('archiveList', archiveListSchema, 'archive');
 
-module.exports = archiveList;
+module.exports = ArchiveList;

@@ -3,21 +3,23 @@ const archiveList = require('../models/archiveList')
 const connectDB = require('../util/database')
 
 exports.viewArchive = async(req,res) => {
-  try{
+  try {
     await connectDB();
     const product = await archiveList.find().exec();
-    res.json(product)
+    res.json(product);
   } catch(err) {
     res.status(500).json({err: 'アーカイブデータを取得できませんでした。'});
   }
 }
 
-exports.deleteArchiveTodoItem = (req,res) => {
-  const _id = new ObjectId(req.body._id);
-  const product = new archive(_id)
-  product.deleteById()
-    .then(() => res.redirect('/archive'))
-    .catch(err => console.log(err));
+exports.deleteArchiveTodoItem = async(req,res) => {
+  const _id = req.body._id;
+  try {
+    await archiveList.deleteOne({_id:_id})
+    res.json()
+  } catch(err) {
+    console.log(err);
+  } 
 }
 
 exports.returnHome = (req,res) => {
@@ -27,7 +29,7 @@ exports.returnHome = (req,res) => {
   const pomodoroCount = req.body.pomodoroCount;
   const productReturnItem = new returnArchiveItem(returnItem, registerDate, pomodoroCount);
   const productArchive = new archive(_id);
-  try{
+  try {
     productArchive.deleteById()
     productReturnItem.returnArchiveItem()
   } catch(err) {

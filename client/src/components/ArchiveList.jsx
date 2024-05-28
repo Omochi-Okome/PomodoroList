@@ -42,7 +42,7 @@ const ArchiveList = () => {
   const returnHome = (id, item, registerDate, pomodoroCount) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
-        id: id,
+        _id: id,
         returnItem: item,
         registerDate: registerDate,
         pomodoroCount: pomodoroCount,
@@ -58,7 +58,6 @@ const ArchiveList = () => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/Archive/delete`, {
         _id: itemId,
-        credentials: 'include'
       })
       .then(() => {
         fetchArchiveList();
@@ -71,14 +70,14 @@ const ArchiveList = () => {
       {archiveList.length === 0 ? (
           <h2>There is no archive list</h2>
       ) : (
-        <Grid container direction=''>
+        <Grid container>
             {archiveList.map((archive) => (
-          <Grid item>
-            <Card key={archive.id} variant='outlined' className={classes.card}>
+          <Grid item key={archive._id}>
+            <Card variant='outlined' className={classes.card}>
               <CardContent>
                 <Typography variant='body1'>{archive.item}</Typography>
-                <Button variant='outlined' color='primary' onClick={() => returnHome(archive.id, archive.item, archive.registerDate, archive.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
-                <Button variant='contained' color='error' onClick={()=> deleteCard(archive.id)} startIcon={<DeleteIcon />}>Delete</Button>
+                <Button variant='outlined' color='primary' onClick={() => returnHome(archive._id, archive.item, archive.registerDate, archive.pomodoroCount)} startIcon={<KeyboardReturnIcon/>}>Return</Button>
+                <Button variant='contained' color='error' onClick={()=> deleteCard(archive._id)} startIcon={<DeleteIcon />}>Delete</Button>
               </CardContent>
             </Card>
           </Grid>
