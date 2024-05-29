@@ -3,14 +3,13 @@ const express = require('express');
 const router = express.Router();
 
 const homeController = require('../controllers/home');
-const auth = require('../middleware/auth');
 
-router.get('/', auth,homeController.getHome);
+router.get('/', homeController.getHome);
 
-router.post('/item',auth, homeController.postItem);
+router.post('/item', homeController.postItem);
 
-router.post('/delete', auth, homeController.deleteItem);
+router.post('/delete', homeController.deleteItem);
 
-router.post('/countUpPomodoroCount', auth, homeController.countUpPomodoroCount)
+router.post('/countUpPomodoroCount', homeController.countUpPomodoroCount)
 
 module.exports = router;

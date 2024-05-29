@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const session = require('express-session');
-const MongoDBStore = require('connect-mongodb-session')(session);
+const admin = require('firebase-admin');
+const serviceAccount = require('./config/pomodorolist-22381-firebase-adminsdk-kwp57-6ab6814b23.json');
 const cors = require('cors');
 const connectDB = require('./util/database');
 require('dotenv').config();
@@ -9,10 +9,9 @@ require('dotenv').config();
 const PORT = process.env.PORT || 3000;
 const app = express();
 
-const store = new MongoDBStore({
-  uri:process.env.MONGO_URI,
-  collection: 'session'
-})
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
@@ -25,25 +24,11 @@ app.use(
   })
 );
 
-app.use(session({
-  secret:'my secret', 
-  resave: false, 
-  saveUninitialized: true,
-  store: store,
-  cookie: {
-    secure: false,
-    httpOnly: true,
-    maxAge:30000
-  }
-}))
-
 const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
-const authRoutes = require('./routes/auth');
 
 app.use('/', homeRoutes);
 app.use('/archive', archiveRoutes);
-app.use('/auth',authRoutes);
 
 connectDB().then(() => {
   app.listen(PORT,()=>{
