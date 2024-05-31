@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 /* MaterialUI */
 import { makeStyles } from '@material-ui/core/styles';
+import  { getAuth } from 'firebase/auth';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
@@ -21,6 +22,8 @@ const useStyles = makeStyles({
 const ArchiveList = () => {
   const [archiveList, setArchiveList] = useState([]);
   const classes = useStyles();
+  const auth = getAuth();
+  const user = auth.currentUser;
 
   useEffect(() => {
     fetchArchiveList();
@@ -42,6 +45,7 @@ const ArchiveList = () => {
   const returnHome = (_id, item, registerDate, pomodoroCount) => {
     axios
       .post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
+        userId: user.uid,
         _id: _id,
         returnItem: item,
         registerDate: registerDate,

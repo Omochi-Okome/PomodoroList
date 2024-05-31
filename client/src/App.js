@@ -29,10 +29,10 @@ function App() {
             <Route path='/archive' element={<Archive />} />
             <Route path='/data' element={<Data/>}/>
             <Route path='/setting' element={<Setting/>} />
-            <Route path='/mypage' element={<Mypage />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/logout' element={<Logout/>}></Route>
-            <Route path='/signup' element={<SignupPage />}></Route>
+            <Route path='/auth/mypage' element={<Mypage />} />
+            <Route path='/auth/login' element={<Login />} />
+            <Route path='/auth/logout' element={<Logout/>}></Route>
+            <Route path='/auth/signup' element={<SignupPage />}></Route>
           </Routes>
         </Grid>
       </Grid>

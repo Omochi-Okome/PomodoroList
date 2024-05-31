@@ -20,13 +20,13 @@ function TopBar() {
     setSelectedIndex(index);
     switch(index) {
       case 0:
-        navigate('/login');
+        navigate('/auth/login');
         break;
       case 1:
-        navigate('/logout');
+        navigate('/auth/logout');
         break;
       case 2:
-        navigate('/mypage');
+        navigate('/auth/mypage');
         break;
     }
   };

@@ -1,4 +1,3 @@
-const dayjs = require('dayjs');
 const connectDB = require('../util/database')
 const List = require('../models/list');
 const ArchiveList = require('../models/archiveList');
@@ -15,8 +14,8 @@ exports.getHome = async (req, res) => {
 };
 
 exports.postItem = async (req, res) => {
-  const {inputData: item, registerDate, pomodoroCount} = req.body;
-  const saveTodoItem = new List({item, registerDate, pomodoroCount});
+  const {userId,inputData: item, registerDate, pomodoroCount} = req.body;
+  const saveTodoItem = new List({userId,item, registerDate, pomodoroCount});
   try {
     await saveTodoItem.save();
     res.json()
@@ -26,8 +25,8 @@ exports.postItem = async (req, res) => {
 };
 
 exports.deleteItem = async (req, res) => {
-  const {itemId, item, registerDate, pomodoroCount} = req.body;
-  const saveArchiveItem = new ArchiveList({item, registerDate, pomodoroCount});
+  const {userId,itemId, item, registerDate, pomodoroCount} = req.body;
+  const saveArchiveItem = new ArchiveList({userId, item, registerDate, pomodoroCount});
   try {
     const savedArchiveItem = await saveArchiveItem.save();
     await List.deleteOne({_id:itemId});

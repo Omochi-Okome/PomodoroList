@@ -1,7 +1,7 @@
 import * as React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {useNavigate}from 'react-router-dom';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
 import { initializeApp } from "firebase/app";
 /* MaterialUI */
 import Box from '@mui/material/Box';
@@ -32,6 +32,7 @@ const LoginForm = ({isSignup}) => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -39,8 +40,19 @@ const LoginForm = ({isSignup}) => {
   const handleChangePassword = (event) => setInputPassword(event.target.value);
   
   const handleSignupClick = () => {
-    navigate('/signup');
+    navigate('/auth/signup');
   }
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+    return () => unsubscribe();
+  }, [])
   
   const submitUserInformation = (event) => {
     event.preventDefault();
@@ -58,6 +70,7 @@ const LoginForm = ({isSignup}) => {
           const user = userCredential.user;
           console.log('ログインに成功しました');
           console.log(user)
+          navigate('/')
         })
         .catch(err => console.log('firebaseでサインイン時にエラー発生',err));
     }

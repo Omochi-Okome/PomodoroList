@@ -1,6 +1,10 @@
 const mongoose = require('mongoose');
 
 const archiveListSchema = new mongoose.Schema({
+  userId: {
+    type: String,
+    required: true,
+  },
   item: {
     type: String,
     required: true,

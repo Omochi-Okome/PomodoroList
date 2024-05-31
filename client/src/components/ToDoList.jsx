@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Modal from './Modal';
 import { createPortal } from 'react-dom';
+import {useNavigate}from 'react-router-dom';
 /* MaterialUI */
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField } from '@material-ui/core';
@@ -34,8 +36,26 @@ const ToDoList = () => {
   const [inputValue, setInputValue] = useState('');
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodoId, setSelectedTodoId] = useState(null);
+  const [user, setUser] = useState(null);
+  const [loading, setloading] = useState(true);
   const classes = useStyles();
+  const navigate = useNavigate();
   const firstPomodoroCount = 0;
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log('ログイン中です')
+        setUser(user);
+      } else {
+        console.log('ログインしていません')
+        navigate('/auth/login');
+      }
+      setloading(false);
+    });
+    return () => unsubscribe();
+  }, [navigate, auth]);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -46,7 +66,12 @@ const ToDoList = () => {
       return;
     }
     try {
-      const dataToSend = { inputData: inputValue, registerDate:initialDate, pomodoroCount:firstPomodoroCount};
+      const dataToSend = {
+        userId: user.uid,
+        inputData: inputValue,
+        registerDate:initialDate,
+        pomodoroCount:firstPomodoroCount
+      };
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/item`,dataToSend,{
         credentials: 'include'
       });
@@ -79,21 +104,20 @@ const ToDoList = () => {
     }
   };
 
-  const deleteItem = (itemId, item, registerDate, pomodoroCount) => {
-    axios
-      .post(`${process.env.REACT_APP_API_URL}/delete`, {
+  const deleteItem = async(itemId, item, registerDate, pomodoroCount) => {
+    try {
+      await axios.post(`${process.env.REACT_APP_API_URL}/delete`, {
+        userId: user.uid,
         itemId: itemId,
         item: item,
         registerDate:registerDate,
         pomodoroCount:pomodoroCount,
         credentials: 'include'
       })
-      .then(() => {
-        fetchTodoList();
-      })
-      .catch((error) => {
-        console.error('deleteItemでエラー発生', error);
-      });
+      fetchTodoList();
+    } catch(err) {
+      console.log(err);
+    }
   };
 
   const updateList = (newList) => {
@@ -108,6 +132,10 @@ const ToDoList = () => {
   const handleOnComplete = () => {
     setModalOpen(false);
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='container start' onSubmit={handleSubmit}>
@@ -156,7 +184,6 @@ const ToDoList = () => {
       </>
       }
     </div>
-
   );
 };
 

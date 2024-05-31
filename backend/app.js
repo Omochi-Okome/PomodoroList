@@ -26,9 +26,11 @@ app.use(
 
 const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
+const authRoutes = require('./routes/auth');
 
 app.use('/', homeRoutes);
 app.use('/archive', archiveRoutes);
+app.use('/auth',authRoutes);
 
 connectDB().then(() => {
   app.listen(PORT,()=>{
