@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
-const serviceAccount = require('./config/pomodorolist-22381-firebase-adminsdk-kwp57-6ab6814b23.json');
+const serviceAccount = require('./pomodorolist-22381-firebase-adminsdk-kwp57-6ab6814b23.json');
 const cors = require('cors');
 const connectDB = require('./util/database');
 require('dotenv').config();

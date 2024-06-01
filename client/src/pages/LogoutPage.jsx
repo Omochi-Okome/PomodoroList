@@ -1,18 +1,23 @@
 import {useEffect} from "react"
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { getAuth, signOut } from "firebase/auth";
 
 const LogoutPage = () => {
   const navigate = useNavigate();
+  const auth = getAuth();
 
   useEffect(() => {
-    axios.post(`${process.env.REACT_APP_API_URL}/auth/logout`)
-      .then(res => {
-        console.log('ログアウトに成功しました')
-        navigate('login');
-      })
-      .catch((err) => console.log('ログアウトできませんでした。',err))
-  })
+    const logout = async() => {
+      try {
+        await signOut(auth);
+        console.log('ログアウトに成功しました。');
+        navigate('/auth/login');
+      } catch(err) {
+        console.log(err);
+      }
+    }
+    logout();
+  }, [auth, navigate]);
 
   return (
     <div>
@@ -21,4 +26,4 @@ const LogoutPage = () => {
   )
 }
 
-export default LogoutPage
+export default LogoutPage;
