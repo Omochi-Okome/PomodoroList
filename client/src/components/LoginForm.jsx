@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import {useNavigate}from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
 import { initializeApp } from "firebase/app";
+import { getErrorMessage } from './errorMessage';
 /* MaterialUI */
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
-import { Button } from '@mui/material';
+import { Button, Typography } from '@mui/material';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -25,7 +26,7 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-// const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 
 const LoginForm = ({isSignup}) => {
@@ -33,6 +34,7 @@ const LoginForm = ({isSignup}) => {
   const [inputPassword, setInputPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [user, setUser] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -56,6 +58,13 @@ const LoginForm = ({isSignup}) => {
   
   const submitUserInformation = (event) => {
     event.preventDefault();
+    if (!inputEmail) {
+      setErrorMessage('メールアドレスを入力してください');
+    }
+    if (!inputPassword) {
+      setErrorMessage('パスワードを入力してください');
+      return;
+    }
     
     if(isSignup) {
       createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
@@ -63,7 +72,10 @@ const LoginForm = ({isSignup}) => {
           console.log('ユーザー登録に成功しました');
           navigate('/');
         })
-        .catch((err) => console.log('firebaseでユーザー登録時にエラー発生',err));
+        .catch((err) => {
+          console.log('firebaseでユーザー登録時にエラー発生',err);
+          setErrorMessage(getErrorMessage(err.code));
+        });
     } else {
       signInWithEmailAndPassword(auth, inputEmail, inputPassword)
         .then((userCredential) => {
@@ -72,7 +84,12 @@ const LoginForm = ({isSignup}) => {
           console.log(user)
           navigate('/')
         })
-        .catch(err => console.log('firebaseでサインイン時にエラー発生',err));
+        .catch((err)  => {
+          console.log('エラーの実態',err);
+          console.log('firebaseでサインイン時にエラー発生',err);
+          console.log('エラーメッセージ',errorMessage);
+          setErrorMessage(getErrorMessage(err.code));
+        })
     }
   }
   return(
@@ -115,6 +132,11 @@ const LoginForm = ({isSignup}) => {
           </Button>
           {isSignup ? '' : <Button onClick={() => handleSignupClick()}>サインアップ</Button>}
         </FormControl>
+        {errorMessage && (
+          <Typography>
+            {errorMessage}
+          </Typography>
+        )}
     </Box>
   )
 }
