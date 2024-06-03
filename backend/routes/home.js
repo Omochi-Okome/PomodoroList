@@ -12,4 +12,4 @@ router.post('/delete', homeController.deleteItem);
 
 router.post('/countUpPomodoroCount', homeController.countUpPomodoroCount)
 
-module.exports = router;
+module.exports = router

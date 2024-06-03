@@ -25,6 +25,7 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
+    "prestart": "node generateServiceAccount.js",
     "start": "nodemon app.js",
     "client": "cd client && npm start",
     "test": "echo \"Error: no test specified\" && exit 1"
