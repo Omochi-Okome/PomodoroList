@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const cors = require('cors');
 const connectDB = require('./util/database');
+const path = require('path');
 require('dotenv').config();
 
 const serviceAccount = {
@@ -35,6 +36,8 @@ app.use(
     allowedHeaders: ['Content-Type', 'Authorization']
   })
 );
+
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
