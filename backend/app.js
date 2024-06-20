@@ -19,7 +19,7 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL
 };
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 const app = express();
 
 admin.initializeApp({
@@ -37,8 +37,6 @@ app.use(
   })
 );
 
-app.use(express.static(path.join(__dirname, '../client/build')));
-
 const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
 const authRoutes = require('./routes/auth');
@@ -46,6 +44,8 @@ const authRoutes = require('./routes/auth');
 app.use('/', homeRoutes);
 app.use('/archive', archiveRoutes);
 app.use('/auth', authRoutes);
+
+app.use(express.static(path.join(__dirname, '../client/build')));
 
 connectDB().then(() => {
   app.listen(PORT, () => {

@@ -48,6 +48,7 @@ const ToDoList = () => {
       if (user) {
         console.log('ログイン中です')
         setUser(user);
+        fetchTodoList();
       } else {
         console.log('ログインしていません')
         navigate('/auth/login');
@@ -93,12 +94,10 @@ const ToDoList = () => {
 
   const fetchTodoList = async() => {
     try{
-      const response = await fetch(`${process.env.REACT_APP_API_URL}`)
-      if (!response.ok) {
-        throw new Error('データ取得に失敗');
-      }
-      const data = await response.json();
-      setTodoList(data)
+      const response = await axios.get(`${process.env.REACT_APP_API_URL}`, {
+        withCredentials: true,
+      })
+      setTodoList(response.data)
     } catch(err) {
       console.log(err);
     }
