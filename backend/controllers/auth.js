@@ -1,5 +1,3 @@
-
-
 exports.getLoginForm = (req,res) => {
   res.json();
 }

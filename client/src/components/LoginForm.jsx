@@ -78,10 +78,8 @@ const LoginForm = ({isSignup}) => {
         });
     } else {
       signInWithEmailAndPassword(auth, inputEmail, inputPassword)
-        .then((userCredential) => {
-          const user = userCredential.user;
+        .then(() => {
           console.log('ログインに成功しました');
-          console.log(user)
           navigate('/')
         })
         .catch((err)  => {

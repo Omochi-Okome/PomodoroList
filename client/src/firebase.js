@@ -1,7 +1,7 @@
-import firebase from '@react-native-firebase/app';
-import '@react-native-firebase/auth';
-import '@react-native-firebase/firestore';
- 
+import { initializeApp, getApps, getApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
+import { getFirestore } from 'firebase/firestore';
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -11,14 +11,9 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-let app;
-if (firebase.apps.length === 0) {
-    app = firebase.initializeApp(firebaseConfig)
-} else {
-    app = firebase.app()
-}
+const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
 
-const db = () => firebase.firestore();
-const auth = () => firebase.auth();
+const db = getFirestore(app);
+const auth = getAuth(app);
 
-export default { firebaseConfig, app, db, auth };
+export { app, db, auth };

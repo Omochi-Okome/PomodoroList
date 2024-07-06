@@ -37,12 +37,14 @@ app.use(
   })
 );
 
+const authMiddleware = require('./middleware/auth');
+
 const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
 const authRoutes = require('./routes/auth');
 
-app.use('/', homeRoutes);
-app.use('/archive', archiveRoutes);
+app.use('/', authMiddleware,homeRoutes);
+app.use('/archive', authMiddleware, archiveRoutes);
 app.use('/auth', authRoutes);
 
 app.use(express.static(path.join(__dirname, '../client/build')));
