@@ -8,10 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("AuthContext useEffect called"); // デバッグログ追加
-    console.log("auth object:", auth); // デバッグログ追加
     const unsubscribe = auth.onAuthStateChanged((user) => {
-      console.log("onAuthStateChanged called with user:", user);
       setUser(user);
       setLoading(false);
     });

@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import dayjs from 'dayjs';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import Modal from './Modal';
 import { createPortal } from 'react-dom';
 import {useNavigate}from 'react-router-dom';
+import API from '../api';
 /* MaterialUI */
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField } from '@material-ui/core';
@@ -73,7 +73,7 @@ const ToDoList = () => {
         registerDate:initialDate,
         pomodoroCount:firstPomodoroCount
       };
-      const response = await axios.post(`${process.env.REACT_APP_API_URL}/item`,dataToSend,{
+      const response = await API.post(`${process.env.REACT_APP_API_URL}/item`,dataToSend,{
         credentials: 'include'
       });
       setInputValue('');
@@ -94,7 +94,7 @@ const ToDoList = () => {
 
   const fetchTodoList = async() => {
     try{
-      const response = await axios.get(`${process.env.REACT_APP_API_URL}`, {
+      const response = await API.get(`${process.env.REACT_APP_API_URL}`, {
         withCredentials: true,
       })
       setTodoList(response.data)
@@ -105,7 +105,7 @@ const ToDoList = () => {
 
   const deleteItem = async(itemId, item, registerDate, pomodoroCount) => {
     try {
-      await axios.post(`${process.env.REACT_APP_API_URL}/delete`, {
+      await API.post(`${process.env.REACT_APP_API_URL}/delete`, {
         userId: user.uid,
         itemId: itemId,
         item: item,

@@ -1,6 +1,6 @@
 import { Box, CircularProgress, makeStyles, Typography, Button } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import axios from 'axios';
+import API from '../api';
 /* MaterialUI */
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
@@ -101,7 +101,7 @@ const Modal = (props) => {
   const countUpPomodoroCount = () => {
     if (isRequesting || timerCompleted) return;
     setIsRequesting(true); 
-    axios.post(`${process.env.REACT_APP_API_URL}/countUpPomodoroCount`, {
+    API.post(`${process.env.REACT_APP_API_URL}/countUpPomodoroCount`, {
       selectedId,
       credentials:'include'
     })

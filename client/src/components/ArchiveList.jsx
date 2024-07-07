@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import API from '../api';
 /* MaterialUI */
 import { makeStyles } from '@material-ui/core/styles';
 import  { getAuth } from 'firebase/auth';
@@ -43,7 +43,7 @@ const ArchiveList = () => {
   };
 
   const returnHome = (_id, item, registerDate, pomodoroCount) => {
-    axios
+    API
       .post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
         userId: user.uid,
         _id: _id,
@@ -59,7 +59,7 @@ const ArchiveList = () => {
   }
 
   const deleteCard = (itemId) => {
-    axios
+    API
       .post(`${process.env.REACT_APP_API_URL}/Archive/delete`, {
         _id: itemId,
       })
