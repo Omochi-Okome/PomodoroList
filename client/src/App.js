@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import {AuthContext, AuthProvider} from './context/AuthContext';
-import { useContext } from 'react';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './routes/ProtectedRoute';
 
 /* pages */
 import Home from './pages/Home';
@@ -36,14 +36,13 @@ function App() {
 }
 
 function AppRoutes() {
-  const { user } = useContext(AuthContext);
   return (
   <Routes>
-    <Route path="/" element={user ? <Home /> : <Navigate to="/auth/login" />} />
-    <Route path="/archive" element={user ? <Archive /> : <Navigate to="/auth/login" />} />
-    <Route path="/data" element={user ? <Data /> : <Navigate to="/auth/login" />} />
-    <Route path="/setting" element={user ? <Setting /> : <Navigate to="/auth/login" />} />
-    <Route path="/auth/mypage" element={user ? <Mypage /> : <Navigate to="/auth/login" />} />
+    <Route path="/" element={<ProtectedRoute element={<Home />} />} />
+    <Route path="/archive" element={<ProtectedRoute element={<Archive />} />} />
+    <Route path="/data" element={<ProtectedRoute element={<Data />} />} />
+    <Route path="/setting" element={<ProtectedRoute element={<Setting />} />} />
+    <Route path="/auth/mypage" element={<ProtectedRoute element={<Mypage />} />} />
     <Route path='/auth/login' element={<Login />} />
     <Route path='/auth/logout' element={<Logout/>}></Route>
     <Route path='/auth/signup' element={<SignupPage />}></Route>
