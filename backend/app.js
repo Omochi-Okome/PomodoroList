@@ -43,6 +43,11 @@ const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
 const authRoutes = require('./routes/auth');
 
+app.use((req, res, next) => {
+  console.log('Request Headers:', req.headers);
+  next();
+})
+
 app.use('/', authMiddleware,homeRoutes);
 app.use('/archive', authMiddleware, archiveRoutes);
 app.use('/auth', authRoutes);

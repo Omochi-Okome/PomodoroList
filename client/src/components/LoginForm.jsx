@@ -26,14 +26,16 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_FIREBASE_APP_ID,
 };
 
-const app = initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
+
+
 const auth = getAuth();
 
 const LoginForm = ({isSignup}) => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [user, setUser] = useState(null);
+  const [_, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
