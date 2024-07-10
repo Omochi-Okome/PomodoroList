@@ -5,7 +5,6 @@ const ArchiveList = require('../models/archiveList');
 exports.getHome = async (req, res) => {
   try {
     await connectDB();
-    console.log('Connecting to the database...');
     const products = await List.find().exec();
     res.json(products);
   } catch(err) {
