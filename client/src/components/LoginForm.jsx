@@ -72,7 +72,7 @@ const LoginForm = ({isSignup}) => {
       createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
         .then(() => {
           console.log('ユーザー登録に成功しました');
-          navigate('/');
+          navigate('/auth/login');
         })
         .catch((err) => {
           console.log('firebaseでユーザー登録時にエラー発生',err);
@@ -82,7 +82,7 @@ const LoginForm = ({isSignup}) => {
       signInWithEmailAndPassword(auth, inputEmail, inputPassword)
         .then(() => {
           console.log('ログインに成功しました');
-          navigate('/')
+          navigate('/home')
         })
         .catch((err)  => {
           console.log('エラーの実態',err);
