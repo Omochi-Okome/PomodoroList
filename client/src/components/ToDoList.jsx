@@ -76,8 +76,10 @@ const ToDoList = () => {
       const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend);
       console.log('ポスト先のAPI',`${process.env.REACT_APP_API_URL}/home/item`)
       console.log('API',`${process.env.REACT_APP_API_URL}`)
+      console.log('格納するデータ',response.data)
       setInputValue('');
       updateList(response.data);
+      navigate('/home');
     } catch (error) {
       console.log('handleSubmitでエラー発生', error);
     }
