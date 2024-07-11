@@ -73,9 +73,7 @@ const ToDoList = () => {
         registerDate:initialDate,
         pomodoroCount:firstPomodoroCount
       };
-      const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend,{
-        credentials: 'include'
-      });
+      const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend);
       console.log('ポスト先のAPI',`${process.env.REACT_APP_API_URL}/home/item`)
       console.log('API',`${process.env.REACT_APP_API_URL}`)
       setInputValue('');
