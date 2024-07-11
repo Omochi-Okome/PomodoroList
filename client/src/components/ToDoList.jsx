@@ -73,7 +73,7 @@ const ToDoList = () => {
         registerDate:initialDate,
         pomodoroCount:firstPomodoroCount
       };
-      const response = await API.post(`${process.env.REACT_APP_API_URL}/item`,dataToSend,{
+      const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend,{
         credentials: 'include'
       });
       setInputValue('');
@@ -94,7 +94,7 @@ const ToDoList = () => {
 
   const fetchTodoList = async() => {
     try{
-      const response = await API.get(`${process.env.REACT_APP_API_URL}`, {
+      const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
       })
       setTodoList(response.data)
@@ -105,7 +105,7 @@ const ToDoList = () => {
 
   const deleteItem = async(itemId, item, registerDate, pomodoroCount) => {
     try {
-      await API.post(`${process.env.REACT_APP_API_URL}/delete`, {
+      await API.post(`${process.env.REACT_APP_API_URL}/home/delete`, {
         userId: user.uid,
         itemId: itemId,
         item: item,

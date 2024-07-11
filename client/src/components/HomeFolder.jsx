@@ -22,7 +22,7 @@ export default function SelectedListItem() {
 
     switch(index){
         case 0:
-          navigate('/');
+          navigate('/home');
           break;
         case 1:
           navigate('/archive');

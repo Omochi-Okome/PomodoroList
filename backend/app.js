@@ -48,7 +48,7 @@ app.use((req, res, next) => {
   next();
 })
 
-app.use('/', authMiddleware,homeRoutes);
+app.use('/home', authMiddleware,homeRoutes);
 app.use('/archive', authMiddleware, archiveRoutes);
 app.use('/auth', authRoutes);
 
