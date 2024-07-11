@@ -32,6 +32,7 @@ const ArchiveList = () => {
   const fetchArchiveList = async() => {
     try{
       const response = await API.get(`${process.env.REACT_APP_API_URL}/archive`,{withCredentials: true})
+      console.log('Fetched data:', response.data);
       setArchiveList(response.data)
     } catch(err) {
       console.log(err)

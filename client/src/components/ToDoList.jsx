@@ -76,6 +76,8 @@ const ToDoList = () => {
       const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend,{
         credentials: 'include'
       });
+      console.log('ポスト先のAPI',`${process.env.REACT_APP_API_URL}/home/item`)
+      console.log('API',`${process.env.REACT_APP_API_URL}`)
       setInputValue('');
       updateList(response.data);
     } catch (error) {
