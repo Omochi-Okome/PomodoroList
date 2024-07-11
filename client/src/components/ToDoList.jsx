@@ -97,6 +97,7 @@ const ToDoList = () => {
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
       })
+      console.log('API URL:', process.env.REACT_APP_API_URL);
       console.log('Fetched data:', response.data);
       setTodoList(response.data)
     } catch(err) {
