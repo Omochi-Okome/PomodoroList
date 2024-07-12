@@ -4,7 +4,7 @@ const authMiddleware = async (req, res, next) => {
   const idToken = req.headers.authorization?.split('Bearer ')[1];
 
   if (!idToken){
-    return res.status(401).send('Unauthorized');
+    return res.status(401).send('トークンが無効です');
   }
 
   try {
@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (err) {
-    res.status(401).send('Unauthorized');
+    res.status(401).send('トークンが無効です');
   }
 };
 

@@ -14,4 +14,3 @@ const serviceAccount = {
 };
 
 fs.writeFileSync('serviceAccountKey.json', JSON.stringify(serviceAccount));
-console.log('Service account key file generated successfully');

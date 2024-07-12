@@ -4,12 +4,12 @@ const router = express.Router();
 
 const authRoutes = require('../controllers/auth');
 
-router.get('/login', authRoutes.getLoginForm)
+router.get('/login', authRoutes.getLoginForm);
 
-router.post('/login',authRoutes.postLoginForm);
+router.post('/login', authRoutes.postLoginForm);
 
-router.get('/signup',)
+router.get('/signup', authRoutes.getSignUpForm);
 
-router.post('/signup',)
+router.post('/signup', authRoutes.postSignUpForm);
 
 module.exports = router;

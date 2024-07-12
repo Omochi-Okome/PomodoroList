@@ -8,8 +8,7 @@ exports.getHome = async (req, res) => {
     const products = await List.find().exec();
     res.json(products);
   } catch(err) {
-    console.log(err);
-    res.status(500).json({err: 'データ取得時にエラーが発生しました。'});
+    console.error(err);
   }
 };
 
@@ -18,9 +17,9 @@ exports.postItem = async (req, res) => {
   const saveTodoItem = new List({userId,item, registerDate, pomodoroCount});
   try {
     await saveTodoItem.save();
-    res.json()
+    res.status(200).send();
   } catch(err) {
-    console.log(err)
+    console.error(err)
   }
 };
 
@@ -30,9 +29,9 @@ exports.deleteItem = async (req, res) => {
   try {
     const savedArchiveItem = await saveArchiveItem.save();
     await List.deleteOne({_id:itemId});
-    res.json(savedArchiveItem);
+    res.status(200).json(savedArchiveItem);
   } catch(err) {
-    console.log(err);
+    console.error(err);
   }
 };
 
@@ -44,8 +43,8 @@ exports.countUpPomodoroCount = async(req,res) => {
       { $inc: { pomodoroCount: 1}},
       {new: true}
     );
-    res.json();
+    res.status(200).send();
   } catch(err) {
-    console.log(err);
+    console.error(err);
   }
 }

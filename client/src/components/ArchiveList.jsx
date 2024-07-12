@@ -30,18 +30,17 @@ const ArchiveList = () => {
   }, []);
     
   const fetchArchiveList = async() => {
-    try{
+    try {
       const response = await API.get(`${process.env.REACT_APP_API_URL}/archive`,{withCredentials: true})
-      console.log('Fetched data:', response.data);
       setArchiveList(response.data)
     } catch(err) {
-      console.log(err)
+      console.error(err)
     }
   };
 
-  const returnHome = (_id, item, registerDate, pomodoroCount) => {
-    API
-      .post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
+  const returnHome = async(_id, item, registerDate, pomodoroCount) => {
+    try {
+      await API.post(`${process.env.REACT_APP_API_URL}/Archive/returnHome`,{
         userId: user.uid,
         _id: _id,
         returnItem: item,
@@ -49,10 +48,10 @@ const ArchiveList = () => {
         pomodoroCount: pomodoroCount,
         credentials: 'include'
       })
-      .then(() => {
-        fetchArchiveList();
-      })
-      .catch((err) => console.log('returnHomeでエラー発生',err))
+      fetchArchiveList();
+    } catch(err) {
+      console.error('returnHomeでエラー発生',err)
+    }
   }
 
   const deleteCard = (itemId) => {
@@ -63,7 +62,7 @@ const ArchiveList = () => {
       .then(() => {
         fetchArchiveList();
       })
-      .catch((err) => console.log('deleteCardでエラー発生',err))
+      .catch((err) => console.error('deleteCardでエラー発生',err))
   }
 
   return(

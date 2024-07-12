@@ -16,18 +16,18 @@ exports.deleteArchiveTodoItem = async(req,res) => {
   const _id = req.body._id;
   try {
     await ArchiveList.deleteOne({_id:_id});
-    res.json();
+    res.status(200).send();
   } catch(err) {
-    console.log(err);
+    console.error(err);
   } 
 }
 exports.deleteArchiveTodoItem = async(req,res) => {
   const _id = req.body._id;
   try {
     await ArchiveList.deleteOne({_id:_id});
-    res.json();
+    res.status(200).send();
   } catch(err) {
-    console.log(err);
+    console.error(err);
   } 
 }
 
