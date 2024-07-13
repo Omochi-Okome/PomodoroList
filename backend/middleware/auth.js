@@ -13,6 +13,7 @@ const authMiddleware = async (req, res, next) => {
     next();
   } catch (err) {
     res.status(401).send('トークンが無効です');
+    console.error('トークン関連のエラー',err);
   }
 };
 
