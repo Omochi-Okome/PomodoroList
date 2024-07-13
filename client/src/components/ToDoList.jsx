@@ -71,7 +71,8 @@ const ToDoList = () => {
         userId: user.uid,
         inputData: inputValue,
         registerDate:initialDate,
-        pomodoroCount:firstPomodoroCount
+        pomodoroCount:firstPomodoroCount,
+        credentials:'include'
       };
       const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend);
       console.log('ポスト先のAPI',`${process.env.REACT_APP_API_URL}/home/item`)
@@ -99,8 +100,6 @@ const ToDoList = () => {
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
       })
-      console.log('API URL:', process.env.REACT_APP_API_URL);
-      console.log('Fetched data:', response.data);
       setTodoList(response.data)
     } catch(err) {
       console.log(err);

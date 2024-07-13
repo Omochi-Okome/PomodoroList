@@ -43,7 +43,7 @@ const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
 const authRoutes = require('./routes/auth');
 
-app.use('/home', authMiddleware,homeRoutes);
+app.use('/home', authMiddleware, homeRoutes);
 app.use('/archive', authMiddleware, archiveRoutes);
 app.use('/auth', authRoutes);
 
