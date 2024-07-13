@@ -46,7 +46,7 @@ const ToDoList = () => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        console.log('ログイン中です')
+        console.log('ログイン中です');
         setUser(user);
         fetchTodoList();
       } else {
@@ -80,7 +80,7 @@ const ToDoList = () => {
       console.log('格納するデータ',response.data)
       setInputValue('');
       updateList(response.data);
-      navigate('/home');
+      fetchTodoList();
     } catch (error) {
       console.log('handleSubmitでエラー発生', error);
     }
