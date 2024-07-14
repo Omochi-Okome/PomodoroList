@@ -1,3 +1,5 @@
+import PersonalInformation from '../components/PersonalInformation';
+//MaterialUI 
 import {Avatar, Box, Container, Typography } from '@material-ui/core';
 import { Button } from '@mui/material';
 
@@ -7,11 +9,7 @@ const Mypage = () => {
 				<Box>
 						<Avatar>K</Avatar>
 						<Typography>マイページ</Typography>
-						<h2>プロフィール</h2>
-						<h3>メールアドレス</h3>
-						<h3>ユーザーネーム</h3>
-						<h3>登録日付</h3>
-						<h3>パスワード</h3>
+						<PersonalInformation />
 						<Button variant='contained' color='error'>アカウントを削除する</Button>
 					</Box>
     </Container>

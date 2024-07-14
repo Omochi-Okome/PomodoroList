@@ -5,14 +5,14 @@ import Modal from './Modal';
 import { createPortal } from 'react-dom';
 import {useNavigate}from 'react-router-dom';
 import API from '../api';
-/* MaterialUI */
+//MaterialUI 
 import { makeStyles } from '@material-ui/core/styles';
 import { Grid, TextField } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-/* MaterialUI icon */
+// MaterialUI icon 
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 
