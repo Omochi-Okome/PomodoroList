@@ -58,7 +58,7 @@ const LoginForm = ({isSignup}) => {
     return () => unsubscribe();
   }, [])
   
-  const submitUserInformation = (event) => {
+  const submitUserInformation = async(event) => {
     event.preventDefault();
     if (!inputEmail) {
       setErrorMessage('メールアドレスを入力してください');
@@ -67,29 +67,19 @@ const LoginForm = ({isSignup}) => {
       setErrorMessage('パスワードを入力してください');
       return;
     }
-    
-    if(isSignup) {
-      createUserWithEmailAndPassword(auth, inputEmail, inputPassword)
-        .then(() => {
-          console.log('ユーザー登録に成功しました');
-          navigate('/auth/login');
-        })
-        .catch((err) => {
-          console.log('firebaseでユーザー登録時にエラー発生',err);
-          setErrorMessage(getErrorMessage(err.code));
-        });
-    } else {
-      signInWithEmailAndPassword(auth, inputEmail, inputPassword)
-        .then(() => {
-          console.log('ログインに成功しました');
-          navigate('/home')
-        })
-        .catch((err)  => {
-          console.log('エラーの実態',err);
-          console.log('firebaseでサインイン時にエラー発生',err);
-          console.log('エラーメッセージ',errorMessage);
-          setErrorMessage(getErrorMessage(err.code));
-        })
+    try {
+      if(isSignup) {
+        await createUserWithEmailAndPassword(auth, inputEmail, inputPassword);
+        console.info('ユーザ登録に成功しました');
+        navigate('/home');
+      } else {
+        await signInWithEmailAndPassword(auth, inputEmail, inputPassword);
+        console.info('ログインに成功しました');
+        navigate('/home');
+      }
+    } catch(err) {
+      console.error(`firebaseで${isSignup ? 'ユーザー登録' : 'サインイン'}時にエラー発生`, err);
+      setErrorMessage(getErrorMessage(err.code));
     }
   }
   return(

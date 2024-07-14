@@ -54,15 +54,13 @@ const ArchiveList = () => {
     }
   }
 
-  const deleteCard = (itemId) => {
-    API
-      .post(`${process.env.REACT_APP_API_URL}/Archive/delete`, {
-        _id: itemId,
-      })
-      .then(() => {
-        fetchArchiveList();
-      })
-      .catch((err) => console.error('deleteCardでエラー発生',err))
+  const deleteCard = async(itemId) => {
+    try {
+      await API.post(`${process.env.REACT_APP_API_URL}/Archive/delete`, {_id: itemId, });
+      fetchArchiveList();
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   return(

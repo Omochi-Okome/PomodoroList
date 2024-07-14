@@ -26,8 +26,8 @@ const useStyles = makeStyles({
 });
 
 const ModalPortal = ({ children }) => {
-  const target = document.querySelector('.container.start')
-  return createPortal(children, target)
+  const target = document.querySelector('.container.start');
+  return createPortal(children, target);
 }
 
 const ToDoList = () => {
@@ -37,7 +37,6 @@ const ToDoList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodoId, setSelectedTodoId] = useState(null);
   const [user, setUser] = useState(null);
-  const [loading, setloading] = useState(true);
   const classes = useStyles();
   const navigate = useNavigate();
   const firstPomodoroCount = 0;
@@ -53,8 +52,6 @@ const ToDoList = () => {
         console.log('ログインしていません')
         navigate('/auth/login');
       }
-      console.log('ローディングを無効化します')
-      setloading(false);
     });
     return () => unsubscribe();
   }, [navigate, auth]);
@@ -121,10 +118,6 @@ const ToDoList = () => {
   const handleOnComplete = () => {
     setModalOpen(false);
   };
-
-  if (loading) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <div className='container start' onSubmit={handleSubmit}>
