@@ -62,6 +62,24 @@ const ToDoList = () => {
     setInputValue(event.target.value);
   };
 
+  const handleStartCountdown = (todoId) => {
+    setSelectedTodoId(todoId);
+    setModalOpen(true);
+  };
+
+  //アイテム読み込み
+  const fetchTodoList = async() => {
+    try{
+      const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
+        withCredentials: true,
+      })
+      setTodoList(response.data)
+    } catch(err) {
+      console.log(err);
+    }
+  };
+
+  //アイテム追加
   const handleSubmit = async () => {
     if (!inputValue.trim()) {
       return;
@@ -75,34 +93,11 @@ const ToDoList = () => {
         credentials:'include'
       };
       const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend);
-      console.log('ポスト先のAPI',`${process.env.REACT_APP_API_URL}/home/item`)
-      console.log('API',`${process.env.REACT_APP_API_URL}`)
-      console.log('格納するデータ',response.data)
       setInputValue('');
       updateList(response.data);
       fetchTodoList();
     } catch (error) {
-      console.log('handleSubmitでエラー発生', error);
-    }
-  };
-
-  const handleStartCountdown = (todoId) => {
-    setSelectedTodoId(todoId);
-    setModalOpen(true);
-  };
-    
-  useEffect(() => {
-    fetchTodoList();
-  }, []);
-
-  const fetchTodoList = async() => {
-    try{
-      const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
-        withCredentials: true,
-      })
-      setTodoList(response.data)
-    } catch(err) {
-      console.log(err);
+      console.error('handleSubmitでエラー発生', error);
     }
   };
 
