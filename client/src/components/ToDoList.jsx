@@ -53,6 +53,7 @@ const ToDoList = () => {
         console.log('ログインしていません')
         navigate('/auth/login');
       }
+      console.log('ローディングを無効化します')
       setloading(false);
     });
     return () => unsubscribe();
@@ -80,7 +81,8 @@ const ToDoList = () => {
   };
 
   //アイテム追加
-  const handleSubmit = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     if (!inputValue.trim()) {
       return;
     }
@@ -92,9 +94,8 @@ const ToDoList = () => {
         pomodoroCount:firstPomodoroCount,
         credentials:'include'
       };
-      const response = await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend);
+      await API.post(`${process.env.REACT_APP_API_URL}/home/item`,dataToSend);
       setInputValue('');
-      updateList(response.data);
       fetchTodoList();
     } catch (error) {
       console.error('handleSubmitでエラー発生', error);
@@ -115,15 +116,6 @@ const ToDoList = () => {
     } catch(err) {
       console.log(err);
     }
-  };
-
-  const updateList = (newList) => {
-    setTodoList(
-      newList.map((item) => ({
-        id: item._id.toString(),
-        item: item.item,
-      }))
-    );
   };
   
   const handleOnComplete = () => {
