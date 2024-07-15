@@ -1,11 +1,11 @@
-import ToDoList from '../components/ToDoList';
+import ToDoList from "../components/ToDoList/ToDoList";
 
 const Home = () => {
-    return(
-        <>
-            <ToDoList />
-        </>
-    )
-}
+  return (
+    <>
+      <ToDoList />
+    </>
+  );
+};
 
 export default Home;

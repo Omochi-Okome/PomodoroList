@@ -1,6 +1,6 @@
 import { Box, CircularProgress, makeStyles, Typography, Button } from '@material-ui/core';
 import { useEffect, useState } from 'react';
-import API from '../api';
+import API from '../../api';
 /* MaterialUI */
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
@@ -50,7 +50,6 @@ const Modal = (props) => {
   const [stopBool, setStopBool] = useState(false);
   const classes = useStylesCountDown();
   const { duration, colors = [], colorValues = [], onComplete, selectedId } = props;
-
   const [timeDuration, setTimeDuration] = useState(duration);
   const [countdownText, setCountdownText] = useState();
   const [countdownPercentage, setCountdownPercentage] = useState(100);
