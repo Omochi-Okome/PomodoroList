@@ -2,12 +2,12 @@ const express = require('express');
 
 const router = express.Router();
 
-const archiveRoutes = require('../controllers/archive');
+const archiveController = require('../controllers/archive');
 
-router.get('/', archiveRoutes.viewArchive);
+router.get('/', archiveController.viewArchive);
 
-router.post('/delete', archiveRoutes.deleteArchiveTodoItem);
+router.post('/delete', archiveController.deleteArchiveTodoItem);
 
-router.post('/returnHome',archiveRoutes.returnHome);
+router.post('/returnHome',archiveController.returnHome);
 
 module.exports = router;

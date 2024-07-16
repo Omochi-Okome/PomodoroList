@@ -1,18 +1,14 @@
 const request = require('supertest');
 const express = require('express');
-const homeController = require('../../controllers/home.js');
+const homeController = require('../../controllers/home');
 const List = require('../../models/list');
 
 jest.mock('../../util/database', () => jest.fn().mockResolvedValue(true));
 jest.mock('../../models/list');
-jest.mock('../../models/archiveList');
 
 const app = express();
 app.use(express.json());
 app.get('/home', homeController.getHome);
-app.post('/item', homeController.postItem);
-app.delete('/item', homeController.deleteItem);
-app.post('/count-up', homeController.countUpPomodoroCount);
 
 describe('HomeController GET', () => {
   it('ToDoリストが取得できる', async () => {
@@ -36,7 +32,6 @@ describe('HomeController GET', () => {
     ];
     List.find.mockResolvedValue(mockData);
     const res = await request(app).get('/home');
-    console.log(res);
     expect(res.status).toBe(200);
     expect(Array.isArray(res.body)).toBe(true);
   })

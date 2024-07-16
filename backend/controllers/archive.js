@@ -5,7 +5,7 @@ const connectDB = require('../util/database');
 exports.viewArchive = async(req,res) => {
   try {
     await connectDB();
-    const product = await ArchiveList.find().exec();
+    const product = await ArchiveList.find();
     res.json(product);
   } catch(err) {
     res.status(500).json({err: 'アーカイブデータを取得できませんでした。'});

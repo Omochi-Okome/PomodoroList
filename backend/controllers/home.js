@@ -6,7 +6,6 @@ exports.getHome = async (req, res) => {
   try {
     await connectDB();
     const products = await List.find();
-    console.log(products);
     res.json(products);
   } catch(err) {
     console.error(err);
