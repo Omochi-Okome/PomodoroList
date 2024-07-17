@@ -32,7 +32,12 @@ describe('ArchiveControler GET', () => {
     ];
       ArchiveList.find.mockResolvedValue(mockData);
       const res = await request(app).get('/archive');
+      
+      //ステータス200かどうか
       expect(res.status).toBe(200);
+      //レスポンスが配列かどうか
       expect(Array.isArray(res.body)).toBe(true);
+      //レスポンスが期待されるデータと一致するかどうか
+      expect(res.body).toEqual(mockData);
   })
 })
