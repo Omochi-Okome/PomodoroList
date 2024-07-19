@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 import API from "../../api";
 import ToDoForm from "../ToDoForm/ToDoForm";
 import ToDoItem from "../ToDoItem/ToDoItem";
-//MaterialUI
 
 const ModalPortal = ({ children }) => {
   const target = document.querySelector(".container.start");
@@ -30,7 +29,7 @@ const ToDoList = () => {
       if (user) {
         console.log("ログイン中です");
         setUser(user);
-        fetchTodoList();
+        fetchTodoList(user);
       } else {
         console.log("ログインしていません");
         navigate("/auth/login");
@@ -49,10 +48,14 @@ const ToDoList = () => {
   };
 
   //アイテム読み込み
-  const fetchTodoList = async () => {
+  const fetchTodoList = async (user) => {
     try {
+      const token = await user.getIdToken();
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       });
       setTodoList(response.data);
     } catch (err) {
@@ -111,7 +114,6 @@ const ToDoList = () => {
         deleteItem={deleteItem}
       />
       {modalOpen && (
-        <>
           <ModalPortal>
             <Modal
               handleCloseClick={() => setModalOpen(false)}
@@ -122,7 +124,6 @@ const ToDoList = () => {
               selectedId={selectedTodoId}
             />
           </ModalPortal>
-        </>
       )}
     </div>
   );

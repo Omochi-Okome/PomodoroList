@@ -3,9 +3,10 @@ const List = require('../models/list');
 const ArchiveList = require('../models/archiveList');
 
 exports.getHome = async (req, res) => {
+  const userId = req.user.user_id;
   try {
     await connectDB();
-    const products = await List.find();
+    const products = await List.find({userId});
     res.json(products);
   } catch(err) {
     console.error(err);
