@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import dayjs from "dayjs";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import Modal from "../Modal/Modal";
 import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
 import API from "../../api";
 import ToDoForm from "../ToDoForm/ToDoForm";
 import ToDoItem from "../ToDoItem/ToDoItem";
@@ -19,24 +18,15 @@ const ToDoList = () => {
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodoId, setSelectedTodoId] = useState(null);
-  const [user, setUser] = useState(null);
-  const navigate = useNavigate();
   const firstPomodoroCount = 0;
   const auth = getAuth();
+  const user = auth.currentUser
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        console.log("ログイン中です");
-        setUser(user);
-        fetchTodoList(user);
-      } else {
-        console.log("ログインしていません");
-        navigate("/auth/login");
-      }
-    });
-    return () => unsubscribe();
-  }, [navigate, auth]);
+    if (user) {
+      fetchTodoList(user);
+    }
+  }, [user]);
 
   const handleInputChange = (event) => {
     setInputValue(event.target.value);
@@ -51,6 +41,7 @@ const ToDoList = () => {
   const fetchTodoList = async (user) => {
     try {
       const token = await user.getIdToken();
+      console.log('トークンチェック',token);
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
         headers: {
@@ -79,7 +70,7 @@ const ToDoList = () => {
       };
       await API.post(`${process.env.REACT_APP_API_URL}/home/item`, dataToSend);
       setInputValue("");
-      fetchTodoList();
+      fetchTodoList(user);
     } catch (error) {
       console.error("handleSubmitでエラー発生", error);
     }
@@ -95,7 +86,7 @@ const ToDoList = () => {
         pomodoroCount: pomodoroCount,
         credentials: "include",
       });
-      fetchTodoList();
+      fetchTodoList(user);
     } catch (err) {
       console.log(err);
     }
