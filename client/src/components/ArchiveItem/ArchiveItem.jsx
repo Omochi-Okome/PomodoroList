@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 //MaterialUI icon
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
+//External CSSfile
+import '../ArchiveList/ArchiveList.css';
 
 const ArchiveItem = ({archiveList, returnHome, deleteCard}) => {
   return(

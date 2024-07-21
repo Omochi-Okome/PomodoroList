@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import API from '../../api';
-import ArchiveItem from '../ArchiveItem/ArchiveItem';
 import  { getAuth } from 'firebase/auth';
+import ArchiveItem from '../ArchiveItem/ArchiveItem';
 import './ArchiveList.css';
 
 const ArchiveList = () => {
@@ -10,12 +10,14 @@ const ArchiveList = () => {
   const user = auth.currentUser;
 
   useEffect(() => {
-    fetchArchiveList();
-  }, []);
+    if (user) {
+      fetchArchiveList(user);
+    }
+  }, [user]);
     
   const fetchArchiveList = async(user) => {
-    const token = await user.getIdToken();
     try {
+      const token = await user.getIdToken();
       const response = await API.get(`${process.env.REACT_APP_API_URL}/archive`,{
         withCredentials: true,
         headers: {

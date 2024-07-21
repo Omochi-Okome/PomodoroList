@@ -9,7 +9,7 @@ import Button from '@material-ui/core/Button';
 import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 //External CSSfile
-import '../ToDoItem/ToDoList.css'
+import '../ToDoItem/ToDoList.css';
 
 const ToDoItem = ({todoList, handleStartCountdown, deleteItem}) => {
   return(

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
+import API from "../../api";
 import { getAuth } from "firebase/auth";
+import dayjs from "dayjs";
 import Modal from "../Modal/Modal";
 import { createPortal } from "react-dom";
-import API from "../../api";
 import ToDoForm from "../ToDoForm/ToDoForm";
 import ToDoItem from "../ToDoItem/ToDoItem";
 
@@ -20,8 +20,8 @@ const ToDoList = () => {
   const [selectedTodoId, setSelectedTodoId] = useState(null);
   const firstPomodoroCount = 0;
   const auth = getAuth();
-  const user = auth.currentUser
-
+  const user = auth.currentUser;
+  
   useEffect(() => {
     if (user) {
       fetchTodoList(user);
