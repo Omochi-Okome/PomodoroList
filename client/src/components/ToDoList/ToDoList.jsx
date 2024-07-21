@@ -41,7 +41,6 @@ const ToDoList = () => {
   const fetchTodoList = async (user) => {
     try {
       const token = await user.getIdToken();
-      console.log('トークンチェック',token);
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
         headers: {

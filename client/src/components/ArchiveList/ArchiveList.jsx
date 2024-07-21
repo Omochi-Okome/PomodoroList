@@ -13,9 +13,15 @@ const ArchiveList = () => {
     fetchArchiveList();
   }, []);
     
-  const fetchArchiveList = async() => {
+  const fetchArchiveList = async(user) => {
+    const token = await user.getIdToken();
     try {
-      const response = await API.get(`${process.env.REACT_APP_API_URL}/archive`,{withCredentials: true});
+      const response = await API.get(`${process.env.REACT_APP_API_URL}/archive`,{
+        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
       setArchiveList(response.data);
     } catch(err) {
       console.error(err);
@@ -32,7 +38,7 @@ const ArchiveList = () => {
         pomodoroCount: pomodoroCount,
         credentials: 'include'
       });
-      fetchArchiveList();
+      fetchArchiveList(user);
     } catch(err) {
       console.error('returnHomeでエラー発生',err);
     }
@@ -41,7 +47,7 @@ const ArchiveList = () => {
   const deleteCard = async(itemId) => {
     try {
       await API.post(`${process.env.REACT_APP_API_URL}/Archive/delete`, {_id: itemId, });
-      fetchArchiveList();
+      fetchArchiveList(user);
     } catch(err) {
       console.error(err);
     }
