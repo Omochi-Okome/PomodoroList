@@ -3,9 +3,10 @@ const ArchiveList = require('../models/archiveList');
 const connectDB = require('../util/database');
 
 exports.viewArchive = async(req,res) => {
+  const userId = req.user.user_id;
   try {
     await connectDB();
-    const product = await ArchiveList.find();
+    const product = await ArchiveList.find({userId});
     res.json(product);
   } catch(err) {
     res.status(500).json({err: 'アーカイブデータを取得できませんでした。'});

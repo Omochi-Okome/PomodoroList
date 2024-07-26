@@ -1,7 +1,6 @@
 const connectDB = require('../util/database')
 const List = require('../models/list');
 const ArchiveList = require('../models/archiveList');
-const { getAuth } = require('firebase-admin/auth');
 
 exports.getHome = async (req, res) => {
   const userId = req.user.user_id;
