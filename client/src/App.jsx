@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './routes/ProtectedRoute';
-
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 /* pages */
 import Home from './pages/Home';
 import Archive from './pages/Archive'
@@ -17,25 +18,39 @@ import TopBar from './components/TopBar'
 /* MaterialUI */
 import { Grid } from '@material-ui/core';
 
-function App() {
+const App = () => {
+  const [user, setUser] = useState(null);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser)
+    });
+    return () => unsubscribe();
+  }, [auth]);
+
   return (
     <AuthProvider>
       <Router>
         <TopBar />
-          <Grid container>
-            <Grid item xs={12} sm ={12} md={2} lg={2} xl={2}>
-              <SelectedListItem />
-            </Grid>
-            <Grid item xs={12} sm={12} md={10} lg={10} xl={10}>
-              <AppRoutes />
-            </Grid>
+        <Grid container>
+          {user && (
+            <>
+              <Grid item xs={12} sm ={12} md={2} lg={2} xl={2}>
+                <SelectedListItem />
+              </Grid>
+            </>
+          )}
+          <Grid item xs={12} sm ={12} md={user ? 10 : 12} lg={user ? 10 : 12} xl={user ? 10 : 12}>
+            <AppRoutes />
           </Grid>
+        </Grid>           
       </Router>
     </AuthProvider>
   );
 }
 
-function AppRoutes() {
+const AppRoutes = () => {
   return (
   <Routes>
     <Route path="/" element={<Navigate to="/auth/login" />} />

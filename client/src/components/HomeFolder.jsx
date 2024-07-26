@@ -14,8 +14,8 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
 export default function SelectedListItem() {
-    const navigate = useNavigate();
-    const [selectedIndex, setSelectedIndex] = useState(0);
+  const navigate = useNavigate();
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
