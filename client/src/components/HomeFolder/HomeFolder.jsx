@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import './HomeFolder.css'
 /* MaterialUI */
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -47,7 +48,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary='Home' />
+          <ListItemText primary='Home' className='listItemText'/>
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 1}
@@ -56,7 +57,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <ArchiveIcon />
           </ListItemIcon>
-          <ListItemText primary='Archive' />
+          <ListItemText primary='Archive' className='listItemText' />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 2}
@@ -65,7 +66,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <AssessmentIcon />
           </ListItemIcon>
-          <ListItemText primary='Data' />
+          <ListItemText primary='Data' className='listItemText'/>
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
@@ -74,7 +75,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <SettingsIcon />
           </ListItemIcon>
-          <ListItemText primary='Setting' />
+          <ListItemText primary='Setting' className='listItemText' />
         </ListItemButton>
       </List>
       <Divider />

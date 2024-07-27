@@ -13,7 +13,7 @@ import Login from './pages/LoginPage';
 import Logout from './pages/LogoutPage'
 import SignupPage from './pages/SignupPage';
 /* components */
-import SelectedListItem from './components/HomeFolder';
+import SelectedListItem from './components/HomeFolder/HomeFolder';
 import TopBar from './components/TopBar'
 /* MaterialUI */
 import { Grid } from '@material-ui/core';
@@ -36,12 +36,12 @@ const App = () => {
         <Grid container>
           {user && (
             <>
-              <Grid item xs={12} sm ={12} md={2} lg={2} xl={2}>
+              <Grid item xs={0} sm ={0} md={2} lg={2} xl={2}>
                 <SelectedListItem />
               </Grid>
             </>
           )}
-          <Grid item xs={12} sm ={12} md={user ? 10 : 12} lg={user ? 10 : 12} xl={user ? 10 : 12}>
+          <Grid item xs={9} sm ={10} md={user ? 10 : 12} lg={user ? 10 : 12} xl={user ? 10 : 12}>
             <AppRoutes />
           </Grid>
         </Grid>           
