@@ -1,7 +1,10 @@
+//コンポーネント
+import UserActivity from "../components/UserActivity/UserActivity";
+
 const Data = () => {
     return(
         <>
-            <h2>/dataは工事中です</h2>
+            <UserActivity />
         </>
     )
 }

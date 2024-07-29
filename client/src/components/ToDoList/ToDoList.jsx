@@ -40,13 +40,14 @@ const ToDoList = () => {
   //アイテム読み込み
   const fetchTodoList = async (user) => {
     try {
-      const token = await user.getIdToken();
+      // const token = await user.getIdToken();
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        // headers: {
+        //   Authorization: `Bearer ${token}`
+        // }
       });
+      console.log(response.data);
       setTodoList(response.data);
     } catch (err) {
       console.log(err);
@@ -68,6 +69,7 @@ const ToDoList = () => {
         credentials: "include",
       };
       await API.post(`${process.env.REACT_APP_API_URL}/home/item`, dataToSend);
+      await API.post(`${process.env.REACT_APP_API_URL}/data/addTodoData`,user);
       setInputValue("");
       fetchTodoList(user);
     } catch (error) {
@@ -85,14 +87,20 @@ const ToDoList = () => {
         pomodoroCount: pomodoroCount,
         credentials: "include",
       });
+      await  API.post(`${process.env.REACT_APP_API_URL}/data/completeTodoData`,{
+        userId: user.uid
+      })
       fetchTodoList(user);
     } catch (err) {
       console.log(err);
     }
   };
 
-  const handleOnComplete = () => {
+  const handleOnComplete = async () => {
     setModalOpen(false);
+    await API.post(`${process.env.REACT_APP_API_URL}/`,{
+      userId: user.uid
+    })
   };
 
   return (

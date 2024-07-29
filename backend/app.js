@@ -42,9 +42,11 @@ const authMiddleware = require('./middleware/auth');
 const homeRoutes = require('./routes/home');
 const archiveRoutes = require('./routes/archive');
 const authRoutes = require('./routes/auth');
+const dataRoutes = require('./routes/userActivity');
 
 app.use('/home', authMiddleware, homeRoutes);
 app.use('/archive', authMiddleware, archiveRoutes);
+app.use('/data', authMiddleware, dataRoutes);
 app.use('/auth', authRoutes);
 
 app.use(express.static(path.join(__dirname, '../client/build')));

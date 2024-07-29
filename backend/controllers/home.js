@@ -1,6 +1,7 @@
-const connectDB = require('../util/database')
+const connectDB = require('../util/database');
 const List = require('../models/list');
 const ArchiveList = require('../models/archiveList');
+const userActivity = require('../models/userActivity');
 
 exports.getHome = async (req, res) => {
   const userId = req.user.user_id;

@@ -4,6 +4,7 @@ import {useNavigate}from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged} from "firebase/auth";
 import { initializeApp } from "firebase/app";
 import { getErrorMessage } from './errorMessage';
+import API from '../api';
 /* MaterialUI */
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
@@ -28,16 +29,14 @@ const firebaseConfig = {
 
 initializeApp(firebaseConfig);
 
-
-const auth = getAuth();
-
 const LoginForm = ({isSignup}) => {
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [_, setUser] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
+  const [userId, setUserId] = useState('');
   const navigate = useNavigate();
+  const auth = getAuth();
 
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleChangeEmail = (event) => setInputEmail(event.target.value);
@@ -50,13 +49,11 @@ const LoginForm = ({isSignup}) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setUser(user);
-      } else {
-        setUser(null);
+        setUserId(user.uid);
       }
     });
     return () => unsubscribe();
-  }, [])
+  },[auth]);
   
   const submitUserInformation = async(event) => {
     event.preventDefault();
@@ -70,12 +67,22 @@ const LoginForm = ({isSignup}) => {
     try {
       if(isSignup) {
         await createUserWithEmailAndPassword(auth, inputEmail, inputPassword);
-        console.info('ユーザ登録に成功しました');
-        navigate('/home');
+        const newUser = auth.currentUser;
+        if (newUser) {
+          const newUserId = newUser.uid;
+          API.post(`${process.env.REACT_APP_API_URL}/data/signupData`, newUserId);
+          navigate('/home');
+        }
       } else {
         await signInWithEmailAndPassword(auth, inputEmail, inputPassword);
-        console.info('ログインに成功しました');
-        navigate('/home');
+        const user = auth.currentUser;
+        if (user) {
+          const userId = user.uid;
+          API.post(`${process.env.REACT_APP_API_URL}/data/loginData`, userId);
+          navigate('/home');
+        } else {
+          console.error('userIdがない');
+        }
       }
     } catch(err) {
       console.error(`firebaseで${isSignup ? 'ユーザー登録' : 'サインイン'}時にエラー発生`, err);

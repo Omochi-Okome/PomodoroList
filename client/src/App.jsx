@@ -36,7 +36,7 @@ const App = () => {
         <Grid container>
           {user && (
             <>
-              <Grid item xs={0} sm ={0} md={2} lg={2} xl={2}>
+              <Grid item md={2} lg={2} xl={2}>
                 <SelectedListItem />
               </Grid>
             </>
