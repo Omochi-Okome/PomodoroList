@@ -8,9 +8,16 @@ jest.mock('../../models/archiveList');
 
 const app = express();
 app.use(express.json());
-app.get('/archive', archiveController.viewArchive);
+app.get('/archive', async (req, res) => {
+  req.user = { userId: '2qqeUR7inSd47uqUtC5CzCpEUYu2' };
+  archiveController.viewArchive(req, res);
+});
 
 describe('ArchiveControler GET', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('Archiveリストが取得できる', async () => {
     const mockData = [
       {
@@ -40,4 +47,4 @@ describe('ArchiveControler GET', () => {
       //レスポンスが期待されるデータと一致するかどうか
       expect(res.body).toEqual(mockData);
   })
-})
+});

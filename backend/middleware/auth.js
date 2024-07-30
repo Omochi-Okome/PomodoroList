@@ -12,7 +12,7 @@ const authMiddleware = async (req, res, next) => {
     req.user = decodedToken;
     next();
   } catch (err) {
-    res.status(401).send('トークンが無効です',err);
+    res.status(401).send('トークンが無効です');
   }
 };
 

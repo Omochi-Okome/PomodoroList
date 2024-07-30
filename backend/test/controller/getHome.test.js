@@ -8,7 +8,10 @@ jest.mock('../../models/list');
 
 const app = express();
 app.use(express.json());
-app.get('/home', homeController.getHome);
+app.get('/home', (req, res) => {
+  req.user = { userId: '2qqeUR7inSd47uqUtC5CzCzCpEUYu2'};
+  homeController.getHome(req, res);
+});
 
 describe('HomeController GET', () => {
   it('ToDoリストが取得できる', async () => {
