@@ -1,7 +1,6 @@
 const connectDB = require('../util/database');
 const List = require('../models/list');
 const ArchiveList = require('../models/archiveList');
-const userActivity = require('../models/userActivity');
 
 exports.getHome = async (req, res) => {
   const userId = req.user.user_id;
@@ -15,8 +14,8 @@ exports.getHome = async (req, res) => {
 };
 
 exports.postItem = async (req, res) => {
-  const {userId,inputData: item, registerDate, pomodoroCount} = req.body;
-  const saveTodoItem = new List({userId,item, registerDate, pomodoroCount});
+  const {userId,inputData: item, registerDate} = req.body;
+  const saveTodoItem = new List({userId,item, registerDate});
   try {
     await saveTodoItem.save();
     res.status(200).send();
@@ -40,10 +39,9 @@ exports.deleteItem = async (req, res) => {
 exports.countUpPomodoroCount = async(req,res) => {
   const _id = req.body.selectedId;
   try {
-    await List.findOneAndUpdate(
+    await List.updateOne(
       { _id: _id},
       { $inc: { pomodoroCount: 1}},
-      {new: true}
     );
     res.status(200).send();
   } catch(err) {

@@ -12,7 +12,6 @@ exports.getData = async (req, res) => {
   }
 }
 
-//実装済み
 exports.postSignUpData = async (req, res) => {
   const userId = req.user.uid;
   const saveFirstData = new userActivity({userId});
@@ -25,7 +24,6 @@ exports.postSignUpData = async (req, res) => {
   }
 }
 
-//実装済み
 exports.postLoginData = async (req, res) => {
   const userId = req.user.uid;
   try {
@@ -40,7 +38,6 @@ exports.postLoginData = async (req, res) => {
   }
 }
 
-//実装済み
 exports.postAddTodoData = async (req, res) => {
   const userId = req.user.uid;
   try {
@@ -55,7 +52,6 @@ exports.postAddTodoData = async (req, res) => {
   }
 }
 
-//実装済み
 exports.postCompleteTodoData = async (req, res) => {
   const userId = req.user.uid;
   try {

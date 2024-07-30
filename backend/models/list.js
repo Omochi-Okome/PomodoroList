@@ -16,6 +16,7 @@ const listSchema = new mongoose.Schema({
   pomodoroCount: {
     type: Number,
     required: true,
+    default:0
   }
 })
 
