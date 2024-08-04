@@ -25,7 +25,7 @@ function TopBar() {
         navigate('/auth/logout');
         break;
       case 2:
-        navigate('/auth/mypage');
+        navigate('/mypage');
         break;
     }
   };

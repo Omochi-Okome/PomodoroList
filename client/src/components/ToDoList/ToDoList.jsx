@@ -36,7 +36,7 @@ const ToDoList = () => {
     setModalOpen(true);
   };
 
-  const fetchTodoList = async (user) => {
+  const fetchTodoList = async () => {
     try {
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
