@@ -1,6 +1,6 @@
 import ArchiveList from '../components/ArchiveList/ArchiveList';
 
-const Archive = () => {
+const Archive = ({  }) => {
   return(
     <>
       <ArchiveList />

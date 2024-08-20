@@ -42,7 +42,7 @@ const App = () => {
             </>
           )}
           <Grid item xs={9} sm ={10} md={user ? 10 : 12} lg={user ? 10 : 12} xl={user ? 10 : 12}>
-            <AppRoutes />
+            <AppRoutes user={user} />
           </Grid>
         </Grid>           
       </Router>
@@ -50,7 +50,7 @@ const App = () => {
   );
 }
 
-const AppRoutes = () => {
+const AppRoutes = ({user}) => {
   return (
   <Routes>
     <Route path="/" element={<Navigate to="/auth/login" />} />
@@ -60,7 +60,7 @@ const AppRoutes = () => {
     <Route path="/setting" element={<ProtectedRoute element={<Setting />} />} />
     <Route path="/mypage" element={<ProtectedRoute element={<Mypage />} />} />
     <Route path='/auth/login' element={<Login />} />
-    <Route path='/auth/logout' element={<Logout/>}></Route>
+    <Route path='/auth/logout' element={<Logout/> }></Route>
     <Route path='/auth/signup' element={<SignupPage />}></Route>
   </Routes>
   );

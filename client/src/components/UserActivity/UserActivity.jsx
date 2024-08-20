@@ -1,20 +1,14 @@
-import React, {useState, useEffect} from "react";
+import {useState, useEffect} from "react";
 // External File
 import API from "../../api";
-// Firebase
-import { getAuth } from "firebase/auth";
+import { useAuth } from "../../context/AuthContext";
 
 const UserActivity = () => {
   const [userActivity, setUserActivity] = useState([]);
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      fetchUserActivity(user);
-    } else {
-      console.error('ユーザー認証が無効です');
-    }
+    if (user) fetchUserActivity(user);
   }, [user]); 
 
   const fetchUserActivity = async(user) => {

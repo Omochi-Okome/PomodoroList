@@ -1,21 +1,16 @@
 import React, { useState, useEffect } from 'react';
 // External File
-import API from '../../api';
-import ArchiveItem from './ArchiveItem';
 import './ArchiveList.css';
-// Firebase
-import  { getAuth } from 'firebase/auth';
-
+import API from '../../api';
+import { useAuth } from '../../context/AuthContext';
+import ArchiveItem from './ArchiveItem';
 
 const ArchiveList = () => {
   const [archiveList, setArchiveList] = useState([]);
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { user } = useAuth();
 
   useEffect(() => {
-    if (user) {
-      fetchArchiveList(user);
-    }
+    if (user) fetchArchiveList(user);
   }, [user]);
     
   const fetchArchiveList = async(user) => {

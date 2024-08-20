@@ -1,4 +1,3 @@
-import React from "react";
 // External File
 import './ToDoList.css';
 // MaterialUI

@@ -3,11 +3,10 @@ import { createPortal } from "react-dom";
 import { useNavigate } from "react-router-dom";
 // External File
 import API from "../../api";
+import { useAuth } from "../../context/AuthContext";
 import Modal from "../Modal/Modal";
 import ToDoForm from "./ToDoForm";
 import ToDoItem from "./ToDoItem";
-// Firebase
-import { getAuth } from "firebase/auth";
 // Other
 import dayjs from "dayjs";
 
@@ -20,8 +19,7 @@ const ModalPortal = ({ children }) => {
 const ToDoList = () => {
   const initialDate = dayjs();
   const navigate = useNavigate();
-  const auth = getAuth();
-  const user = auth.currentUser;
+  const { user } = useAuth();
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
