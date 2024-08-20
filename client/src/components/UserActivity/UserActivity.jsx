@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
+// External File
 import API from "../../api";
+// Firebase
 import { getAuth } from "firebase/auth";
 
 const UserActivity = () => {
@@ -32,7 +34,6 @@ const UserActivity = () => {
   return(
     <div>
       <div>
-        {console.log(userActivity)}
         {userActivity.length > 0 && userActivity[0] ? (
           <div>
             <h2>ユーザーID: {userActivity[0].userId}</h2>

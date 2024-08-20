@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
+// External File
 import API from '../../api';
-import  { getAuth } from 'firebase/auth';
-import ArchiveItem from '../ArchiveItem/ArchiveItem';
+import ArchiveItem from './ArchiveItem';
 import './ArchiveList.css';
+// Firebase
+import  { getAuth } from 'firebase/auth';
+
 
 const ArchiveList = () => {
   const [archiveList, setArchiveList] = useState([]);
@@ -60,4 +63,4 @@ const ArchiveList = () => {
   )
 }
 
-export default ArchiveList
+export default ArchiveList;

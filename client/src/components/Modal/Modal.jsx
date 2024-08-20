@@ -1,54 +1,18 @@
-import { Box, CircularProgress, makeStyles, Typography, Button } from '@material-ui/core';
 import { useEffect, useState } from 'react';
+// External File 
 import API from '../../api';
-/* MaterialUI */
+import ModalStyle from './ModalStyle';
+// Firebase
+import { getAuth } from "firebase/auth";
+// MaterialUI
+import { Box, CircularProgress, Typography, Button } from '@material-ui/core';
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
-
-const useStylesCountDown = makeStyles(() => ({
-  container: {
-    position: 'fixed',
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  root: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  bottom: { color: '#b2b2b2' },
-  top: {
-    animationDuration: '100ms',
-    position: 'absolute',
-    left: 0
-  },
-  circle: { strokeLinecap: 'round' },
-  text: {
-    fontWeight: 'bold',
-    fontSize: '3em',
-    marginTop: '1em',
-  },
-  buttonsContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-  }
-}));
-
 const Modal = (props) => {
   const [stopBool, setStopBool] = useState(false);
-  const classes = useStylesCountDown();
+  const classes = ModalStyle();
   const { duration, colors = [], colorValues = [], onComplete, selectedId } = props;
   const [timeDuration, setTimeDuration] = useState(duration);
   const [countdownText, setCountdownText] = useState();
@@ -56,6 +20,9 @@ const Modal = (props) => {
   const [countdownColor, setCountdownColor] = useState('#004082');
   const [timerCompleted, setTimerCompleted] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
+  const auth = getAuth();
+  const user = auth.currentUser;
+  const token = user.getIdToken();
 
   useEffect(() => {
     let intervalId;
@@ -97,24 +64,22 @@ const Modal = (props) => {
     });
   }, [timeDuration, colorValues, colors]);
 
-  const countUpPomodoroCount = () => {
+  const countUpPomodoroCount = async() => {
     if (isRequesting || timerCompleted) return;
-    setIsRequesting(true); 
-    API.post(`${process.env.REACT_APP_API_URL}/countUpPomodoroCount`, {
-      selectedId,
-      credentials:'include'
-    })
-      .then((result)=> {
-        if (!timerCompleted) {
-          console.log(result)}
+    try{
+      setIsRequesting(true);
+      API.post(`${process.env.REACT_APP_API_URL}/home/countUpPomodoroCount`, {
+        selectedId,
+        credentials:'include'
+      }, {
+        headers: {
+          Authorization: `Bearer ${token}`
         }
-      )
-      .catch((err) => {
-        if (!timerCompleted) {
-          console.log('countUpPomodoroCountでエラー発生',err)
-        }
-      })
-      .finally(() => setIsRequesting(false));
+      });
+      setIsRequesting(false);
+    } catch(err) {
+      console.error(err);
+    }
   }
 
   return (

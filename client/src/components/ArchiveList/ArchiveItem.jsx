@@ -1,15 +1,15 @@
 import React from "react";
-//MaterialUI
+// External File
+import '../ArchiveList/ArchiveList.css';
+// MaterialUI
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { Grid } from '@material-ui/core';
 import Button from '@mui/material/Button';
-//MaterialUI icon
 import DeleteIcon from '@mui/icons-material/Delete';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
-//External CSSfile
-import '../ArchiveList/ArchiveList.css';
+
 
 const ArchiveItem = ({archiveList, returnHome, deleteCard}) => {
   return(

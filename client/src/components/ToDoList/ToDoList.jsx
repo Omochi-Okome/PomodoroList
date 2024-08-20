@@ -1,11 +1,16 @@
 import React, { useState, useEffect } from "react";
-import API from "../../api";
-import { getAuth } from "firebase/auth";
-import dayjs from "dayjs";
-import Modal from "../Modal/Modal";
 import { createPortal } from "react-dom";
-import ToDoForm from "../ToDoForm/ToDoForm";
-import ToDoItem from "../ToDoItem/ToDoItem";
+import { useNavigate } from "react-router-dom";
+// External File
+import API from "../../api";
+import Modal from "../Modal/Modal";
+import ToDoForm from "./ToDoForm";
+import ToDoItem from "./ToDoItem";
+// Firebase
+import { getAuth } from "firebase/auth";
+// Other
+import dayjs from "dayjs";
+
 
 const ModalPortal = ({ children }) => {
   const target = document.querySelector(".container.start");
@@ -14,13 +19,14 @@ const ModalPortal = ({ children }) => {
 
 const ToDoList = () => {
   const initialDate = dayjs();
+  const navigate = useNavigate();
+  const auth = getAuth();
+  const user = auth.currentUser;
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedTodoId, setSelectedTodoId] = useState(null);
-  const auth = getAuth();
-  const user = auth.currentUser;
-  
+
   useEffect(() => {
     if (user) {
       fetchTodoList(user);
@@ -41,7 +47,6 @@ const ToDoList = () => {
       const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
         withCredentials: true,
       });
-      console.log(response.data);
       setTodoList(response.data);
     } catch (err) {
       console.log(err);
@@ -50,9 +55,7 @@ const ToDoList = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!inputValue.trim()) {
-      return;
-    }
+    if (!inputValue.trim()) return;
     try {
       const dataToSend = {
         userId: user.uid,
@@ -87,20 +90,18 @@ const ToDoList = () => {
   };
 
   const handleOnComplete = async () => {
-    setModalOpen(false);
-    await API.post(`${process.env.REACT_APP_API_URL}/`,{
-      userId: user.uid
-    })
+    try {
+      setModalOpen(false);
+      navigate('/home');
+    } catch(err) {
+      console.error(err);
+    }
   };
 
   return (
     <div className="container start" onSubmit={handleSubmit}>
       <ToDoForm inputValue={inputValue} handleInputChange={handleInputChange} />
-      <ToDoItem
-        todoList={todoList}
-        handleStartCountdown={handleStartCountdown}
-        deleteItem={deleteItem}
-      />
+      <ToDoItem todoList={todoList} handleStartCountdown={handleStartCountdown} deleteItem={deleteItem} />
       {modalOpen && (
           <ModalPortal>
             <Modal

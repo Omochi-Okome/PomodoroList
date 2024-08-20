@@ -32,7 +32,7 @@ const App = () => {
   return (
     <AuthProvider>
       <Router>
-        <TopBar />
+        <TopBar user={user} />
         <Grid container>
           {user && (
             <>
