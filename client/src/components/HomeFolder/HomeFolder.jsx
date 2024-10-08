@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 // External File
-import './HomeFolder.css'
+import './HomeFolder.css';
 // MaterialUI
 import Box from '@mui/material/Box';
 import List from '@mui/material/List';
@@ -22,21 +22,20 @@ export default function SelectedListItem() {
   const handleListItemClick = (index) => {
     setSelectedIndex(index);
 
-    switch(index){
-        case 0:
-          navigate('/home');
-          break;
-        case 1:
-          navigate('/archive');
-          break;
-        case 2:
-          navigate('/data');
-          break;
-        case 3:
-          navigate('/setting');
-          break; 
+    switch (index) {
+      case 0:
+        navigate('/home');
+        break;
+      case 1:
+        navigate('/archive');
+        break;
+      case 2:
+        navigate('/data');
+        break;
+      case 3:
+        navigate('/setting');
+        break;
     }
-
   };
 
   return (
@@ -49,7 +48,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <HomeIcon />
           </ListItemIcon>
-          <ListItemText primary='Home' className='listItemText'/>
+          <ListItemText primary='Home' className='listItemText' />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 1}
@@ -67,7 +66,7 @@ export default function SelectedListItem() {
           <ListItemIcon>
             <AssessmentIcon />
           </ListItemIcon>
-          <ListItemText primary='Data' className='listItemText'/>
+          <ListItemText primary='Data' className='listItemText' />
         </ListItemButton>
         <ListItemButton
           selected={selectedIndex === 3}
@@ -83,4 +82,3 @@ export default function SelectedListItem() {
     </Box>
   );
 }
-

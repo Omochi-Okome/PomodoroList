@@ -17,4 +17,4 @@ export const getErrorMessage = (errorCode) => {
     default:
       return '認証エラーが発生しました。';
   }
-}
+};

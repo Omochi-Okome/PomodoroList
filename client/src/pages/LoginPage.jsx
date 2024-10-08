@@ -1,12 +1,11 @@
-import * as React from 'react';
-import LoginForm from '../components/LoginForm'
+import * as React from "react";
+import LoginForm from "../components/LoginForm";
 
-const LoginPage = () => {
-  return(
+export default function LoginPage({ user }) {
+  console.log("test", user);
+  return (
     <>
       <LoginForm isSignup={false} />
     </>
-  )
+  );
 }
-
-export default LoginPage;

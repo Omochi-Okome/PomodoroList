@@ -1,4 +1,4 @@
-// MaterialUI 
+// MaterialUI
 import { makeStyles } from '@material-ui/core';
 
 const ModalStyle = makeStyles(() => ({
@@ -25,7 +25,7 @@ const ModalStyle = makeStyles(() => ({
   top: {
     animationDuration: '100ms',
     position: 'absolute',
-    left: 0
+    left: 0,
   },
   circle: { strokeLinecap: 'round' },
   text: {
@@ -37,7 +37,7 @@ const ModalStyle = makeStyles(() => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-  }
+  },
 }));
 
 export default ModalStyle;

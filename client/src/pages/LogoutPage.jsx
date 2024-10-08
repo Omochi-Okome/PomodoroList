@@ -1,29 +1,23 @@
-import {useEffect} from "react"
-import { useNavigate } from "react-router-dom"
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 
-const LogoutPage = () => {
+export default function LogoutPage() {
   const navigate = useNavigate();
   const auth = getAuth();
 
   useEffect(() => {
-    const logout = async() => {
+    const logout = async () => {
       try {
         await signOut(auth);
-        console.log('ログアウトに成功しました。');
-        navigate('/auth/login');
-      } catch(err) {
+        console.log("ログアウトに成功しました。");
+        navigate("/auth/login");
+      } catch (err) {
         console.log(err);
       }
-    }
+    };
     logout();
   }, [auth, navigate]);
 
-  return (
-    <div>
-      ログアウト中...
-    </div>
-  )
+  return <div>ログアウト中...</div>;
 }
-
-export default LogoutPage;

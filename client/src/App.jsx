@@ -59,7 +59,7 @@ const AppRoutes = ({user}) => {
     <Route path="/data" element={<ProtectedRoute element={<Data />} />} />
     <Route path="/setting" element={<ProtectedRoute element={<Setting />} />} />
     <Route path="/mypage" element={<ProtectedRoute element={<Mypage />} />} />
-    <Route path='/auth/login' element={<Login />} />
+    <Route path='/auth/login' element={<Login />} user={user} />
     <Route path='/auth/logout' element={<Logout/> }></Route>
     <Route path='/auth/signup' element={<SignupPage />}></Route>
   </Routes>

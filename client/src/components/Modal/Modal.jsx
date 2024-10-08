@@ -1,23 +1,29 @@
-import { useEffect, useState } from 'react';
-// External File 
-import API from '../../api';
-import ModalStyle from './ModalStyle';
+import { useEffect, useState } from "react";
+// External File
+import API from "../../api";
+import ModalStyle from "./ModalStyle";
 // Firebase
 import { getAuth } from "firebase/auth";
 // MaterialUI
-import { Box, CircularProgress, Typography, Button } from '@material-ui/core';
-import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
-import StopCircleIcon from '@mui/icons-material/StopCircle';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
+import { Box, CircularProgress, Typography, Button } from "@material-ui/core";
+import PlayCircleFilledWhiteIcon from "@mui/icons-material/PlayCircleFilledWhite";
+import StopCircleIcon from "@mui/icons-material/StopCircle";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
-const Modal = (props) => {
+export default function Modal(props) {
   const [stopBool, setStopBool] = useState(false);
   const classes = ModalStyle();
-  const { duration, colors = [], colorValues = [], onComplete, selectedId } = props;
+  const {
+    duration,
+    colors = [],
+    colorValues = [],
+    onComplete,
+    selectedId,
+  } = props;
   const [timeDuration, setTimeDuration] = useState(duration);
   const [countdownText, setCountdownText] = useState();
   const [countdownPercentage, setCountdownPercentage] = useState(100);
-  const [countdownColor, setCountdownColor] = useState('#004082');
+  const [countdownColor, setCountdownColor] = useState("#004082");
   const [timerCompleted, setTimerCompleted] = useState(false);
   const [isRequesting, setIsRequesting] = useState(false);
   const auth = getAuth();
@@ -31,9 +37,11 @@ const Modal = (props) => {
         setTimeDuration((prev) => {
           const newTimeDuration = prev - 1;
           if (newTimeDuration >= 0) {
-            setCountdownPercentage(Math.ceil((newTimeDuration / duration) * 100));
+            setCountdownPercentage(
+              Math.ceil((newTimeDuration / duration) * 100)
+            );
             if (newTimeDuration === 0) {
-              clearInterval(intervalId)
+              clearInterval(intervalId);
               if (!timerCompleted) {
                 onComplete();
                 countUpPomodoroCount();
@@ -43,7 +51,6 @@ const Modal = (props) => {
           }
           return newTimeDuration;
         });
-        
       }, 1000);
     }
     return () => clearInterval(intervalId);
@@ -52,7 +59,7 @@ const Modal = (props) => {
   useEffect(() => {
     const minutes = Math.floor(timeDuration / 60);
     const seconds = timeDuration % 60;
-    setCountdownText(`${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
+    setCountdownText(`${minutes}:${seconds < 10 ? "0" : ""}${seconds}`);
   }, [timeDuration]);
 
   useEffect(() => {
@@ -64,30 +71,34 @@ const Modal = (props) => {
     });
   }, [timeDuration, colorValues, colors]);
 
-  const countUpPomodoroCount = async() => {
+  const countUpPomodoroCount = async () => {
     if (isRequesting || timerCompleted) return;
-    try{
+    try {
       setIsRequesting(true);
-      API.post(`${process.env.REACT_APP_API_URL}/home/countUpPomodoroCount`, {
-        selectedId,
-        credentials:'include'
-      }, {
-        headers: {
-          Authorization: `Bearer ${token}`
+      API.post(
+        `${process.env.REACT_APP_API_URL}/home/countUpPomodoroCount`,
+        {
+          selectedId,
+          credentials: "include",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
-      });
+      );
       setIsRequesting(false);
-    } catch(err) {
+    } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   return (
     <>
       <Box className={classes.container}>
         <Box className={classes.root}>
           <CircularProgress
-            variant='determinate'
+            variant="determinate"
             className={classes.bottom}
             size={200}
             thickness={6}
@@ -96,22 +107,32 @@ const Modal = (props) => {
           <CircularProgress
             className={classes.top}
             classes={{ circle: classes.circle }}
-            variant='determinate'
+            variant="determinate"
             size={200}
             thickness={6}
             value={countdownPercentage}
-            style={{ transform: 'scaleX(-1) rotate(-90deg)', color: countdownColor }}
+            style={{
+              transform: "scaleX(-1) rotate(-90deg)",
+              color: countdownColor,
+            }}
           />
         </Box>
         <Typography className={classes.text}>{countdownText}</Typography>
         <Box className={classes.buttonsContainer}>
-          <Button variant='outlined' onClick={props.handleCloseClick}><DeleteForeverIcon />discard</Button>
-          <Button variant='contained' onClick={() => setStopBool(true)}><StopCircleIcon />stop</Button>
-          <Button variant='contained' onClick={() => setStopBool(false)}><PlayCircleFilledWhiteIcon />reunion</Button>
+          <Button variant="outlined" onClick={props.handleCloseClick}>
+            <DeleteForeverIcon />
+            discard
+          </Button>
+          <Button variant="contained" onClick={() => setStopBool(true)}>
+            <StopCircleIcon />
+            stop
+          </Button>
+          <Button variant="contained" onClick={() => setStopBool(false)}>
+            <PlayCircleFilledWhiteIcon />
+            reunion
+          </Button>
         </Box>
       </Box>
     </>
   );
-};
-
-export default Modal;
+}

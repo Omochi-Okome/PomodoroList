@@ -9,30 +9,30 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(0, 0, 0, 0.5);
-};
+}
 .root {
   position: relative;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-};
-.bottom { 
-  color: #b2b2b2
-};
+}
+.bottom {
+  color: #b2b2b2;
+}
 .top {
   animation-duration: 100ms;
   position: absolute;
-  left: 0
-};
+  left: 0;
+}
 .circle {
   stroke-linecap: round;
-};
+}
 .text {
   font-weight: bold;
   font-size: 3em;
   margin-top: 1em;
-};
+}
 .buttonsContainer {
   display: flex;
   flex-direction: row;

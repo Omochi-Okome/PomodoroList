@@ -1,12 +1,10 @@
 import * as React from 'react';
 import LoginForm from '../components/LoginForm';
 
-const SignupPage = () => {
+export default function SignupPage() {
   return(
     <>
       <LoginForm isSignup={true} />
     </>
   )
 }
-
-export default SignupPage;
