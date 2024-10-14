@@ -1,45 +1,44 @@
-const List = require('../models/list')
-const ArchiveList = require('../models/archiveList');
-const connectDB = require('../util/database');
+import { List } from "../models/list.js";
+import { ArchiveList } from "../models/archiveList.js";
+import { connectDB } from "../util/database.js";
 
-exports.viewArchive = async(req,res) => {
-  const userId = req.user.user_id;
+export async function viewArchive(req, res) {
   try {
     await connectDB();
-    const product = await ArchiveList.find({userId});
-    res.json(product);
-  } catch(err) {
-    res.status(500).json({err: 'アーカイブデータを取得できませんでした。'});
+    const products = await ArchiveList.find();
+    res.status(200).json(products);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ err: "アーカイブデータを取得できませんでした。" });
   }
 }
 
-exports.deleteArchiveTodoItem = async(req,res) => {
-  const _id = req.body._id;
+export async function deleteArchiveTodoItem(req, res) {
+  const _id = req.body;
   try {
-    await ArchiveList.deleteOne({_id:_id});
+    await ArchiveList.deleteOne({ _id: _id });
     res.status(200).send();
-  } catch(err) {
-    console.error(err);
-  } 
-}
-exports.deleteArchiveTodoItem = async(req,res) => {
-  const _id = req.body._id;
-  try {
-    await ArchiveList.deleteOne({_id:_id});
-    res.status(200).send();
-  } catch(err) {
-    console.error(err);
-  } 
+  } catch (error) {
+    console.error(error);
+    res.status(500).send();
+  }
 }
 
-exports.returnHome = async(req,res) => {
-  const {userId, _id, returnItem: item, registerDate, pomodoroCount} = req.body;
-  const returnProduct = new List({userId, item, registerDate, pomodoroCount});
+export async function returnHome(req, res) {
+  const { _id, item } = req.body;
+  const returnProduct = new List({ _id, item });
   try {
     await returnProduct.save();
-    await ArchiveList.deleteOne({_id: _id});
-    res.json();
-  } catch(err) {
-    console.log(err);
+    await ArchiveList.deleteOne({ _id: _id });
+    res.status(200).send();
+  } catch (error) {
+    console.log(error);
+    res.status(500).send();
   }
 }
+
+export const archiveController = {
+  viewArchive,
+  deleteArchiveTodoItem,
+  returnHome,
+};

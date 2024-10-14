@@ -27,6 +27,7 @@
     "helmet": "^7.1.0",
     "lodash": "^4.17.21",
     "new-date": "^1.0.3",
+    "preline": "^2.5.0",
     "react": "^17.0.0",
     "react-dom": "^17.0.2",
     "react-router-dom": "^6.24.1",
@@ -60,7 +61,8 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@babel/plugin-transform-private-property-in-object": "^7.23.4"
+    "@babel/plugin-transform-private-property-in-object": "^7.23.4",
+    "tailwindcss": "^3.4.13"
   },
   "proxy": "http://localhost:3001/",
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).",

@@ -1,10 +1,16 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const admin = require('firebase-admin');
-const cors = require('cors');
-const connectDB = require('./util/database');
-const path = require('path');
-require('dotenv').config();
+import express from 'express';
+import bodyParser from 'body-parser';
+import admin from "firebase-admin";
+import cors from 'cors';
+import {connectDB} from './util/database.js';
+import path from 'path';
+import dotenv from 'dotenv';
+import { fileURLToPath } from 'url';
+
+import homeRoutes from './routes/home.js';
+import archiveRoutes from './routes/archive.js';
+
+dotenv.config();
 
 const serviceAccount = {
   type: process.env.FIREBASE_TYPE,
@@ -19,7 +25,7 @@ const serviceAccount = {
   client_x509_cert_url: process.env.FIREBASE_CLIENT_CERT_URL
 };
 
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT;
 const app = express();
 
 admin.initializeApp({
@@ -28,24 +34,13 @@ admin.initializeApp({
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
-app.use(
-  cors({
-    origin: ['http://localhost:3000', 'https://todolist-aemc.onrender.com'],
-    credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization']
-  })
-);
+app.use(cors());
 
-const authMiddleware = require('./middleware/auth');
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const homeRoutes = require('./routes/home');
-const archiveRoutes = require('./routes/archive');
-const dataRoutes = require('./routes/userActivity');
-
-app.use('/home', authMiddleware, homeRoutes);
-app.use('/archive', authMiddleware, archiveRoutes);
-app.use('/data', authMiddleware, dataRoutes);
+app.use('/home', homeRoutes);
+app.use('/archive',  archiveRoutes);
 
 app.use(express.static(path.join(__dirname, '../client/build')));
 

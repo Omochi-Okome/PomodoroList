@@ -1,13 +1,12 @@
-const express = require('express');
+import express from "express";
+import { archiveController } from "../controllers/archive.js";
 
 const router = express.Router();
 
-const archiveController = require('../controllers/archive');
+router.get("/", archiveController.viewArchive);
 
-router.get('/', archiveController.viewArchive);
+router.post("/delete", archiveController.deleteArchiveTodoItem);
 
-router.post('/delete', archiveController.deleteArchiveTodoItem);
+router.post("/returnHome", archiveController.returnHome);
 
-router.post('/returnHome',archiveController.returnHome);
-
-module.exports = router;
+export default router;

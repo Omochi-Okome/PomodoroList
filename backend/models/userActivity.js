@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const userActivitySchema = new mongoose.Schema({
   //ユーザーID
@@ -32,6 +32,6 @@ const userActivitySchema = new mongoose.Schema({
   }
 })
 
-const userActivity = mongoose.model('userActivity', userActivitySchema);
+export const userActivity = mongoose.model('userActivity', userActivitySchema);
 
-module.exports = userActivity;
+// module.exports = userActivity;

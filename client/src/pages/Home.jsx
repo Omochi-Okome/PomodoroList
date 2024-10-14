@@ -1,120 +1,80 @@
 import React, { useState, useEffect } from "react";
-import { createPortal } from "react-dom";
-import { useNavigate } from "react-router-dom";
-// External File
-import API from "../api";
-import { useAuth } from "../context/AuthContext"; 
-import Modal from "../components/Modal/Modal";
-import ToDoForm from "../components/ToDoList/ToDoForm";
-import ItemList from "../components/UI/ItemList";
-// Other
-import dayjs from "dayjs";
+import axios from "axios";
 
-const ModalPortal = ({ children }) => {
-  const target = document.querySelector(".container.start");
-  return createPortal(children, target);
-};
+import Button from "../components/UI/Button";
+import Input from "../components/UI/Input";
+import ItemCard from "../components/UI/ItemCard";
+import Message from "../components/UI/Message";
+import SideMenu from "../components/SideMenu";
 
 export default function Home() {
-  const initialDate = dayjs();
-  const navigate = useNavigate();
-  const { user } = useAuth();
   const [todoList, setTodoList] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedTodoId, setSelectedTodoId] = useState(null);
+
+  function handleInputChange(event) {
+    setInputValue(event.target.value);
+  }
 
   useEffect(() => {
-    if (user) {
-      fetchTodoList(user);
-    }
-  }, [user]);
+    fetchTodoList();
+    console.log("危険確認");
+  }, []);
 
-  const handleInputChange = (e) => {
-    setInputValue(e.target.value);
-  };
-
-  const handleStartCountdown = (todoId) => {
-    setSelectedTodoId(todoId);
-    setModalOpen(true);
-  };
-
-  const fetchTodoList = async () => {
+  async function fetchTodoList() {
     try {
-      const response = await API.get(`${process.env.REACT_APP_API_URL}/home`, {
-        withCredentials: true,
-      });
+      const response = await axios.get("http://localhost:3001/home");
       setTodoList(response.data);
     } catch (err) {
       console.log(err);
     }
-  };
+  }
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  async function handleSubmit() {
     if (!inputValue.trim()) return;
     try {
-      const dataToSend = {
-        userId: user.uid,
-        inputData: inputValue,
-        registerDate: initialDate,
-      };
-      await API.post(`${process.env.REACT_APP_API_URL}/home/item`, dataToSend);
-      await API.post(`${process.env.REACT_APP_API_URL}/data/addTodoData`, user);
+      await axios.post("http://localhost:3001/home/item", { inputValue });
       setInputValue("");
-      fetchTodoList(user);
+      await fetchTodoList();
     } catch (error) {
       console.error("handleSubmitでエラー発生", error);
     }
-  };
+  }
 
-  const deleteItem = async (itemId, item, registerDate, pomodoroCount) => {
+  async function deleteItem(itemId, item) {
     try {
-      await API.post(`${process.env.REACT_APP_API_URL}/home/delete`, {
-        userId: user.uid,
-        itemId: itemId,
-        item: item,
-        registerDate: registerDate,
-        pomodoroCount: pomodoroCount,
-      });
-      await API.post(`${process.env.REACT_APP_API_URL}/data/completeTodoData`, {
-        userId: user.uid,
-      });
-      fetchTodoList(user);
+      await axios.post("http://localhost:3001/home/delete", { itemId, item });
+      await fetchTodoList();
     } catch (err) {
       console.log(err);
     }
-  };
-
-  const handleOnComplete = async () => {
-    try {
-      setModalOpen(false);
-      navigate("/home");
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  }
 
   return (
-    <div className="container start" onSubmit={handleSubmit}>
-      <ToDoForm inputValue={inputValue} handleInputChange={handleInputChange} />
-      <ItemList
-        itemList={todoList}
-        handleStartCountdown={handleStartCountdown}
-        deleteItem={deleteItem}
-      />
-      {modalOpen && (
-        <ModalPortal>
-          <Modal
-            handleCloseClick={() => setModalOpen(false)}
-            duration={3}
-            colors={["#ff9248", "#a20000"]}
-            colorValues={[20, 10]}
-            onComplete={handleOnComplete}
-            selectedId={selectedTodoId}
+    <div className="flex h-screen mt-10 ">
+      <div className="flex flex-col w-80">
+        <SideMenu currentMenu="Home" />
+      </div>
+      <div className="flex flex-col bg-slate-100 items-center h-screen ">
+        <div className="mt-3">
+          <Input
+            inputValue={inputValue}
+            handleInputChange={handleInputChange}
           />
-        </ModalPortal>
-      )}
+          <Button handle={handleSubmit} name="追加" />
+        </div>
+        {todoList.length === 0 && <Message message="There is no item!" />}
+        <div className="flex flex-row flex-wrap mt-4">
+          {todoList.map((item) => (
+            <ItemCard itemList={item} deleteItem={deleteItem}>
+              <Button name="Start" handle={() => console.log("Start!!")} />
+              <Button
+                name="Done"
+                handle={() => deleteItem(item._id, item.item)}
+              />
+            </ItemCard>
+          ))}
+        </div>
+      </div>
     </div>
   );
-};
+}

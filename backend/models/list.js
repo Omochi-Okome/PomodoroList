@@ -1,25 +1,10 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
 const listSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-  },
   item: {
     type: String,
     required: true,
   },
-  registerDate: {
-    type: String,
-    required: true,
-  },
-  pomodoroCount: {
-    type: Number,
-    required: true,
-    default:0
-  }
-})
+});
 
-const List = mongoose.model('List', listSchema, 'list');
-
-module.exports = List;
+export const List = mongoose.model("List", listSchema, "list");

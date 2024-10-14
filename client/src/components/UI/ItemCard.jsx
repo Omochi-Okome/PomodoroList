@@ -1,40 +1,8 @@
-import { Grid } from "@material-ui/core";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
-import PlayCircleOutlineIcon from "@mui/icons-material/PlayCircleOutline";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
-export default function ItemCard({ items, deleteItem }) {
+export default function ItemList({ children, itemList }) {
   return (
-    <Grid>
-      <Card variant="outlined" className="card">
-        <CardContent>
-          <Typography variant="body1">{items.item}</Typography>
-          <Button
-            variant="outlined"
-            onClick={() => console.log("Start button clicked")}
-          >
-            <PlayCircleOutlineIcon />
-            Start
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() =>
-              deleteItem(
-                items._id,
-                items.item,
-                items.registerDate,
-                items.pomodoroCount
-              )
-            }
-          >
-            <CheckCircleIcon />
-            Done
-          </Button>
-        </CardContent>
-      </Card>
-    </Grid>
+    <div className="flex flex-col text-center w-50 h-28 mx-3 my-3 rounded-md bg-white">
+      <h2 className="text-xl mt-auto">{itemList.item}</h2>
+      <div className="mt-auto mb-1">{children}</div>
+    </div>
   );
 }
