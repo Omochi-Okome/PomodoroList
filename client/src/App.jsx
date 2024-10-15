@@ -1,11 +1,9 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 /* pages */
 import All from "./pages/All";
-import Home from "./pages/Home";
-import Archive from "./pages/Archive";
-import './index.css';
-/* components */
-/* MaterialUI */
+import Task from "./pages/Task";
+import ArchiveTask from "./pages/ArchiveTask";
+import "./index.css";
 
 export default function App() {
   return (
@@ -19,8 +17,8 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<All />} />
-      <Route path="/home" element={<Home />} />
-      <Route path="/archive" element={<Archive />} />
+      <Route path="/dashboard/task" element={<Task />} />
+      <Route path="/dashboard/archiveTask" element={<ArchiveTask />} />
     </Routes>
   );
 }

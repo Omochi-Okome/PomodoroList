@@ -9,19 +9,19 @@ export default function SideMenu({ currentMenu }) {
   function handleMenu(index) {
     switch (index) {
       case 0:
-        navigate("/home");
+        navigate("/dashboard/task");
         break;
       case 1:
-        navigate("/archive");
+        navigate("/dashboard/archiveTask");
         break;
     }
   }
 
   return (
     <div>
-      <menu className="">
+      <menu>
         <TabButton
-          label="Home"
+          label="Task"
           onSelect={() => handleMenu(0)}
           currentMenu={currentMenu}
         />

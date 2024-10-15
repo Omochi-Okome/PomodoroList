@@ -3,12 +3,12 @@ import axios from "axios";
 
 import Button from "../components/UI/Button";
 import Input from "../components/UI/Input";
-import ItemCard from "../components/UI/ItemCard";
+import TaskCard from "../components/UI/TaskCard";
 import Message from "../components/UI/Message";
 import SideMenu from "../components/SideMenu";
 
-export default function Home() {
-  const [todoList, setTodoList] = useState([]);
+export default function Task() {
+  const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
   function handleInputChange(event) {
@@ -16,14 +16,14 @@ export default function Home() {
   }
 
   useEffect(() => {
-    fetchTodoList();
-    console.log("危険確認");
+    fetchTasks();
+    console.log("危険確認、Task");
   }, []);
 
-  async function fetchTodoList() {
+  async function fetchTasks() {
     try {
-      const response = await axios.get("http://localhost:3001/home");
-      setTodoList(response.data);
+      const response = await axios.get("http://localhost:3001/dashboard/task");
+      setTasks(response.data);
     } catch (err) {
       console.log(err);
     }
@@ -32,18 +32,20 @@ export default function Home() {
   async function handleSubmit() {
     if (!inputValue.trim()) return;
     try {
-      await axios.post("http://localhost:3001/home/item", { inputValue });
+      await axios.post("http://localhost:3001/task/postNewTask", {
+        inputValue,
+      });
       setInputValue("");
-      await fetchTodoList();
+      await fetchTasks();
     } catch (error) {
       console.error("handleSubmitでエラー発生", error);
     }
   }
 
-  async function deleteItem(itemId, item) {
+  async function deleteTask(taskID, task) {
     try {
-      await axios.post("http://localhost:3001/home/delete", { itemId, item });
-      await fetchTodoList();
+      await axios.post("http://localhost:3001/task/delete", { taskID, task });
+      await fetchTasks();
     } catch (err) {
       console.log(err);
     }
@@ -52,7 +54,7 @@ export default function Home() {
   return (
     <div className="flex h-screen mt-10 ">
       <div className="flex flex-col w-80">
-        <SideMenu currentMenu="Home" />
+        <SideMenu currentMenu="Task" />
       </div>
       <div className="flex flex-col bg-slate-100 items-center h-screen ">
         <div className="mt-3">
@@ -62,16 +64,16 @@ export default function Home() {
           />
           <Button handle={handleSubmit} name="追加" />
         </div>
-        {todoList.length === 0 && <Message message="There is no item!" />}
+        {tasks.length === 0 && <Message message="There is no task!" />}
         <div className="flex flex-row flex-wrap mt-4">
-          {todoList.map((item) => (
-            <ItemCard itemList={item} deleteItem={deleteItem}>
+          {tasks.map((tasks) => (
+            <TaskCard key={tasks._id} tasks={tasks} deleteTask={deleteTask}>
               <Button name="Start" handle={() => console.log("Start!!")} />
               <Button
                 name="Done"
-                handle={() => deleteItem(item._id, item.item)}
+                handle={() => deleteTask(tasks._id, tasks.task)}
               />
-            </ItemCard>
+            </TaskCard>
           ))}
         </div>
       </div>
