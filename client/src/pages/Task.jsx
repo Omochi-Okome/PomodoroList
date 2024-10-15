@@ -4,7 +4,8 @@ import axios from "axios";
 import Button from "../components/UI/Button";
 import Input from "../components/UI/Input";
 import TaskCard from "../components/UI/TaskCard";
-import Message from "../components/UI/Message";
+import TodayFocusTime from "../components/TodayFocusTime";
+import Message from "../components/Message";
 import SideMenu from "../components/SideMenu";
 
 export default function Task() {
@@ -52,11 +53,14 @@ export default function Task() {
   }
 
   return (
-    <div className="flex h-screen mt-10 ">
-      <div className="flex flex-col w-80">
+    <div className="flex h-screen">
+      <div className="flex flex-col w-80 pt-10">
         <SideMenu currentMenu="Task" />
       </div>
-      <div className="flex flex-col bg-slate-100 items-center h-screen ">
+      <div className="flex flex-col bg-slate-100 items-center w-full pt-10 ">
+        <div>
+          <TodayFocusTime />
+        </div>
         <div className="mt-3">
           <Input
             inputValue={inputValue}

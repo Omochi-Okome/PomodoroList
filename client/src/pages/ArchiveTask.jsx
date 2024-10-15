@@ -3,7 +3,7 @@ import axios from "axios";
 
 import Button from "../components/UI/Button";
 import ItemList from "../components/UI/TaskCard";
-import Message from "../components/UI/Message";
+import Message from "../components/Message";
 import SideMenu from "../components/SideMenu";
 
 export default function Archive() {
@@ -49,13 +49,15 @@ export default function Archive() {
   }
 
   return (
-    <div className="flex h-screen mt-10">
-      <div className="flex flex-col w-80">
+    <div className="flex h-screen">
+      <div className="flex flex-col w-80 pt-10">
         <SideMenu currentMenu="Archive" />
       </div>
-      <div className="flex flex-col items-center bg-slate-100 h-screen">
+      <div className="flex flex-col w-full items-center bg-slate-100 pt-10">
         <div className="flex flex-row flex-wrap mt-4">
-          {archiveTasks.length === 0 && <Message message="There is no archive task!" />}
+          {archiveTasks.length === 0 && (
+            <Message message="There is no archive task!" />
+          )}
           {archiveTasks.map((tasks) => (
             <ItemList key={tasks._id} tasks={tasks}>
               <Button

@@ -6,28 +6,26 @@ import TabButton from "./UI/TabButton";
 export default function SideMenu({ currentMenu }) {
   const navigate = useNavigate();
 
-  function handleMenu(index) {
-    switch (index) {
-      case 0:
-        navigate("/dashboard/task");
-        break;
-      case 1:
-        navigate("/dashboard/archiveTask");
-        break;
-    }
+  function handleMenu(destination) {
+    navigate(`/dashboard/${destination}`);
   }
 
   return (
     <div>
       <menu>
         <TabButton
+          label="Home"
+          onSelect={() => handleMenu("home")}
+          currentMenu={currentMenu}
+        />
+        <TabButton
           label="Task"
-          onSelect={() => handleMenu(0)}
+          onSelect={() => handleMenu("task")}
           currentMenu={currentMenu}
         />
         <TabButton
           label="Archive"
-          onSelect={() => handleMenu(1)}
+          onSelect={() => handleMenu("archiveTask")}
           currentMenu={currentMenu}
         />
       </menu>

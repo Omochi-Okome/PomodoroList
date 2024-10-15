@@ -8,7 +8,7 @@ export default function TabButton({ label, onSelect, currentMenu }) {
 
   return (
     <li className={className}>
-      <button className="ml-3" onClick={onSelect}>
+      <button className="flex items-center ml-3 w-full" onClick={onSelect}>
         {label}
       </button>
     </li>
