@@ -53,20 +53,21 @@ export default function Task() {
   }
 
   return (
+    
     <div className="flex h-screen">
       <div className="flex flex-col w-80 pt-10">
         <SideMenu currentMenu="Task" />
       </div>
-      <div className="flex flex-col bg-slate-100 items-center w-full pt-10 ">
-        <div>
+      <div className="flex flex-col items-center w-full pt-10 bg-slate-100">
+        <div className="flex justify-center w-full">
           <TodayFocusTime />
         </div>
-        <div className="mt-3">
+        <div className="flex flex-nowrap mt-3">
           <Input
             inputValue={inputValue}
             handleInputChange={handleInputChange}
           />
-          <Button handle={handleSubmit} name="追加" />
+          <Button handle={handleSubmit} name="Add" />
         </div>
         {tasks.length === 0 && <Message message="There is no task!" />}
         <div className="flex flex-row flex-wrap mt-4">

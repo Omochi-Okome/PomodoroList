@@ -1,6 +1,8 @@
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
 
+import { HiHome } from "react-icons/hi2";
+
 import TabButton from "./UI/TabButton";
 
 export default function SideMenu({ currentMenu }) {
