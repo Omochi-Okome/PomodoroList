@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
-import Button from "../components/UI/Button";
-import Input from "../components/UI/Input";
-import TaskCard from "../components/UI/TaskCard";
+import TaskBoard from "../components/TaskBoard";
 import TodayFocusTime from "../components/TodayFocusTime";
-import Message from "../components/Message";
 import SideMenu from "../components/SideMenu";
 
 export default function Task() {
@@ -53,33 +50,31 @@ export default function Task() {
   }
 
   return (
-    
-    <div className="flex h-screen">
-      <div className="flex flex-col w-80 pt-10">
+    <div className="flex h-screen w-full">
+      <div className="flex flex-col w-40 pt-10">
         <SideMenu currentMenu="Task" />
       </div>
-      <div className="flex flex-col items-center w-full pt-10 bg-slate-100">
+      <div className="flex flex-col items-center h-auto w-full pt-10 bg-slate-100">
         <div className="flex justify-center w-full">
           <TodayFocusTime />
         </div>
-        <div className="flex flex-nowrap mt-3">
-          <Input
-            inputValue={inputValue}
+        <div className="flex flex-row w-auto justify-between">
+          <TaskBoard
+            deleteTask={deleteTask}
             handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            inputValue={inputValue}
+            tasks={tasks}
+            title="English"
           />
-          <Button handle={handleSubmit} name="Add" />
-        </div>
-        {tasks.length === 0 && <Message message="There is no task!" />}
-        <div className="flex flex-row flex-wrap mt-4">
-          {tasks.map((tasks) => (
-            <TaskCard key={tasks._id} tasks={tasks} deleteTask={deleteTask}>
-              <Button name="Start" handle={() => console.log("Start!!")} />
-              <Button
-                name="Done"
-                handle={() => deleteTask(tasks._id, tasks.task)}
-              />
-            </TaskCard>
-          ))}
+          <TaskBoard
+            deleteTask={deleteTask}
+            handleInputChange={handleInputChange}
+            handleSubmit={handleSubmit}
+            inputValue={inputValue}
+            tasks={tasks}
+            title="Programming"
+          />
         </div>
       </div>
     </div>
