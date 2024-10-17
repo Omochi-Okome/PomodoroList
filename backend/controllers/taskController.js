@@ -1,10 +1,19 @@
+import axios from "axios";
+import dotenv from "dotenv";
+
 import { Task } from "../models/taskModel.js";
 import { ArchiveTask } from "../models/archiveTaskModel.js";
 
+dotenv.config();
+
 export async function postNewTask(req, res) {
   const task = req.body.inputValue;
-  const saveNewTask = new Task({ task });
+  // const saveNewTask = new Task({ task });
+  const newEnglishTask = {
+    englishTask: task
+  }
   try {
+    await axios.post(process.env.REALTIME_DATABASE +"/task/englishTask.json", newEnglishTask)
     await saveNewTask.save();
     res.status(200).send();
   } catch (error) {
@@ -27,7 +36,7 @@ export async function deleteTask(req, res) {
 }
 
 export async function deleteArchiveTask(req, res) {
-  const {taskID} = req.body;
+  const { taskID } = req.body;
   try {
     await ArchiveTask.deleteOne({ _id: taskID });
     res.status(200).send();

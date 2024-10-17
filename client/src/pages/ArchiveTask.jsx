@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 
-import Button from "../components/UI/Button";
-import ItemList from "../components/UI/TaskCard";
-import Message from "../components/Message";
+import TaskBoard from "../components/TaskBoard";
 import SideMenu from "../components/SideMenu";
 
 export default function Archive() {
   const [archiveTasks, setArchiveTasks] = useState([]);
+  const [inputValue, setInputValue] = useState("");
 
   useEffect(() => {
     fetchArchiveTasks();
     console.log("危険確認、ArchiveTask");
   }, []);
+
+  function handleInputChange(event) {
+    setInputValue(event.target.value);
+  }
 
   async function fetchArchiveTasks() {
     try {
@@ -24,6 +27,8 @@ export default function Archive() {
       console.error(err);
     }
   }
+
+  function exploreTask() {}
 
   async function returnTask(taskID, task) {
     try {
@@ -53,21 +58,8 @@ export default function Archive() {
       <div className="flex flex-col w-40 pt-10">
         <SideMenu currentMenu="Archive" />
       </div>
-      <div className="flex flex-col items-center w-full h-auto pt-10 bg-slate-100">
-        <div className="flex flex-row flex-wrap mt-4">
-          {archiveTasks.length === 0 && (
-            <Message message="There is no archive task!" />
-          )}
-          {archiveTasks.map((tasks) => (
-            <ItemList key={tasks._id} tasks={tasks}>
-              <Button
-                name="Return"
-                handle={() => returnTask(tasks._id, tasks.task)}
-              />
-              <Button name="Delete" handle={() => deleteTask(tasks._id)} />
-            </ItemList>
-          ))}
-        </div>
+      <div>
+
       </div>
     </div>
   );

@@ -9,14 +9,14 @@ export default function Task() {
   const [tasks, setTasks] = useState([]);
   const [inputValue, setInputValue] = useState("");
 
-  function handleInputChange(event) {
-    setInputValue(event.target.value);
-  }
-
   useEffect(() => {
     fetchTasks();
     console.log("危険確認、Task");
   }, []);
+  
+  function handleInputChange(event) {
+    setInputValue(event.target.value);
+  }
 
   async function fetchTasks() {
     try {
@@ -49,6 +49,14 @@ export default function Task() {
     }
   }
 
+  const taskBoardProps = {
+    deleteTask,
+    handleInputChange,
+    handleSubmit,
+    inputValue,
+    tasks,
+  };
+
   return (
     <div className="flex h-screen w-full">
       <div className="flex flex-col w-40 pt-10">
@@ -59,22 +67,8 @@ export default function Task() {
           <TodayFocusTime />
         </div>
         <div className="flex flex-row w-auto justify-between">
-          <TaskBoard
-            deleteTask={deleteTask}
-            handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
-            inputValue={inputValue}
-            tasks={tasks}
-            title="English"
-          />
-          <TaskBoard
-            deleteTask={deleteTask}
-            handleInputChange={handleInputChange}
-            handleSubmit={handleSubmit}
-            inputValue={inputValue}
-            tasks={tasks}
-            title="Programming"
-          />
+          <TaskBoard {...taskBoardProps} title="English" />
+          <TaskBoard {...taskBoardProps} title="Programming" />
         </div>
       </div>
     </div>
